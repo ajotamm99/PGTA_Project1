@@ -1,0 +1,11 @@
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.csprojAssemblyReference.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.AboutUs.resources
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.DataView.resources
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.Exit.resources
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.MapView.resources
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.Menu.resources
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.MoreInformation.resources
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.csproj.GenerateResource.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.AssemblyInfoInputs.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.AssemblyInfo.cs
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\AsterixDecoder\obj\Debug\netcoreapp3.1\AsterixDecoder.csproj.CoreCompileInputs.cache
