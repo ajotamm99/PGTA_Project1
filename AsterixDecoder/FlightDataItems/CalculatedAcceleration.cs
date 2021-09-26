@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AsterixDecoder
+namespace FlightDataItems
 {
-    class AsterixFile
+    class Class1
     {
     }
 }
