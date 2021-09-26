@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FlightDataItems
 {
-    class Class1
+    class CalculatedAcceleration
     {
     }
 }
