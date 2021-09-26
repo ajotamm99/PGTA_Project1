@@ -1,3 +1,4 @@
 .vs/
 AsterixDecoder/.vs/AsterixDecoder/v16/.suo
 AsterixDecoder/ClassLibrary/obj/Debug/netcoreapp3.1/ClassLibrary.csprojAssemblyReference.cache
+*.cache
