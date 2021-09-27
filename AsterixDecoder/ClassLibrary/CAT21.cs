@@ -6,5 +6,10 @@ namespace AsterixDecoder
 {
     class CAT21
     {
+        String[] cat21;
+        public CAT21(String[] X)
+        {
+            this.cat21 = X;
+        }
     }
 }
