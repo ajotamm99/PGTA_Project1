@@ -11,5 +11,13 @@ namespace AsterixDecoder
         {
             this.cat21 = X;
         }
+
+        public string getCat(int i) {
+            return cat21[i];
+        }
+
+        public int getLength() {
+            return cat21.GetLength();
+        }
     }
 }

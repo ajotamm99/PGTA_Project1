@@ -1,0 +1,13 @@
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csprojAssemblyReference.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfoInputs.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfo.cs
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.CoreCompileInputs.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.exe
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.deps.json
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.json
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.dev.json
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.dll
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.pdb
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache
