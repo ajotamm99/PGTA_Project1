@@ -7,8 +7,7 @@
     },
     "additionalProbingPaths": [
       "C:\\Users\\ajota\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\RUBEN\\.nuget\\packages",
-      "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      "C:\\Users\\ajota\\.nuget\\packages"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true

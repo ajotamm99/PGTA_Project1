@@ -3,3 +3,16 @@ C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\De
 C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.AssemblyInfoInputs.cache
 C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.AssemblyInfo.cs
 C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.csproj.CoreCompileInputs.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\bin\Debug\netcoreapp3.1\ClassLibrary.exe
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\bin\Debug\netcoreapp3.1\ClassLibrary.deps.json
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\bin\Debug\netcoreapp3.1\ClassLibrary.runtimeconfig.json
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\bin\Debug\netcoreapp3.1\ClassLibrary.runtimeconfig.dev.json
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\bin\Debug\netcoreapp3.1\ClassLibrary.dll
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\bin\Debug\netcoreapp3.1\ClassLibrary.pdb
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.csprojAssemblyReference.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.AssemblyInfoInputs.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.AssemblyInfo.cs
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.csproj.CoreCompileInputs.cache
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.dll
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.pdb
+D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ClassLibrary\obj\Debug\netcoreapp3.1\ClassLibrary.genruntimeconfig.cache
