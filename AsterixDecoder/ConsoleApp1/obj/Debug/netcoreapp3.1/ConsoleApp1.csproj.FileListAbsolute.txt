@@ -11,3 +11,17 @@ D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1
 D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
 D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
 D:\ajota\prueba\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.exe
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.deps.json
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.json
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.AssemblyReference.cache
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfo.cs
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\RUBEN\Documents\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache

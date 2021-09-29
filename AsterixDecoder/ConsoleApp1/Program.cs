@@ -19,14 +19,30 @@ namespace ConsoleApp1
             List<CAT21> listaCAT21 = new List<CAT21>();
             listaCAT21 = asterixFile.getListCAT21();
             int cont = 0;
+            int pack = 0;
+            while (pack < listaCAT21.Count  && pack<20)
+            {
+                cont = 0;
+                Console.WriteLine("Paquete "+pack+":");
+                while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
+                {
+                    Console.WriteLine(listaCAT21[pack].getCat(cont));
+                    cont++;
+
+                }
+                Console.WriteLine("Longitud " + Convert.ToString(cont));
+                pack++;
+            }
             
 
-            while (cont < Convert.ToInt32(listaCAT21[2].getCat(2),16)) {
-                Console.WriteLine(listaCAT21[2].getCat(cont));
-                cont++;
-
-            }
-            Console.WriteLine(Convert.ToString(cont));
+            //Console.WriteLine("Paquete 2:");
+            //cont = 0;
+            //while (cont < Convert.ToInt32(listaCAT21[3].getCat(2), 16))
+            //{
+            //    Console.WriteLine(listaCAT21[3].getCat(cont));
+            //    cont++;
+            //}
+            //Console.WriteLine("Longitud " + Convert.ToString(cont));
         }
     }
 }

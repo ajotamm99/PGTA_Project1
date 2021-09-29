@@ -8,19 +8,24 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\ajota\\.nuget\\packages\\": {}
+    "C:\\Users\\RUBEN\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ConsoleApp1\\ConsoleApp1.csproj",
+      "projectUniqueName": "C:\\Users\\RUBEN\\Documents\\GitHub\\PGTA_Project1\\AsterixDecoder\\ConsoleApp1\\ConsoleApp1.csproj",
       "projectName": "ConsoleApp1",
-      "projectPath": "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ConsoleApp1\\ConsoleApp1.csproj",
-      "packagesPath": "C:\\Users\\ajota\\.nuget\\packages\\",
-      "outputPath": "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ConsoleApp1\\obj\\",
+      "projectPath": "C:\\Users\\RUBEN\\Documents\\GitHub\\PGTA_Project1\\AsterixDecoder\\ConsoleApp1\\ConsoleApp1.csproj",
+      "packagesPath": "C:\\Users\\RUBEN\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\RUBEN\\Documents\\GitHub\\PGTA_Project1\\AsterixDecoder\\ConsoleApp1\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\ajota\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\RUBEN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
