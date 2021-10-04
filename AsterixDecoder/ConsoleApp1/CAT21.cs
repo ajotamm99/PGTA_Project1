@@ -11,6 +11,7 @@ namespace AsterixDecoder
         {
             this.cat21 = X;
         }
+        
 
         public string getCat(int v)
         {

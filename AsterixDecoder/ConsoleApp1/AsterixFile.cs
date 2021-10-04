@@ -87,7 +87,7 @@ namespace AsterixDecoder
                 if (CAT == 10)
                 {
                     CAT10 newcat10 = new CAT10(arraystring);
-                    listaCAT10.Add(newcat10);
+                    this.listaCAT10.Add(newcat10);
                 }
                 /*else if (CAT == 20)
                 {
@@ -97,7 +97,7 @@ namespace AsterixDecoder
                 else if (CAT == 21)
                 {
                     CAT21 newcat21 = new CAT21(arraystring);
-                    listaCAT21.Add(newcat21);
+                    this.listaCAT21.Add(newcat21);
                 }
             }
 
