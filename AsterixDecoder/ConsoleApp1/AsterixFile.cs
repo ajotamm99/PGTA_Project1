@@ -7,7 +7,7 @@ using System.Data;
 
 namespace AsterixDecoder
 {
-    class AsterixFile
+    public class AsterixFile
     {
         string path;
         List<CAT10> listaCAT10 = new List<CAT10>();
