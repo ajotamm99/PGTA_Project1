@@ -90,8 +90,8 @@ namespace ConsoleApp1
                 {
                     end = 1;
                 }
-                //Console.WriteLine(listaCAT21[0].getCat(i));
-                //Console.WriteLine("FSPEC: " + FSPEC);
+                Console.WriteLine(listaCAT21[0].getCat(i));
+                Console.WriteLine("FSPEC: " + FSPEC);
                 i++;
             }
             Console.WriteLine("FSPEC: "+FSPEC);
