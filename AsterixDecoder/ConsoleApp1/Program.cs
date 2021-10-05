@@ -66,7 +66,7 @@ namespace ConsoleApp1
             List<CAT21> listaCAT21 = new List<CAT21>();
             listaCAT21 = asterixFile.getListCAT21();
 
-
+            //listaCAT21 es una lista de paquetes (enteros) ASTERIX. Cada paquete ASTERIX, tiene una lista de octetos
             //PRUEBA 1 RUBEN
 
             Console.WriteLine(listaCAT21[0].getCat(0)); // 15 = cat21
@@ -98,6 +98,10 @@ namespace ConsoleApp1
 
             Console.WriteLine(listaCAT21[0].getCat(i)); //primer octeto tras el FSPEC
 
+            #region CAT21
+
+            
+           
             //Comprovamos cada campo para realizar las funciones
             if (FSPEC[0] == '1') 
             {
@@ -187,7 +191,7 @@ namespace ConsoleApp1
                     {
 
                     }
-                    if (FSPEC.Length > 22)
+                    if (FSPEC.Length > 24)
                     {
                         if (FSPEC[24] == '1')
                         {
@@ -217,7 +221,7 @@ namespace ConsoleApp1
                         {
 
                         }
-                        if (FSPEC.Length > 29)
+                        if (FSPEC.Length > 32)
                         {
                             if (FSPEC[32] == '1')
                             {
@@ -247,7 +251,7 @@ namespace ConsoleApp1
                             {
 
                             }
-                            if (FSPEC.Length > 36)
+                            if (FSPEC.Length > 40)
                             {
                                 if (FSPEC[40] == '1')
                                 {
@@ -283,9 +287,119 @@ namespace ConsoleApp1
                     }
                 }
             }
+            #endregion
 
 
-            
+            #region CAT10
+            //Comprovamos cada campo para realizar las funciones
+            if (FSPEC[0] == '1')
+            {
+                Get_Message_Type()
+            }
+            if (FSPEC[1] == '1')
+            {
+
+            }
+            if (FSPEC[2] == '1')
+            {
+
+            }
+            if (FSPEC[3] == '1')
+            {
+
+            }
+            if (FSPEC[4] == '1')
+            {
+
+            }
+            if (FSPEC[5] == '1')
+            {
+
+            }
+            if (FSPEC[6] == '1')
+            {
+
+            }
+            if (FSPEC.Length > 8)
+            {
+                if (FSPEC[8] == '1')
+                {
+
+                }
+                if (FSPEC[9] == '1')
+                {
+
+                }
+                if (FSPEC[10] == '1')
+                {
+
+                }
+                if (FSPEC[11] == '1')
+                {
+
+                }
+                if (FSPEC[12] == '1')
+                {
+
+                }
+                if (FSPEC[13] == '1')
+                {
+
+                }
+                if (FSPEC[14] == '1')
+                {
+
+                }
+                if (FSPEC.Length > 16)
+                {
+                    if (FSPEC[16] == '1')
+                    {
+
+                    }
+                    if (FSPEC[17] == '1')
+                    {
+
+                    }
+                    if (FSPEC[18] == '1')
+                    {
+
+                    }
+                    if (FSPEC[19] == '1')
+                    {
+
+                    }
+                    if (FSPEC[20] == '1')
+                    {
+
+                    }
+                    if (FSPEC[21] == '1')
+                    {
+
+                    }
+                    if (FSPEC[22] == '1')
+                    {
+
+                    }
+                    if (FSPEC.Length > 24)
+                    {
+                        if (FSPEC[24] == '1')
+                        {
+
+                        }
+                        if (FSPEC[25] == '1')
+                        {
+
+                        }
+                        if (FSPEC[26] == '1')
+                        {
+
+                        }
+                        if (FSPEC[27] == '1')
+                        {
+
+                        }
+                    }
+                        #endregion
 
 
 
@@ -296,48 +410,47 @@ namespace ConsoleApp1
 
 
 
-
-            //int cont = 0;
-            //int pack = 0;
-            //while (pack < listaCAT21.Count  && pack<20)
-            //{
-            //    cont = 0;
-            //    Console.WriteLine("Paquete "+pack+":");
-            //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
-            //    {
-            //        Console.WriteLine(listaCAT21[pack].getCat(cont));
-            //        cont++;
-
-
-            //    }
-            //    Console.WriteLine("Longitud " + Convert.ToString(cont));
-            //    pack++;
-            //}
-            //int cont = 0;
-            //int pack = 0;
-            //string mensaje = "";
-            //while (pack < listaCAT21.Count)
-            //{
-            //    cont = 0;
-
-            //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
-            //    {
-            //        mensaje+=listaCAT21[pack].getCat(cont);
-            //        cont++;
-            //    }
-            //    pack++;
-            //}
-            //Console.WriteLine(mensaje);
+                        //int cont = 0;
+                        //int pack = 0;
+                        //while (pack < listaCAT21.Count  && pack<20)
+                        //{
+                        //    cont = 0;
+                        //    Console.WriteLine("Paquete "+pack+":");
+                        //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
+                        //    {
+                        //        Console.WriteLine(listaCAT21[pack].getCat(cont));
+                        //        cont++;
 
 
-            //Console.WriteLine("Paquete 2:");
-            //cont = 0;
-            //while (cont < Convert.ToInt32(listaCAT21[3].getCat(2), 16))
-            //{
-            //    Console.WriteLine(listaCAT21[3].getCat(cont));
-            //    cont++;
-            //}
-            //Console.WriteLine("Longitud " + Convert.ToString(cont));
-        }
+                        //    }
+                        //    Console.WriteLine("Longitud " + Convert.ToString(cont));
+                        //    pack++;
+                        //}
+                        //int cont = 0;
+                        //int pack = 0;
+                        //string mensaje = "";
+                        //while (pack < listaCAT21.Count)
+                        //{
+                        //    cont = 0;
+
+                        //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
+                        //    {
+                        //        mensaje+=listaCAT21[pack].getCat(cont);
+                        //        cont++;
+                        //    }
+                        //    pack++;
+                        //}
+                        //Console.WriteLine(mensaje);
+
+
+                        //Console.WriteLine("Paquete 2:");
+                        //cont = 0;
+                        //while (cont < Convert.ToInt32(listaCAT21[3].getCat(2), 16))
+                        //{
+                        //    Console.WriteLine(listaCAT21[3].getCat(cont));
+                        //    cont++;
+                        //}
+                        //Console.WriteLine("Longitud " + Convert.ToString(cont));
+                    }
     }
 }
