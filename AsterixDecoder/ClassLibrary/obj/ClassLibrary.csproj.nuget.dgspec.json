@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Usuario\\Documents\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj": {}
+    "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj": {}
   },
   "projects": {
-    "D:\\Usuario\\Documents\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj": {
+    "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Usuario\\Documents\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj",
+        "projectUniqueName": "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj",
         "projectName": "ClassLibrary",
-        "projectPath": "D:\\Usuario\\Documents\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj",
-        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "D:\\Usuario\\Documents\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\obj\\",
+        "projectPath": "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\ClassLibrary.csproj",
+        "packagesPath": "C:\\Users\\ajota\\.nuget\\packages\\",
+        "outputPath": "D:\\ajota\\prueba\\PGTA_Project1\\AsterixDecoder\\ClassLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ajota\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -57,7 +57,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
