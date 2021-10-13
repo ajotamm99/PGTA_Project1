@@ -312,6 +312,52 @@ namespace ConsoleApp1
             string RHO; //Get_Measured_Position_in_Polar_Coordinates
             string Theta; //Get_Measured_Position_in_Polar_Coordinates
 
+            string X; //Get_Position_in_Cartesian_Coordinates
+            string Y; //Get_Position_in_Cartesian_Coordinates
+
+            string V_Mode3A;
+            string G_Mode3A;
+            string L_Mode3A;
+            string Mode_3A_octal;
+
+            string V_Flight_Level; //Get_Flight_Level_in_Binary_Representation
+            string G_Flight_Level; //Get_Flight_Level_in_Binary_Representation
+            string Flight_Level; //Get_Flight_Level_in_Binary_Representation
+
+            string Measured_Height; //Get_Measured_Height
+
+            string PAM; //Get_Amplitude_of_Primary_Plot
+
+            string Time_Of_Day; //Compute_Time_of_Day
+            string Time_of_Day_HHMMSS; //Compute_Time_of_Day
+
+            string Track_Number; //Get_Track_Number
+
+            string CNF;//Get_Track_Status
+            string TRE;//Get_Track_Status
+            string CST;//Get_Track_Status
+            string MAH;//Get_Track_Status
+            string TCC;//Get_Track_Status
+            string STH;//Get_Track_Status
+            string TOM;//Get_Track_Status
+            string DOU;//Get_Track_Status
+            string MRS;//Get_Track_Status
+            string GHO;//Get_Track_Status
+
+            string Ground_Speed;//Get_Calculated_Track_Velocity_in_Polar_Coordinates
+            string Track_Angle;//Get_Calculated_Track_Velocity_in_Polar_Coordinates
+
+            string Vx;//Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
+            string Vy;//Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
+
+            string Ax;//Get_Calculated_Acceleration
+            string Ay; //Get_Calculated_Acceleration
+
+            string Target_Address; //Get_Target_Address
+
+            string STI;//Get_Target_Identification
+            string Target_Identification;//Get_Target_Identification
+
             //Comprovamos cada campo para realizar las funciones
             if (FSPEC[0] == '1')
             {
@@ -477,7 +523,7 @@ namespace ConsoleApp1
                 if (code_CRT == "0") { this.CRT = "No Corrupted reply in multilateration"; }
                 if (code_CRT == "1") { this.CRT = "Corrupted replies in multilateration"; }
 
-                string code_FX = Convert.ToString(octet1[7]);
+                string code_FX = octet1.Substring(7, 1);
 
                 while (code_FX == "1")
                 {
@@ -541,15 +587,300 @@ namespace ConsoleApp1
              //4 octets
             public int Get_Measured_Position_in_Polar_Coordinates(string[] data_block, int i)
             {
-                this.RHO = Convert.ToInt32(string.Concat(message[i], message[i + 1]), 2);
-                this.Theta = Convert.ToInt32(string.Concat(message[i+2], message[i + 3]), 2);
+                this.RHO = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2);
+                this.Theta = Convert.ToInt32(string.Concat(data_block[i+2], data_block[i + 3]), 2);
                 
+                i = i + 4;
+                return i;
+            } //incomplete
+
+            public int Get_Position_in_WGS_84_Coordinates(string[] data_block, int i)
+            {
+                double Latitude = lib.ComputeA2Complement(string.Concat(data_block[i], data_block[i+1], data_block[i+2], data_block[i+3])) * (180 / (Math.Pow(2, 31))); 
+                double Longitude = lib.ComputeA2Complement(string.Concat(data_block[i+4], data_block[i+5], data_block[i+6], data_block[i + 3])) * (180 / (Math.Pow(2, 31))); 
+                i += 8;
+                int Latdegres = Convert.ToInt32(Math.Truncate(Latitude));
+                int Latmin = Convert.ToInt32(Math.Truncate((Latitude - Latdegres) * 60));
+                double Latsec = Math.Round(((Latitude - (Latdegres + (Convert.ToDouble(Latmin) / 60))) * 3600), 5);
+                int Londegres = Convert.ToInt32(Math.Truncate(Longitude));
+                int Lonmin = Convert.ToInt32(Math.Truncate((Longitude - Londegres) * 60));
+                double Lonsec = Math.Round(((Longitude - (Londegres + (Convert.ToDouble(Lonmin) / 60))) * 3600), 5);
+                Latitude_in_WGS_84 = Convert.ToString(Latdegres) + "º " + Convert.ToString(Latmin) + "' " + Convert.ToString(Latsec) + "''";
+                Longitude_in_WGS_84 = Convert.ToString(Londegres) + "º" + Convert.ToString(Lonmin) + "' " + Convert.ToString(Lonsec) + "''";
+                i = i + 1;
+                return i;
+            } //incomplete
+
+            public int Get_Position_in_Cartesian_Coordinates(string[] data_block, int i)
+            {
+                this.X = Convert.ToString(lib.ComputeA2Complement(string.Concat(data_block[i], data_block[i + 1])));
+                this.Y = Convert.ToString(lib.ComputeA2Complement(string.Concat(data_block[i + 2], data_block[i + 3])));
+                
+                return i+1;
+            }
+
+             //2 octets
+            public int Get_Mode_3A_Code_in_Octal_Representation(string[] data_block, int i) //incomplete
+            {
+                string octets = string.Concat(data_block[i], data_block[i + 1]);
+
+                string code_V = octets.Substring(0, 1);
+                if (code_V == "0") { this.V_Mode3A = "Code validated"; }
+                else { this.V_Mode3A = "Code not validated"; }
+
+                string code_G = octets.Substring(1, 1);
+                if (code_G == "0") { this.G_Mode3A = "Default"; }
+                else { this.G_Mode3A = "Garbled code"; }
+
+                string code_L = octets.Substring(0, 1);
+                if (code_L == "0") { this.L_Mode3A = "Mode-3/A code derived from the reply of the transponder"; }
+                else { this.L_Mode3A = "Mode-3/A code not extracted during the last scan"; }
+
+                string code_Mode3A = octets.Substring(4, 12);
+                this.Mode_3A = Convert.ToString(lib.ConvertDecimalToOctal(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2))).PadLeft(4, '0');
+
+                i=i+2;
+                return i;
+            }
+
+            //2 octets
+            public int Get_Flight_Level_in_Binary_Representation(string[] data_block, int i)
+            {
+                string octets = string.Concat(data_block[i], data_block[i + 1]);
+                i = i + 2;
+
+                string code_V = octets.Substring(0, 1);
+                if (code_V == "0") { this.V_Flight_Level = "Code validated"; }
+                else { this.V_Flight_Level = "Code not validated"; }
+
+                string code_G = octets.Substring(1, 1);
+                if (code_G == "0") { this.G_Flight_Level = "Default"; }
+                else { this.G_Flight_Level = "Garbled code"; }
+
+                string code_Flight_Level = octets.Substring(2, 14);
+                
+                Flight_Level = Convert.ToString(lib.A2ComplementToDecimal(code_FL_binary) * (0.25));
+
+                return i;
+            }
+
+             //2 octets
+            public int Get_Measured_Height(string[] data_block, int i)
+            {
+                this.Measured_Height = Convert.ToString(lib.A2ComplementToDecimal(string.Concat(data_block[i], data_block[i + 1])) * 6.25) + " ft";
+                i = i + 2;
+                return i;
+            }
+
+            //1 octet
+            public int Get_Amplitude_of_Primary_Plot(string[] data_block, int i)
+            {
+                this.PAM = Convert.ToString(Convert.ToInt32(data_block[i], 2)); 
+                i=i+1;
+                return i;
+            }
+
+            //3 octets
+            public int Get_Time_of_Day(string[] data_block, int i)
+            {
+                int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
+                double segundos_totales = (Convert.ToDouble(data_decimal) * (1/128));
+                this.Time_of_Day_seconds = Convert.ToString(segundos_totales);
+
+                double segundos = segundos_totales % 60; 
+                double aux = segundos_totales / 60;  
+                double minutos = aux % 60; 
+                double horas = aux / 60;
+
+                this.Time_of_Day_HHMMSS = Convert.ToString(horas) + ":"+Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+
+                i = i + 3;
+                return i;
+            }
+
+             //2 octets 
+            public int Get_Track_Number(string[] data_block, int i)
+            {
+                this.Track_Number = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2));
+                i = i + 2;
+                return i;
+            }
+
+             //VARIABLE (1octet + 2 opcionals)
+            public int Get_Track_Status(string[] data_block, int i)
+            {
+                //STRUCTURE OF FIRST PART
+                int number_of_octets = 1;
+                string octet1 = data_block[i];
+
+                string code_CNF = octet1.Substring(0, 1);
+                if (code_CNF == "0") { this.CNF = "Confirmed track"; }
+                else { this.CNF = "Track in initialisation phase"; }
+
+                string code_TRE = octet1.Substring(1, 1);
+                if (code_TRE == "0") { this.CNF = "Default"; }
+                else { this.TRE = "Last report for a track"; }
+
+                string code_CST = octet1.Substring(2, 2);
+                if (code_CST == "00") { this.CST = "No extrapolation"; }
+                if (code_CST == "01") { this.CST = "Predictable extrapolation due to sensor refresh period"; }
+                if (code_CST == "10") { this.CST = "Predictable extrapolation in masked area"; }
+                if (code_CST == "11") { this.CST = "Extrapolation due to unpredictable absence of detection"; }
+
+                string code_MAH = octet1.Substring(4, 1);
+                if (code_MAH == "0") { this.MAH = "Default"; }
+                else { this.MAH = "Horizontal manoeuvre"; }
+
+                string code_TCC = octet1.Substring(5, 1);
+                if (code_TCC == "0") { this.TCC = "Tracking performed in 'Sensor Plane', i.e. neither slant range correction nor projection was applied"; }
+                else { this.TCC = "Slant range correction and a suitable projection technique are used to track in a 2D.reference plane, tangential to the earth model at the Sensor Site co-ordinates"; }
+
+                string code_STH = octet1.Substring(4, 1);
+                if (code_STH == "0") { this.STH = "Measured position"; }
+                else { this.STH = "Smoothed position"; }
+
+                string code_FX = octet1.Substring(7, 1);
+
+              
+                while (code_FX=="1")
+                {
+                        string octet = data_block[i + number_of_octets];
+
+                        if (number_of_octets == 1) //STRUCTURE OF FIRST EXTENT
+                            {
+                            string code_TOM = octet.Substring(0, 2);
+                            if (code_TOM == "00") { this.TOM = "Unknown type of movement "; }
+                            if (code_TOM == "01") { this.TOM = "Taking-off"; }
+                            if (code_TOM == "10") { this.TOM = "Landing"; }
+                            if (code_TOM == "11") { this.TOM = "Other types of movement"; }
+
+                            string code_DOU = octet.Substring(2, 3);
+                            if (code_DOU == "000") { this.DOU = "No doubt"; }
+                            if (code_DOU == "001") { this.DOU = "Doubtful correlation (undetermined reason)"; }
+                            if (code_DOU == "010") { this.DOU = "Doubtful correlation in clutter"; }
+                            if (code_DOU == "011") { this.DOU = "Loss of accuracy"; }
+                            if (code_DOU == "100") { this.DOU = "Loss of accuracy in clutter"; }
+                            if (code_DOU == "101") { this.DOU = "Unstable track"; }
+                            if (code_DOU == "110") { this.DOU = "Previously coasted"; }
+
+                            string code_MRS = octet.Substring(5, 2);
+                            if (code_MRS == "00") { this.MRS = "Merge or split indication undetermined"; }
+                            if (code_MRS == "01") { this.MRS = "Track merged by association to plot"; }
+                            if (code_MRS == "10") { this.MRS = "Track merged by non-association to plot"; }
+                            if (code_MRS == "11") { this.MRS = "Split track"; }
+                               
+                       }
+
+                            else //STRUCTURE OF SECOND EXTENT
+                            {
+                            string code_GHO = octet.Substring(0, 1);
+                            if (code_GHO == "0") { this.GHO = "Default"; }
+                            else { this.GHO = "Ghost track"; }
+
+                            }
+                        code_FX = octet.Substring(7, 1);
+                        number_of_octets = number_of_octets + 1;
+                       }
+              i = i + number_of_octets;
+              return i;
+            }
+
+            //4 octets
+            public int Get_Calculated_Track_Velocity_in_Polar_Coordinates(string[] data_block, int i) 
+             {
+                double gs = Convert.ToDouble(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2)) * Math.Pow(2, -14); // in NM
+                if (gs > 2) { gs = 2; } //OR ERROR???
+                this.Ground_Speed = Convert.ToString(gs);
+
+                this.Track_Angle = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i + 2], data_block[i + 3]), 2) * (360 / (Math.Pow(2, 16))));
+
+                i = i + 4;
+                return i;
+             }
+
+             //4 octets
+            public int Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(string[] data_block, int i)
+            {
+                this.Vx = Convert.ToString((lib.A2ComplementToDecimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));
+                     
+                this.Vy = Convert.ToString(lib.ComputeA2Complement(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+
                 i = i + 4;
                 return i;
             }
 
-            
+            //2 octets
+            public int Get_Calculated_Acceleration(string[] data_block, int i)
+        {
+            this.Ax = Convert.ToString(lib.A2ComplementToDecimal(data_block[i])*0.25);
+            this.Ay = Convert.ToString(lib.A2ComplementToDecimal(data_block[i + 1])*0.25);
+            i = i + 2;
+            return i;
+        }
 
+            //3 octets
+             public int Get_Target_Address(string[] data_block, int i)
+            {
+                this.Target_Address = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]);
+                i = i + 3;
+                return i;
+            }
+
+            //7 octets
+             public int Get_Target_Identification(string[] data_block, int i)
+            {
+                string data = string.Concat(data_block[i], data_block[i+1], data_block[i + 2], data_block[i + 3], data_block[i + 4], data_block[i + 5], data_block[i + 6]);
+                string code_STI = data.Substring(0, 2);
+                if (code_STI == "00") {this.STI= "Callsign or registration downlinked from transponder"; }
+                if (code_STI == "01") { this.STI = "Callsign not downlinked from transponder"; }
+                if (code_STI == "10") { this.STI = "Registration not downlinked from transponder"; }
+
+                string character1 = data.Substring(8, 6);
+                string character2 = data.Substring(14, 6);
+                string character3 = data.Substring(20, 2);
+                string character4 = data.Substring(26, 2);
+                string character5 = data.Substring(32, 2);
+                string character6 = data.Substring(38, 2);
+                string character7 = data.Substring(44, 2);
+                string character8 = data.Substring(0, 2);
+
+                i = i + 7;
+                return i;
+            }
+
+
+        //A LA LIBRERÍA COMÚN
+        public A2ComplementToDecimal(string binari_number)
+                {
+
+                    char[] binari_number_char = binari_number.ToCharArray();
+
+                    if (binari_number_char[0] == '0')
+                    {
+                        int decimal_number = Convert.ToInt32(binari_number, 2);
+                        return Convert.ToSingle(decimal_number);
+                    }
+
+                    else
+                    {
+                        string a2_number = "";
+                        int i = 1;
+
+                        while (i < binari_number.Length)
+                        {
+                            if (binari_number_char[i] == '1') { a2_number += "0"; }
+
+                            if (binari_number_char[i] == '0') { a2_number += "1"; }
+
+                            i++;
+                        }
+
+                        double decimal_number = Convert.ToInt32(a2_number, 2);
+                        decimal_number = -decimal_number + 1;
+                        return decimal_number;
+                    }
+
+                }
                     #endregion
 
 
