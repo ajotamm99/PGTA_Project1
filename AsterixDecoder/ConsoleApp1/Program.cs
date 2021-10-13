@@ -105,31 +105,36 @@ namespace ConsoleApp1
             //Comprovamos cada campo para realizar las funciones
             if (FSPEC[0] == '1') 
             {
-                //Compute_Data_Source_Identification(listaCAT21[0].getCat(i), listaCAT21[0].getCat(i+1), i);
+                i= DataSourceIdentification(listaCAT21[0].getCat(i), listaCAT21[0].getCat(i+1), i);
             }
             if (FSPEC[1] == '1')
-            { 
+            {
+                int result = 0;
+                while (result == 0) {
+                    result = TargetReportDescriptor(listaCAT21[0].getCat(i), i);
+                    i = i + 1;
+                }
 
             }
             if (FSPEC[2] == '1')
             {
-
+                i = TrackNumber(listaCAT21[0].getCat(i), listaCAT21[0].getCat(i + 1), i);
             }
             if (FSPEC[3] == '1')
             {
-
+               i = ServiceIdentification(listaCAT21[0].getCat(i),  i);
             }
             if (FSPEC[4] == '1')
             {
-
+                i = Toap(listaCAT21[0].getCat(i), listaCAT21[0].getCat(i + 1), listaCAT21[0].getCat(i + 2), i);
             }
             if (FSPEC[5] == '1')
             {
-
+                i = PosWGS(listaCAT21[0], i);
             }
             if (FSPEC[6] == '1')
             {
-
+                i = PosWGSH(listaCAT21[0], i);
             }
             if (FSPEC.Length > 8)
             {
@@ -287,6 +292,114 @@ namespace ConsoleApp1
                     }
                 }
             }
+
+
+            string SAC;
+            string SIC1;
+            string airport_code;
+
+
+            int DataSourceIdentification(string oct1, string oct2, int i) {
+                SAC = Convert.ToString(Convert.ToInt32(oct1, 2));
+                int SIC = Convert.ToInt32(oct2, 2);
+                SIC1 = Convert.ToString(SIC);
+
+                //Decode
+                int airportcode = 0;
+                if (SIC == 107 || SIC == 7 || SIC == 219) { airportcode = 0; } //BARCELONA
+                else if (SIC == 5 || SIC == 105 || SIC == 209) { airportcode = 1; } //ASTURIAS
+                else if (SIC == 2 || SIC == 102) { airportcode = 2; } //PALMA
+                else if (SIC == 6 || SIC == 106 || SIC == 227 || SIC == 228) { airportcode = 3; } //SANTIAGO
+                else if (SIC == 3 || SIC == 4 || SIC == 104) { airportcode = 4; } //BARAJAS
+                else if (SIC == 1 || SIC == 101) { airportcode = 5; } //TENERIFE
+                else if (SIC == 108) { airportcode = 6; } //Malaga
+                else if (SIC == 203) { airportcode = 7; } //Bilbao
+                else if (SIC == 206) { airportcode = 8; } //ALICANTE
+                else if (SIC == 207) { airportcode = 9; } //GRANADA
+                else if (SIC == 210) { airportcode = 10; } //LANZAROTE
+                else if (SIC == 211) { airportcode = 11; } //TURRILLAS
+                else if (SIC == 212) { airportcode = 12; } //Menorca
+                else if (SIC == 213 || SIC == 229) { airportcode = 13; } //IBIZA
+                else if (SIC == 214) { airportcode = 14; } //VALDESPINA
+                else if (SIC == 215 || SIC == 221) { airportcode = 15; } //PARACUELLOS
+                else if (SIC == 216) { airportcode = 16; } //RANDA
+                else if (SIC == 218) { airportcode = 17; } //GERONA
+                else if (SIC == 220 || SIC == 222) { airportcode = 18; } //ESPIÑEIRAS
+                else if (SIC == 223) { airportcode = 19; } //VEJER
+                else if (SIC == 224) { airportcode = 20; } //YESTE
+                else if (SIC == 225 || SIC == 226) { airportcode = 21; } //VIGO
+                else if (SIC == 230) { airportcode = 22; } //VALENCIA
+                else if (SIC == 231) { airportcode = 23; } //SEVILLA
+                airport_code = Convert.ToString(airportcode);
+
+                i = i + 2;
+                return i;
+            }
+
+
+
+            string ATP;
+            string ARC;
+            string RC;
+            string RAB;
+
+            int TargetReportDescriptor(string oct1, int i)
+            {
+                char[] Oct = oct1.ToCharArray();
+                int atp = Convert.ToInt32(string.Concat(Oct[0], Oct[1], Oct[2]), 2);
+                int arc = Convert.ToInt32(string.Concat(Oct[3], Oct[4]), 2);
+
+                ATP = atp switch
+                {
+                    0 => "24-Bit ICAO address",
+                    1 => ATP = "Duplicate address",
+                    2 => "Surface vehicle address",
+                    3 => "Anonymous address",
+                    _ => "Reserved for future use",
+                };
+                ARC = arc switch
+                {
+                    0 => "25 ft ",
+                    1 => "100 ft",
+                    2 => "Unknown",
+                    _ => "Invalid",
+                };
+                string rc="";
+                if (Oct[5] == '0') { RC = "Default"; }
+                else { rc = "Range Check passed, CPR Validation pending"; }
+                RC = rc;
+                string rab = "";
+                if (Oct[6] == '0') { RAB = "Report from target transponder"; }
+                else { RAB = "Report from field monitor (fixed transponder)"; }
+                RAB = rab;
+                if (Oct[7] == '1')
+                {
+                    return 0;
+                }
+                else {
+                    return 1;
+                }
+            }
+
+            int PosWGS(CAT21 cat, int i) {
+                char[] Oct1 = cat.getCat(i).ToCharArray();
+                char[] Oct2 = cat.getCat(i+1).ToCharArray();
+                char[] Oct3 = cat.getCat(i + 2).ToCharArray();
+                char[] Oct4 = cat.getCat(i + 3).ToCharArray();
+                char[] Oct5 = cat.getCat(i + 4).ToCharArray();
+                char[] Oct6 = cat.getCat(i + 5).ToCharArray();
+
+
+
+
+
+                i = i + 6;
+                return i;
+            }
+
+
+
+
             #endregion
 
 
@@ -485,8 +598,7 @@ namespace ConsoleApp1
             {
                 this.SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
                 this.SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
-                
-                i=i+2;
+                i =i+2;
                 return i;
             }
                     
