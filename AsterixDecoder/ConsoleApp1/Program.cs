@@ -471,6 +471,33 @@ namespace ConsoleApp1
             string STI;//Get_Target_Identification
             string Target_Identification;//Get_Target_Identification
 
+            string[] MB_Data;//Get_Mode_S_MB_Data
+            string[] BDS1;//Get_Mode_S_MB_Data
+            string[] BDS2;//Get_Mode_S_MB_Data
+            string modeS_rep;//Get_Mode_S_MB_Data
+
+            string Lenght; //Get_Target_Size_and_Orientation
+            string Orientation;//Get_Target_Size_and_Orientation
+            string Width;//Get_Target_Size_and_Orientation
+
+            string[] DRHO; //Get_Presence
+            string[] DTHETA; //Get_Presence
+
+            string VFI;//Get_Vehicle_Fleet_Identificatior
+
+            string TRB;//Get_Pre_programmed_Message
+            string MSG;//Get_Pre_programmed_Message
+
+            string Standard_Deviation_X;//Get_Standard_Deviation_Of_Position
+            string Standard_Deviation_Y;//Get_Standard_Deviation_Of_Position
+            string Covariance_XY_2C;//Get_Standard_Deviation_Of_Position
+
+            string NOGO;//Get_System_Status
+            string OVL;//Get_System_Status
+            string TSV;//Get_System_Status
+            string DIV;//Get_System_Status
+            string TIF;//Get_System_Status
+
             //Comprovamos cada campo para realizar las funciones
             if (FSPEC[0] == '1')
             {
@@ -580,7 +607,8 @@ namespace ConsoleApp1
                         }
                     }
 
-
+                }
+            }
              //1 octet
             public int Get_Message_Type(string[] data_block, int i)
             {
@@ -700,7 +728,7 @@ namespace ConsoleApp1
             public int Get_Measured_Position_in_Polar_Coordinates(string[] data_block, int i)
             {
                 this.RHO = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2);
-                this.Theta = Convert.ToInt32(string.Concat(data_block[i+2], data_block[i + 3]), 2);
+                this.Theta = Convert.ToInt32(string.Concat(data_block[i+2], data_block[i + 3]), 2)*(360/(Math.Pow(2,16)));
                 
                 i = i + 4;
                 return i;
@@ -771,7 +799,7 @@ namespace ConsoleApp1
 
                 string code_Flight_Level = octets.Substring(2, 14);
                 
-                Flight_Level = Convert.ToString(lib.A2ComplementToDecimal(code_FL_binary) * (0.25));
+                Flight_Level = Convert.ToString(lib.A2_Complement_To_Decimal(code_Flight_Level) * (0.25));
 
                 return i;
             }
@@ -779,7 +807,7 @@ namespace ConsoleApp1
              //2 octets
             public int Get_Measured_Height(string[] data_block, int i)
             {
-                this.Measured_Height = Convert.ToString(lib.A2ComplementToDecimal(string.Concat(data_block[i], data_block[i + 1])) * 6.25) + " ft";
+                this.Measured_Height = Convert.ToString(lib.A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 6.25) + " ft";
                 i = i + 2;
                 return i;
             }
@@ -913,9 +941,9 @@ namespace ConsoleApp1
              //4 octets
             public int Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(string[] data_block, int i)
             {
-                this.Vx = Convert.ToString((lib.A2ComplementToDecimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));
+                this.Vx = Convert.ToString((lib.A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));
                      
-                this.Vy = Convert.ToString(lib.ComputeA2Complement(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+                this.Vy = Convert.ToString(lib.A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
 
                 i = i + 4;
                 return i;
@@ -924,8 +952,8 @@ namespace ConsoleApp1
             //2 octets
             public int Get_Calculated_Acceleration(string[] data_block, int i)
         {
-            this.Ax = Convert.ToString(lib.A2ComplementToDecimal(data_block[i])*0.25);
-            this.Ay = Convert.ToString(lib.A2ComplementToDecimal(data_block[i + 1])*0.25);
+            this.Ax = Convert.ToString(lib.A2_Complement_To_Decimal(data_block[i])*0.25);
+            this.Ay = Convert.ToString(lib.A2_Complement_To_Decimal(data_block[i + 1])*0.25);
             i = i + 2;
             return i;
         }
@@ -939,30 +967,165 @@ namespace ConsoleApp1
             }
 
             //7 octets
-             public int Get_Target_Identification(string[] data_block, int i)
+             public int Get_Target_Identification(string[] data_block, int i) //incomplete, mirar atenea
             {
                 string data = string.Concat(data_block[i], data_block[i+1], data_block[i + 2], data_block[i + 3], data_block[i + 4], data_block[i + 5], data_block[i + 6]);
                 string code_STI = data.Substring(0, 2);
-                if (code_STI == "00") {this.STI= "Callsign or registration downlinked from transponder"; }
+                if (code_STI == "00") { this.STI= "Callsign or registration downlinked from transponder"; }
                 if (code_STI == "01") { this.STI = "Callsign not downlinked from transponder"; }
                 if (code_STI == "10") { this.STI = "Registration not downlinked from transponder"; }
 
-                string character1 = data.Substring(8, 6);
-                string character2 = data.Substring(14, 6);
-                string character3 = data.Substring(20, 2);
-                string character4 = data.Substring(26, 2);
-                string character5 = data.Substring(32, 2);
-                string character6 = data.Substring(38, 2);
-                string character7 = data.Substring(44, 2);
-                string character8 = data.Substring(0, 2);
+                string character1 = Character_decoding_Target_Identification(data.Substring(8, 6));
+                string character2 = Character_decoding_Target_Identification(data.Substring(14, 6));
+                string character3 = Character_decoding_Target_Identification(data.Substring(20, 2));
+                string character4 = Character_decoding_Target_Identification(data.Substring(26, 2));
+                string character5 = Character_decoding_Target_Identification(data.Substring(32, 2));
+                string character6 = Character_decoding_Target_Identification(data.Substring(38, 2));
+                string character7 = Character_decoding_Target_Identification(data.Substring(44, 2));
+                string character8 = Character_decoding_Target_Identification(data.Substring(50, 2));
+
+                this.Target_Identification = string.Concat(character1, character2, character3, character4, character5, character6, character7, character8);
 
                 i = i + 7;
                 return i;
             }
+              
+            public int Get_Mode_S_MB_Data(string[] data_block, int i)
+        {
+            int code_modeS_rep = Convert.ToInt32(data_block[i], 2);
+            this.ModeS_Rep = Convert.ToString(code_modeS_rep);
+            
+            for (int c = 0; i < code_modeS_rep; i++)
+            {
+                this.MB_Data[c] = String.Concat(data_block[i+1], data_block[i+2], data_block[i+3], data_block[i+4], data_block[i+5], data_block[i+6], data_block[i+7]);
+                this.BDS1[c] = data_block[i + 8].Substring(0, 4);
+                this.BDS2[c] = data_block[i + 8].Substring(4, 4);
+                i = i + 9;
+            }
+            return i;
+        }
+         
+            public int Get_Target_Size_and_Orientation(string[] data_block, int i)
+            {
+                this.Lenght =Convert.ToString(Convert.ToInt32(data_block[i].Substring(0, 7), 2));
+                string code_FX = data_block[i].Substring(7, 1);
+                int number_of_octets = 1;
+                while (code_FX == "1")
+                {
+                        if (number_of_octets == 1) { //FIRST EXTENT
+                            this.Orientation = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 7), 2)) * (360 / 128));
+                            code_FX = data_block[i+number_of_octets].Substring(7, 1);
+                        }
+                        else { //SECOND EXTENT
+                            this.Width = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 7), 2));
+                            code_FX = data_block[i+number_of_octets].Substring(7, 1);
+                        }
+                        number_of_octets = number_of_octets + 1;
 
+                    }
+                i = i + number_of_octets;
+                return i;
+            }
+
+            public int Get_Presence(string[] data_block, int i)
+        {
+            int code_REP = Convert.ToInt32(data_block[i], 2);
+            i = i + 1;
+
+            int c = 0;
+            while (c<code_REP)
+            {
+                this.DRHO[c] = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+                this.DTHETA[c] = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i+ 1], 2)) * 0.15) ;
+                i=i+2;
+                c = c + 1;
+            }
+            return i;
+        }
+
+            //1 octet
+            public int Get_Vehicle_Fleet_Identificatior(string[] data_block, int i)
+        {
+            int code_vfi = Convert.ToInt32(data_block[i], 2);
+            if (code_vfi == 0) { this.VFI = "Unknown"; }
+            if (code_vfi == 1) { this.VFI = "ATC equipment maintenance"; }
+            if (code_vfi == 2) { this.VFI = "Airport maintenance"; }
+            if (code_vfi == 3) { this.VFI = "Fire"; }
+            if (code_vfi == 4) { this.VFI = "Bird scarer"; }
+            if (code_vfi == 5) { this.VFI = "Snow plough"; }
+            if (code_vfi == 6) { this.VFI = "Runway sweeper"; }
+            if (code_vfi == 7) { this.VFI = "Emergency"; }
+            if (code_vfi == 8) { this.VFI = "Police"; }
+            if (code_vfi == 9) { this.VFI = "Bus"; }
+            if (code_vfi == 10) { this.VFI = "Tug (push/tow)"; }
+            if (code_vfi == 11) { this.VFI = "Grass cutter"; }
+            if (code_vfi == 12) { this.VFI = "Fuel"; }
+            if (code_vfi == 13) { this.VFI = "Baggage"; }
+            if (code_vfi == 14) { this.VFI = "Catering"; }
+            if (code_vfi == 15) { this.VFI = "Aircraft maintenance"; }
+            if (code_vfi == 16) { this.VFI = "Flyco (follow me)"; }
+            i = i + 1;
+            return i;
+        }
+
+            //1 octet
+            public int Get_Pre_programmed_Message(string[] data_block, int i)
+        {
+             string code_TRB = data_block[i].Substring(0, 1);
+            if (code_TRB == "0") { this.TRB = "Trouble: Default"; }
+            else { this.TRB = "Trouble: In Trouble"; }
+
+            int code_MSG = Convert.ToInt32(data_block[i].Substring(1, 7), 2);
+            if (code_MSG == 1) { this.MSG = "Towing aircraft"; }
+            if (code_MSG == 2) { this.MSG = "Follow me” operation"; }
+            if (code_MSG == 3) { this.MSG = "Runway check"; }
+            if (code_MSG == 4) { this.MSG = "Emergency operation (fire, medical…)"; }
+            if (code_MSG == 5) { this.MSG = "Work in progress (maintenance, birds scarer, sweepers…)"; }
+            i = i + 1;
+            return i;
+        }
+
+            //4 octets
+            public int Get_Standard_Deviation_Of_Position(string[] data_block, int i)
+        {
+                this.Standard_Deviation_X = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.25);
+                this.Standard_Deviation_Y = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i + 1], 2)) * 0.25);
+                this.Covariance_XY_2C = Convert.ToString(lib.A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+                i = i + 4; 
+                return i;
+        }
+
+            //1 octet
+            public int Get_System_Status(string[] data_block, int i)
+        {
+            string code_NOGO = data_block[i].Substring(0,2);
+            if (code_NOGO == "00") { this.NOGO = "Operational"; }
+            if (code_NOGO == "01") { this.NOGO = "Degraded"; }
+            if (code_NOGO == "10") { this.NOGO = "NOGO"; }
+
+            string code_OVL = data_block[i].Substring(2, 1);
+            if (code_OVL == "0") { this.OVL = "No overload"; }
+            else { this.OVL = "Overload"; }
+
+            string code_TSV = data_block[i].Substring(3, 1);
+            if (code_TSV == "0") { this.TSV = "valid"; }
+            else { this.TSV = "invalid"; }
+
+            string code_DIV = data_block[i].Substring(4, 1);
+            if (code_DIV == "0") { this.DIV = "Normal operation"; }
+            else { this.DIV = "Diversity degraded"; }
+
+            string code_TTF = data_block[i].Substring(5, 1);
+            if (code_TTF == "0") { this.TTF = "Test Target Operative"; }
+            else { this.TTF = "Test Target Failure"; }
+
+
+            i = i + 1;
+            return i;
+        }
 
         //A LA LIBRERÍA COMÚN
-        public A2ComplementToDecimal(string binari_number)
+        public double A2_Complement_To_Decimal(string binari_number)
                 {
 
                     char[] binari_number_char = binari_number.ToCharArray();
@@ -993,6 +1156,102 @@ namespace ConsoleApp1
                     }
 
                 }
+
+        public string Character_decoding_Target_Identification(string character_coded)
+        {
+                string character_decoded = "";
+                Char[] character_coded_char= character_coded.ToCharArray(0, 6);
+                string code_b4_b3_b2_b1 = string.Concat(character_coded_char[3], character_coded_char[2], character_coded_char[1], character_coded_char[0]);
+                string code_b6_b5 = string.Concat(character_coded_char[5], character_coded_char[4]);
+
+                if (code_b4_b3_b2_b1 == "0000")
+                {
+                    if (code_b6_b5 == "01") { character_decoded = "P"; }
+                    if (code_b6_b5 == "10") { character_decoded = "SP"; }
+                    if (code_b6_b5 == "11") { character_decoded = "0"; }
+                }
+                if (code_b4_b3_b2_b1 == "0001")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "A"; }
+                    if (code_b6_b5 == "01") { character_decoded = "Q"; }
+                    if (code_b6_b5 == "11") { character_decoded = "1"; }
+                }
+                if (code_b4_b3_b2_b1 == "0010")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "B"; }
+                    if (code_b6_b5 == "01") { character_decoded = "R"; }
+                    if (code_b6_b5 == "11") { character_decoded = "2"; }
+                }
+                if (code_b4_b3_b2_b1 == "0011")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "C"; }
+                    if (code_b6_b5 == "01") { character_decoded = "S"; }
+                    if (code_b6_b5 == "11") { character_decoded = "3"; }
+                }
+                if (code_b4_b3_b2_b1 == "0100")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "D"; }
+                    if (code_b6_b5 == "01") { character_decoded = "T"; }
+                    if (code_b6_b5 == "11") { character_decoded = "4"; }
+                }
+                if (code_b4_b3_b2_b1 == "0101")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "E"; }
+                    if (code_b6_b5 == "01") { character_decoded = "U"; }
+                    if (code_b6_b5 == "11") { character_decoded = "5"; }
+                }
+                if (code_b4_b3_b2_b1 == "0110")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "F"; }
+                    if (code_b6_b5 == "01") { character_decoded = "V"; }
+                    if (code_b6_b5 == "11") { character_decoded = "6"; }
+                }
+                if (code_b4_b3_b2_b1 == "0111")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "G"; }
+                    if (code_b6_b5 == "01") { character_decoded = "W"; }
+                    if (code_b6_b5 == "11") { character_decoded = "7"; }
+                }
+                if (code_b4_b3_b2_b1 == "1000")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "H"; }
+                    if (code_b6_b5 == "01") { character_decoded = "X"; }
+                    if (code_b6_b5 == "11") { character_decoded = "8"; }
+                }
+                if (code_b4_b3_b2_b1 == "1001")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "I"; }
+                    if (code_b6_b5 == "01") { character_decoded = "Y"; }
+                    if (code_b6_b5 == "11") { character_decoded = "9"; }
+                }
+                if (code_b4_b3_b2_b1 == "1010")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "J"; }
+                    if (code_b6_b5 == "01") { character_decoded = "Z"; }
+                }
+                if (code_b4_b3_b2_b1 == "1011")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "K"; }
+                }
+                if (code_b4_b3_b2_b1 == "1100")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "L"; }
+                }
+                if (code_b4_b3_b2_b1 == "1101")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "M"; }
+                }
+                if (code_b4_b3_b2_b1 == "1110")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "N"; }
+                }
+                if (code_b4_b3_b2_b1 == "1111")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "O"; }
+                }
+
+                return character_decoded;
+            }
                     #endregion
 
 
