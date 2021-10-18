@@ -29,13 +29,16 @@ namespace AsterixDecoder
         string RHO; //Get_Measured_Position_in_Polar_Coordinates
         string Theta; //Get_Measured_Position_in_Polar_Coordinates
 
+        string Latitude_WGS84;//Get_Position_in_WGS_84_Coordinates
+        string Longitude_WGS84;//Get_Position_in_WGS_84_Coordinates
+
         string X; //Get_Position_in_Cartesian_Coordinates
         string Y; //Get_Position_in_Cartesian_Coordinates
 
-        string V_Mode3A;
-        string G_Mode3A;
-        string L_Mode3A;
-        string Mode_3A_octal;
+        string V_Mode3A; //Get_Mode_3A_Code_in_Octal_Representation
+        string G_Mode3A; //Get_Mode_3A_Code_in_Octal_Representation
+        string L_Mode3A; //Get_Mode_3A_Code_in_Octal_Representation
+        string Mode_3A_octal; //Get_Mode_3A_Code_in_Octal_Representation
 
         string V_Flight_Level; //Get_Flight_Level_in_Binary_Representation
         string G_Flight_Level; //Get_Flight_Level_in_Binary_Representation
@@ -45,67 +48,71 @@ namespace AsterixDecoder
 
         string PAM; //Get_Amplitude_of_Primary_Plot
 
-        string Time_Of_Day; //Compute_Time_of_Day
+        string Time_of_Day_seconds; //Compute_Time_of_Day
         string Time_of_Day_HHMMSS; //Compute_Time_of_Day
 
         string Track_Number; //Get_Track_Number
 
-        string CNF;//Get_Track_Status
-        string TRE;//Get_Track_Status
-        string CST;//Get_Track_Status
-        string MAH;//Get_Track_Status
-        string TCC;//Get_Track_Status
-        string STH;//Get_Track_Status
-        string TOM;//Get_Track_Status
-        string DOU;//Get_Track_Status
-        string MRS;//Get_Track_Status
-        string GHO;//Get_Track_Status
+        string CNF; //Get_Track_Status
+        string TRE; //Get_Track_Status
+        string CST; //Get_Track_Status
+        string MAH; //Get_Track_Status
+        string TCC; //Get_Track_Status
+        string STH; //Get_Track_Status
+        string TOM; //Get_Track_Status
+        string DOU; //Get_Track_Status
+        string MRS; //Get_Track_Status
+        string GHO; //Get_Track_Status
 
-        string Ground_Speed;//Get_Calculated_Track_Velocity_in_Polar_Coordinates
-        string Track_Angle;//Get_Calculated_Track_Velocity_in_Polar_Coordinates
+        string Ground_Speed; //Get_Calculated_Track_Velocity_in_Polar_Coordinates
+        string Track_Angle; //Get_Calculated_Track_Velocity_in_Polar_Coordinates
 
-        string Vx;//Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
-        string Vy;//Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
+        string Vx; //Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
+        string Vy; //Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
 
-        string Ax;//Get_Calculated_Acceleration
+        string Ax; //Get_Calculated_Acceleration
         string Ay; //Get_Calculated_Acceleration
 
         string Target_Address; //Get_Target_Address
 
-        string STI;//Get_Target_Identification
-        string Target_Identification;//Get_Target_Identification
+        string STI; //Get_Target_Identification
+        string Target_Identification; //Get_Target_Identification
 
-        string[] MB_Data;//Get_Mode_S_MB_Data
-        string[] BDS1;//Get_Mode_S_MB_Data
-        string[] BDS2;//Get_Mode_S_MB_Data
-        string modeS_rep;//Get_Mode_S_MB_Data
+        string[] MB_Data; //Get_Mode_S_MB_Data
+        string[] BDS1; //Get_Mode_S_MB_Data
+        string[] BDS2; //Get_Mode_S_MB_Data
+        string modeS_rep; //Get_Mode_S_MB_Data
 
         string Lenght; //Get_Target_Size_and_Orientation
-        string Orientation;//Get_Target_Size_and_Orientation
-        string Width;//Get_Target_Size_and_Orientation
+        string Orientation; //Get_Target_Size_and_Orientation
+        string Width; //Get_Target_Size_and_Orientation
 
         string[] DRHO; //Get_Presence
         string[] DTHETA; //Get_Presence
 
-        string VFI;//Get_Vehicle_Fleet_Identificatior
+        string VFI; //Get_Vehicle_Fleet_Identificatior
 
-        string TRB;//Get_Pre_programmed_Message
-        string MSG;//Get_Pre_programmed_Message
+        string TRB; //Get_Pre_programmed_Message
+        string MSG; //Get_Pre_programmed_Message
 
-        string Standard_Deviation_X;//Get_Standard_Deviation_Of_Position
-        string Standard_Deviation_Y;//Get_Standard_Deviation_Of_Position
-        string Covariance_XY_2C;//Get_Standard_Deviation_Of_Position
+        string Standard_Deviation_X; //Get_Standard_Deviation_Of_Position
+        string Standard_Deviation_Y; //Get_Standard_Deviation_Of_Position
+        string Covariance_XY_2C; //Get_Standard_Deviation_Of_Position
 
-        string NOGO;//Get_System_Status
-        string OVL;//Get_System_Status
-        string TSV;//Get_System_Status
-        string DIV;//Get_System_Status
-        string TIF;//Get_System_Status
+        string NOGO; //Get_System_Status
+        string OVL; //Get_System_Status
+        string TSV; //Get_System_Status
+        string DIV; //Get_System_Status
+        string TTF; //Get_System_Status
 
+
+        //CONSTRUCTORS
         public CAT10(String[] X)
         {
             this.Data_block = X;
         }
+
+        //GETS
         public string[] Get_Data_Block() 
         {
             return this.Data_block;
@@ -113,6 +120,10 @@ namespace AsterixDecoder
         public string Get_Data_Item(int v)
         {
             return this.Data_block[v];
+        }
+        public char[] Get_FSPEC_char()
+        {
+            return this.FSPEC_char;
         }
 
 
@@ -206,7 +217,7 @@ namespace AsterixDecoder
                 { 'e', "1110" },
                 { 'f', "1111" }
             };
-        static string Convert_HexadecimalString_To_BinaryString(string hex)
+        public static string Convert_HexadecimalString_To_BinaryString(string hex)
         {
             StringBuilder result = new StringBuilder();
             if (hex.Length == 1)
@@ -219,7 +230,7 @@ namespace AsterixDecoder
             return result.ToString();
         }
 
-        string[] Convert_HexadecimalDataBLock_To_BinaryDataBlock(string[] HexadecimalDataBLock)
+        public string[] Convert_HexadecimalDataBLock_To_BinaryDataBlock(string[] HexadecimalDataBLock)
         {
             string[] BinaryDataBlock = new string[HexadecimalDataBLock.Length];
             int c = 0;
@@ -359,10 +370,26 @@ namespace AsterixDecoder
             return character_decoded;
         }
 
+        public string Convert_Decimal_To_Octal(string decimal_number)
+        {
+            string octal_number = "";
+            int decValue, counter, i = 1, j;
+            int[] octalValue = new int[80];
+            decValue = 111;
+            counter = decValue;
+            while (counter != 0)
+            {
+                octalValue[i++] = counter % 8;
+                counter /= 8;
+            }
+            for (j = i - 1; j > 0; j--)
+                octal_number = octal_number + octalValue[j];
+            return octal_number;
+        }
 
         //Decoding_Library
 
-        int Get_FSPEC(string[] data_block_binary, int i)
+        public int Get_FSPEC(string[] data_block_binary, int i)
         {
             string code_FX = "1";
             string FSPEC_string = "";
@@ -381,10 +408,10 @@ namespace AsterixDecoder
         }
 
         //1 octet
-        int Get_Message_Type(string[] data_block, int i)
+        public int Get_Message_Type(string[] data_block, int i)
         {
             int data = Convert.ToInt32(data_block[i], 2);
-            Console.WriteLine("data" + data);
+            Console.WriteLine("data_MessageType=" + data);
             if (data == 1) { Console.WriteLine("Target Report"); } //this.Message_Type = 
             if (data == 2) { Console.WriteLine("Start of Update Cycle"); }
             if (data == 3) { Console.WriteLine("Periodic Status Message"); }
@@ -394,7 +421,7 @@ namespace AsterixDecoder
         }
 
         //2 octets
-        int Get_Data_Source_Identifier(string[] data_block, int i)
+        public int Get_Data_Source_Identifier(string[] data_block, int i)
         {
             SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
             SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
@@ -508,28 +535,20 @@ namespace AsterixDecoder
             i = i + 4;
             return i;
         } //incomplete
-
+        //8 octets
         public int Get_Position_in_WGS_84_Coordinates(string[] data_block, int i)
         {
-            double Latitude = lib.ComputeA2Complement(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3])) * (180 / (Math.Pow(2, 31)));
-            double Longitude = lib.ComputeA2Complement(string.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 3])) * (180 / (Math.Pow(2, 31)));
-            i += 8;
-            int Latdegres = Convert.ToInt32(Math.Truncate(Latitude));
-            int Latmin = Convert.ToInt32(Math.Truncate((Latitude - Latdegres) * 60));
-            double Latsec = Math.Round(((Latitude - (Latdegres + (Convert.ToDouble(Latmin) / 60))) * 3600), 5);
-            int Londegres = Convert.ToInt32(Math.Truncate(Longitude));
-            int Lonmin = Convert.ToInt32(Math.Truncate((Longitude - Londegres) * 60));
-            double Lonsec = Math.Round(((Longitude - (Londegres + (Convert.ToDouble(Lonmin) / 60))) * 3600), 5);
-            Latitude_in_WGS_84 = Convert.ToString(Latdegres) + "º " + Convert.ToString(Latmin) + "' " + Convert.ToString(Latsec) + "''";
-            Longitude_in_WGS_84 = Convert.ToString(Londegres) + "º" + Convert.ToString(Lonmin) + "' " + Convert.ToString(Lonsec) + "''";
-            i = i + 1;
+            this.Latitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3])) * (180 / (Math.Pow(2, 31))));
+            this.Longitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 3])) * (180 / (Math.Pow(2, 31))));
+            i = i + 8;
+           
             return i;
         } //incomplete
 
         public int Get_Position_in_Cartesian_Coordinates(string[] data_block, int i)
         {
-            this.X = Convert.ToString(lib.ComputeA2Complement(string.Concat(data_block[i], data_block[i + 1])));
-            this.Y = Convert.ToString(lib.ComputeA2Complement(string.Concat(data_block[i + 2], data_block[i + 3])));
+            this.X = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])));
+            this.Y = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])));
 
             return i + 1;
         }
@@ -552,7 +571,7 @@ namespace AsterixDecoder
             else { this.L_Mode3A = "Mode-3/A code not extracted during the last scan"; }
 
             string code_Mode3A = octets.Substring(4, 12);
-            this.Mode_3A = Convert.ToString(lib.ConvertDecimalToOctal(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2))).PadLeft(4, '0');
+            this.Mode_3A_octal = Convert.ToString(Convert_Decimal_To_Octal(Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2)))).PadLeft(4, '0');
 
             i = i + 2;
             return i;
@@ -574,7 +593,7 @@ namespace AsterixDecoder
 
             string code_Flight_Level = octets.Substring(2, 14);
 
-            Flight_Level = Convert.ToString(lib.A2_Complement_To_Decimal(code_Flight_Level) * (0.25));
+            Flight_Level = Convert.ToString(A2_Complement_To_Decimal(code_Flight_Level) * (0.25));
 
             return i;
         }
@@ -582,7 +601,7 @@ namespace AsterixDecoder
         //2 octets
         public int Get_Measured_Height(string[] data_block, int i)
         {
-            this.Measured_Height = Convert.ToString(lib.A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 6.25) + " ft";
+            this.Measured_Height = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 6.25) + " ft";
             i = i + 2;
             return i;
         }
@@ -716,9 +735,9 @@ namespace AsterixDecoder
         //4 octets
         public int Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(string[] data_block, int i)
         {
-            this.Vx = Convert.ToString((lib.A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));
+            this.Vx = Convert.ToString((A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));
 
-            this.Vy = Convert.ToString(lib.A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+            this.Vy = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
 
             i = i + 4;
             return i;
@@ -727,8 +746,8 @@ namespace AsterixDecoder
         //2 octets
         public int Get_Calculated_Acceleration(string[] data_block, int i)
         {
-            this.Ax = Convert.ToString(lib.A2_Complement_To_Decimal(data_block[i]) * 0.25);
-            this.Ay = Convert.ToString(lib.A2_Complement_To_Decimal(data_block[i + 1]) * 0.25);
+            this.Ax = Convert.ToString(A2_Complement_To_Decimal(data_block[i]) * 0.25);
+            this.Ay = Convert.ToString(A2_Complement_To_Decimal(data_block[i + 1]) * 0.25);
             i = i + 2;
             return i;
         }
@@ -867,7 +886,7 @@ namespace AsterixDecoder
         {
             this.Standard_Deviation_X = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.25);
             this.Standard_Deviation_Y = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i + 1], 2)) * 0.25);
-            this.Covariance_XY_2C = Convert.ToString(lib.A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+            this.Covariance_XY_2C = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
             i = i + 4;
             return i;
         }
