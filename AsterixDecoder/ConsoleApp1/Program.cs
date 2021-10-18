@@ -30,18 +30,7 @@ namespace ConsoleApp1
                 { 'f', "1111" }
             };
 
-        public static string HexStringToBinary(string hex)
-        {
-            StringBuilder result = new StringBuilder();
-            if (hex.Length == 1)
-                hex = "0" + hex;  //para que todos sean octetos
-            foreach (char c in hex)
-            {
-                // Esto petará si no le entramos algo hexadecimal asik tenemos que meter un try catch aqui
-                result.Append(hexCharacterToBinary[char.ToLower(c)]);
-            }
-            return result.ToString();
-        }
+        
 
 
         //Funciones
@@ -75,28 +64,29 @@ namespace ConsoleApp1
             Console.WriteLine(listaCAT21[0].getCat(3)); // F7 = comienzo FSPEC
 
             //Prueba del Hex to Binary (Funciona)
-            string resultado = "";
-            resultado = HexStringToBinary(listaCAT21[0].getCat(3));
-            Console.WriteLine(resultado);
 
-            //Prueba de sacar el FSPEC (Funciona)
-            StringBuilder FSPEC = new StringBuilder();
-            int end = 0;
-            int i = 3;
-            while(end==0)
-            {
-                FSPEC.Append(HexStringToBinary(listaCAT21[0].getCat(i)));
-                if(HexStringToBinary(listaCAT21[0].getCat(i)).EndsWith("0"))
-                {
-                    end = 1;
-                }
-                Console.WriteLine(listaCAT21[0].getCat(i));
-                Console.WriteLine("FSPEC: " + FSPEC);
-                i++;
-            }
-            Console.WriteLine("FSPEC: "+FSPEC);
+            //string resultado = "";
+            //resultado = HexStringToBinary(listaCAT21[0].getCat(3));
+            //Console.WriteLine(resultado);
 
-            Console.WriteLine(listaCAT21[0].getCat(i)); //primer octeto tras el FSPEC
+            ////Prueba de sacar el FSPEC (Funciona)
+            //StringBuilder FSPEC = new StringBuilder();
+            //int end = 0;
+            //int i = 3;
+            //while(end==0)
+            //{
+            //    FSPEC.Append(HexStringToBinary(listaCAT21[0].getCat(i)));
+            //    if(HexStringToBinary(listaCAT21[0].getCat(i)).EndsWith("0"))
+            //    {
+            //        end = 1;
+            //    }
+            //    Console.WriteLine(listaCAT21[0].getCat(i));
+            //    Console.WriteLine("FSPEC: " + FSPEC);
+            //    i++;
+            //}
+            //Console.WriteLine("FSPEC: "+FSPEC);
+
+            //Console.WriteLine(listaCAT21[0].getCat(i)); //primer octeto tras el FSPEC
 
             #region CAT21
 
@@ -405,6 +395,8 @@ namespace ConsoleApp1
 
             #region CAT10
             //atributos del objeto CAT10
+            char[] FSPEC_char;
+
             string Message_Type; //Get_Message_Type
 
             string SAC; //Get_Data_Source_Identifier
@@ -498,117 +490,254 @@ namespace ConsoleApp1
             string DIV;//Get_System_Status
             string TIF;//Get_System_Status
 
-            //Comprovamos cada campo para realizar las funciones
-            if (FSPEC[0] == '1')
+            public void CAT10_Decoding(string[] data_block_hexa, Decoding_Library decoding_library)
             {
-                //Get_Message_Type()
-            }
-            if (FSPEC[1] == '1')
-            {
+                string[] data_block_binary = Convert_HexadecimalDataBLock_To_BinaryDataBlock(data_block_hexa);
 
-            }
-            if (FSPEC[2] == '1')
-            {
+                int i = 2;
 
-            }
-            if (FSPEC[3] == '1')
-            {
+                i = Get_FSPEC(data_block_binary, i); //ERROR????? creo que no le gusta el nombre del argumento i
 
-            }
-            if (FSPEC[4] == '1')
-            {
 
-            }
-            if (FSPEC[5] == '1')
-            {
+                if (FSPEC_char[0] == '1') { i = Get_Message_Type(data_block_binary, i); }
 
-            }
-            if (FSPEC[6] == '1')
-            {
+                if (FSPEC_char[1] == '1') { i = Get_Data_Source_Identifier(data_block_binary, i); }
 
-            }
-            if (FSPEC.Length > 8)
-            {
-                if (FSPEC[8] == '1')
+                if (FSPEC_char[2] == '1') { i = Get_Target_Report_Descriptor(data_block_binary, i); }
+
+                if (FSPEC_char[3] == '1') { i = Get_Measured_Position_in_Polar_Coordinates(data_block_binary, i); }
+
+                if (FSPEC_char[4] == '1') { i = Get_Position_in_WGS_84_Coordinates(data_block_binary, i); }
+
+                if (FSPEC_char[5] == '1') { i = Get_Position_in_Cartesian_Coordinates(data_block_binary, i); }
+
+                if (FSPEC_char[6] == '1') { i = Get_Mode_3A_Code_in_Octal_Representation(data_block_binary, i); }
+
+                if (FSPEC_char[7] == '1') //bit FX1
                 {
+                    if (FSPEC_char[8] == '1') { i = Get_Flight_Level_in_Binary_Representation(data_block_binary, i); }
 
-                }
-                if (FSPEC[9] == '1')
-                {
+                    if (FSPEC_char[9] == '1') { i = Get_Measured_Height(data_block_binary, i); }
 
-                }
-                if (FSPEC[10] == '1')
-                {
+                    if (FSPEC_char[10] == '1') { i = Get_Amplitude_of_Primary_Plot(data_block_binary, i); }
 
-                }
-                if (FSPEC[11] == '1')
-                {
+                    if (FSPEC_char[11] == '1') { i = Get_Time_of_Day(data_block_binary, i); }
 
-                }
-                if (FSPEC[12] == '1')
-                {
+                    if (FSPEC_char[12] == '1') { i = Get_Track_Number(data_block_binary, i); }
 
-                }
-                if (FSPEC[13] == '1')
-                {
+                    if (FSPEC_char[13] == '1') { i = Get_Track_Status(data_block_binary, i); }
 
-                }
-                if (FSPEC[14] == '1')
-                {
+                    if (FSPEC_char[14] == '1') { i = Get_Calculated_Track_Velocity_in_Polar_Coordinates(data_block_binary, i); }
 
-                }
-                if (FSPEC.Length > 16)
-                {
-                    if (FSPEC[16] == '1')
+                    if (FSPEC_char[15] == '1')
                     {
+                        if (FSPEC_char[16] == '1') { i = Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(data_block_binary, i); }
 
-                    }
-                    if (FSPEC[17] == '1')
-                    {
+                        if (FSPEC_char[17] == '1') { i = Get_Calculated_Acceleration(data_block_binary, i); }
 
-                    }
-                    if (FSPEC[18] == '1')
-                    {
+                        if (FSPEC_char[18] == '1') { i = Get_Target_Address(data_block_binary, i); }
 
-                    }
-                    if (FSPEC[19] == '1')
-                    {
+                        if (FSPEC_char[19] == '1') { i = Get_Target_Identification(data_block_binary, i); }
 
-                    }
-                    if (FSPEC[20] == '1')
-                    {
+                        if (FSPEC_char[20] == '1') { i = Get_Mode_S_MB_Data(data_block_binary, i); }
 
-                    }
-                    if (FSPEC[21] == '1')
-                    {
+                        if (FSPEC_char[21] == '1') { i = Get_Target_Size_and_Orientation(data_block_binary, i); }
 
-                    }
-                    if (FSPEC[22] == '1')
-                    {
+                        if (FSPEC_char[22] == '1') { i = Get_Presence(data_block_binary, i); }
 
-                    }
-                    if (FSPEC.Length > 24)
-                    {
-                        if (FSPEC[24] == '1')
+                        if (FSPEC_char[23] == '1')
                         {
+                            if (FSPEC_char[24] == '1') { i = Get_Vehicle_Fleet_Identificatior(data_block_binary, i); }
+
+                            if (FSPEC_char[25] == '1') { i = Get_Pre_Programmed_Message(data_block_binary, i); }
+
+                            if (FSPEC_char[26] == '1') { i = Get_Standard_Deviation_Of_Position(data_block_binary, i); }
+
+                            if (FSPEC_char[27] == '1') { i = Get_System_Status(data_block_binary, i); }
 
                         }
-                        if (FSPEC[25] == '1')
-                        {
 
-                        }
-                        if (FSPEC[26] == '1')
-                        {
-
-                        }
-                        if (FSPEC[27] == '1')
-                        {
-
-                        }
                     }
 
                 }
             }
+
+
+            //Estas tambien iran a Decoding_Library, pero por ahora las dejo separadas porque son de tipología distinta
+            public static string Convert_HexadecimalString_To_BinaryString(string hex)
+            {
+                StringBuilder result = new StringBuilder();
+                if (hex.Length == 1)
+                    hex = "0" + hex;  //para que todos sean octetos
+                foreach (char c in hex)
+                {
+                    // Esto petará si no le entramos algo hexadecimal asik tenemos que meter un try catch aqui
+                    result.Append(hexCharacterToBinary[char.ToLower(c)]);
+                }
+                return result.ToString();
+            }
+
+            public string[] Convert_HexadecimalDataBLock_To_BinaryDataBlock(string[] HexadecimalDataBLock) 
+            {
+                string[] BinaryDataBlock = new string[HexadecimalDataBLock.Length];
+                int c = 0;
+                while (c< HexadecimalDataBLock.Length)
+                {
+                    BinaryDataBlock[c] = Convert_HexadecimalString_To_BinaryString(HexadecimalDataBLock[c]);
+                    c = c + 1;
+                }
+                return BinaryDataBlock;
+            }
+
+            public double A2_Complement_To_Decimal(string binari_number)
+            {
+
+                char[] binari_number_char = binari_number.ToCharArray();
+
+                if (binari_number_char[0] == '0')
+                {
+                    int decimal_number = Convert.ToInt32(binari_number, 2);
+                    return Convert.ToSingle(decimal_number);
+                }
+
+                else
+                {
+                    string a2_number = "";
+                    int i = 1;
+
+                    while (i < binari_number.Length)
+                    {
+                        if (binari_number_char[i] == '1') { a2_number += "0"; }
+
+                        if (binari_number_char[i] == '0') { a2_number += "1"; }
+
+                        i++;
+                    }
+
+                    double decimal_number = Convert.ToInt32(a2_number, 2);
+                    decimal_number = -decimal_number + 1;
+                    return decimal_number;
+                }
+
+            }
+
+            public string Character_Decoding_Target_Identification(string character_coded)
+            {
+                string character_decoded = "";
+                Char[] character_coded_char = character_coded.ToCharArray(0, 6);
+                string code_b4_b3_b2_b1 = string.Concat(character_coded_char[3], character_coded_char[2], character_coded_char[1], character_coded_char[0]);
+                string code_b6_b5 = string.Concat(character_coded_char[5], character_coded_char[4]);
+
+                if (code_b4_b3_b2_b1 == "0000")
+                {
+                    if (code_b6_b5 == "01") { character_decoded = "P"; }
+                    if (code_b6_b5 == "10") { character_decoded = "SP"; }
+                    if (code_b6_b5 == "11") { character_decoded = "0"; }
+                }
+                if (code_b4_b3_b2_b1 == "0001")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "A"; }
+                    if (code_b6_b5 == "01") { character_decoded = "Q"; }
+                    if (code_b6_b5 == "11") { character_decoded = "1"; }
+                }
+                if (code_b4_b3_b2_b1 == "0010")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "B"; }
+                    if (code_b6_b5 == "01") { character_decoded = "R"; }
+                    if (code_b6_b5 == "11") { character_decoded = "2"; }
+                }
+                if (code_b4_b3_b2_b1 == "0011")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "C"; }
+                    if (code_b6_b5 == "01") { character_decoded = "S"; }
+                    if (code_b6_b5 == "11") { character_decoded = "3"; }
+                }
+                if (code_b4_b3_b2_b1 == "0100")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "D"; }
+                    if (code_b6_b5 == "01") { character_decoded = "T"; }
+                    if (code_b6_b5 == "11") { character_decoded = "4"; }
+                }
+                if (code_b4_b3_b2_b1 == "0101")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "E"; }
+                    if (code_b6_b5 == "01") { character_decoded = "U"; }
+                    if (code_b6_b5 == "11") { character_decoded = "5"; }
+                }
+                if (code_b4_b3_b2_b1 == "0110")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "F"; }
+                    if (code_b6_b5 == "01") { character_decoded = "V"; }
+                    if (code_b6_b5 == "11") { character_decoded = "6"; }
+                }
+                if (code_b4_b3_b2_b1 == "0111")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "G"; }
+                    if (code_b6_b5 == "01") { character_decoded = "W"; }
+                    if (code_b6_b5 == "11") { character_decoded = "7"; }
+                }
+                if (code_b4_b3_b2_b1 == "1000")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "H"; }
+                    if (code_b6_b5 == "01") { character_decoded = "X"; }
+                    if (code_b6_b5 == "11") { character_decoded = "8"; }
+                }
+                if (code_b4_b3_b2_b1 == "1001")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "I"; }
+                    if (code_b6_b5 == "01") { character_decoded = "Y"; }
+                    if (code_b6_b5 == "11") { character_decoded = "9"; }
+                }
+                if (code_b4_b3_b2_b1 == "1010")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "J"; }
+                    if (code_b6_b5 == "01") { character_decoded = "Z"; }
+                }
+                if (code_b4_b3_b2_b1 == "1011")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "K"; }
+                }
+                if (code_b4_b3_b2_b1 == "1100")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "L"; }
+                }
+                if (code_b4_b3_b2_b1 == "1101")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "M"; }
+                }
+                if (code_b4_b3_b2_b1 == "1110")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "N"; }
+                }
+                if (code_b4_b3_b2_b1 == "1111")
+                {
+                    if (code_b6_b5 == "00") { character_decoded = "O"; }
+                }
+
+                return character_decoded;
+            }
+
+
+            //Decoding_Library
+
+            public int Get_FSPEC(string[] data_block, int i)
+            {
+                string code_FX = "1";
+                string FSPEC_string = "";
+                while (code_FX == "1")
+                {
+                    string octet = Convert.ToString(Convert.ToInt32(data_block[i], 16), 2).PadLeft(8, '0');
+
+                    FSPEC_string = FSPEC_string + octet.Substring(0, 8); //el bit fx también lo añadimos
+
+                    code_FX = octet.Substring(7, 1);
+
+                    i = i + 1;
+                }
+                this.FSPEC_char = FSPEC_string.ToCharArray(0, FSPEC_string.Length);
+                return i;
+            }
+
              //1 octet
             public int Get_Message_Type(string[] data_block, int i)
             {
@@ -975,14 +1104,14 @@ namespace ConsoleApp1
                 if (code_STI == "01") { this.STI = "Callsign not downlinked from transponder"; }
                 if (code_STI == "10") { this.STI = "Registration not downlinked from transponder"; }
 
-                string character1 = Character_decoding_Target_Identification(data.Substring(8, 6));
-                string character2 = Character_decoding_Target_Identification(data.Substring(14, 6));
-                string character3 = Character_decoding_Target_Identification(data.Substring(20, 2));
-                string character4 = Character_decoding_Target_Identification(data.Substring(26, 2));
-                string character5 = Character_decoding_Target_Identification(data.Substring(32, 2));
-                string character6 = Character_decoding_Target_Identification(data.Substring(38, 2));
-                string character7 = Character_decoding_Target_Identification(data.Substring(44, 2));
-                string character8 = Character_decoding_Target_Identification(data.Substring(50, 2));
+                string character1 = Character_Decoding_Target_Identification(data.Substring(8, 6));
+                string character2 = Character_Decoding_Target_Identification(data.Substring(14, 6));
+                string character3 = Character_Decoding_Target_Identification(data.Substring(20, 2));
+                string character4 = Character_Decoding_Target_Identification(data.Substring(26, 2));
+                string character5 = Character_Decoding_Target_Identification(data.Substring(32, 2));
+                string character6 = Character_Decoding_Target_Identification(data.Substring(38, 2));
+                string character7 = Character_Decoding_Target_Identification(data.Substring(44, 2));
+                string character8 = Character_Decoding_Target_Identification(data.Substring(50, 2));
 
                 this.Target_Identification = string.Concat(character1, character2, character3, character4, character5, character6, character7, character8);
 
@@ -1069,7 +1198,7 @@ namespace ConsoleApp1
         }
 
             //1 octet
-            public int Get_Pre_programmed_Message(string[] data_block, int i)
+            public int Get_Pre_Programmed_Message(string[] data_block, int i)
         {
              string code_TRB = data_block[i].Substring(0, 1);
             if (code_TRB == "0") { this.TRB = "Trouble: Default"; }
@@ -1124,179 +1253,57 @@ namespace ConsoleApp1
             return i;
         }
 
-        //A LA LIBRERÍA COMÚN
-        public double A2_Complement_To_Decimal(string binari_number)
-                {
-
-                    char[] binari_number_char = binari_number.ToCharArray();
-
-                    if (binari_number_char[0] == '0')
-                    {
-                        int decimal_number = Convert.ToInt32(binari_number, 2);
-                        return Convert.ToSingle(decimal_number);
-                    }
-
-                    else
-                    {
-                        string a2_number = "";
-                        int i = 1;
-
-                        while (i < binari_number.Length)
-                        {
-                            if (binari_number_char[i] == '1') { a2_number += "0"; }
-
-                            if (binari_number_char[i] == '0') { a2_number += "1"; }
-
-                            i++;
-                        }
-
-                        double decimal_number = Convert.ToInt32(a2_number, 2);
-                        decimal_number = -decimal_number + 1;
-                        return decimal_number;
-                    }
-
-                }
-
-        public string Character_decoding_Target_Identification(string character_coded)
-        {
-                string character_decoded = "";
-                Char[] character_coded_char= character_coded.ToCharArray(0, 6);
-                string code_b4_b3_b2_b1 = string.Concat(character_coded_char[3], character_coded_char[2], character_coded_char[1], character_coded_char[0]);
-                string code_b6_b5 = string.Concat(character_coded_char[5], character_coded_char[4]);
-
-                if (code_b4_b3_b2_b1 == "0000")
-                {
-                    if (code_b6_b5 == "01") { character_decoded = "P"; }
-                    if (code_b6_b5 == "10") { character_decoded = "SP"; }
-                    if (code_b6_b5 == "11") { character_decoded = "0"; }
-                }
-                if (code_b4_b3_b2_b1 == "0001")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "A"; }
-                    if (code_b6_b5 == "01") { character_decoded = "Q"; }
-                    if (code_b6_b5 == "11") { character_decoded = "1"; }
-                }
-                if (code_b4_b3_b2_b1 == "0010")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "B"; }
-                    if (code_b6_b5 == "01") { character_decoded = "R"; }
-                    if (code_b6_b5 == "11") { character_decoded = "2"; }
-                }
-                if (code_b4_b3_b2_b1 == "0011")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "C"; }
-                    if (code_b6_b5 == "01") { character_decoded = "S"; }
-                    if (code_b6_b5 == "11") { character_decoded = "3"; }
-                }
-                if (code_b4_b3_b2_b1 == "0100")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "D"; }
-                    if (code_b6_b5 == "01") { character_decoded = "T"; }
-                    if (code_b6_b5 == "11") { character_decoded = "4"; }
-                }
-                if (code_b4_b3_b2_b1 == "0101")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "E"; }
-                    if (code_b6_b5 == "01") { character_decoded = "U"; }
-                    if (code_b6_b5 == "11") { character_decoded = "5"; }
-                }
-                if (code_b4_b3_b2_b1 == "0110")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "F"; }
-                    if (code_b6_b5 == "01") { character_decoded = "V"; }
-                    if (code_b6_b5 == "11") { character_decoded = "6"; }
-                }
-                if (code_b4_b3_b2_b1 == "0111")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "G"; }
-                    if (code_b6_b5 == "01") { character_decoded = "W"; }
-                    if (code_b6_b5 == "11") { character_decoded = "7"; }
-                }
-                if (code_b4_b3_b2_b1 == "1000")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "H"; }
-                    if (code_b6_b5 == "01") { character_decoded = "X"; }
-                    if (code_b6_b5 == "11") { character_decoded = "8"; }
-                }
-                if (code_b4_b3_b2_b1 == "1001")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "I"; }
-                    if (code_b6_b5 == "01") { character_decoded = "Y"; }
-                    if (code_b6_b5 == "11") { character_decoded = "9"; }
-                }
-                if (code_b4_b3_b2_b1 == "1010")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "J"; }
-                    if (code_b6_b5 == "01") { character_decoded = "Z"; }
-                }
-                if (code_b4_b3_b2_b1 == "1011")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "K"; }
-                }
-                if (code_b4_b3_b2_b1 == "1100")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "L"; }
-                }
-                if (code_b4_b3_b2_b1 == "1101")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "M"; }
-                }
-                if (code_b4_b3_b2_b1 == "1110")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "N"; }
-                }
-                if (code_b4_b3_b2_b1 == "1111")
-                {
-                    if (code_b6_b5 == "00") { character_decoded = "O"; }
-                }
-
-                return character_decoded;
-            }
-                    #endregion
 
 
 
-                    //int cont = 0;
-                    //int pack = 0;
-                    //while (pack < listaCAT21.Count  && pack<20)
-                    //{
-                    //    cont = 0;
-                    //    Console.WriteLine("Paquete "+pack+":");
-                    //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
-                    //    {
-                    //        Console.WriteLine(listaCAT21[pack].getCat(cont));
-                    //        cont++;
 
 
-                    //    }
-                    //    Console.WriteLine("Longitud " + Convert.ToString(cont));
-                    //    pack++;
-                    //}
-                    //int cont = 0;
-                    //int pack = 0;
-                    //string mensaje = "";
-                    //while (pack < listaCAT21.Count)
-                    //{
-                    //    cont = 0;
-
-                    //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
-                    //    {
-                    //        mensaje+=listaCAT21[pack].getCat(cont);
-                    //        cont++;
-                    //    }
-                    //    pack++;
-                    //}
-                    //Console.WriteLine(mensaje);
+ 
+            #endregion
 
 
-                    //Console.WriteLine("Paquete 2:");
-                    //cont = 0;
-                    //while (cont < Convert.ToInt32(listaCAT21[3].getCat(2), 16))
-                    //{
-                    //    Console.WriteLine(listaCAT21[3].getCat(cont));
-                    //    cont++;
-                    //}
-                    //Console.WriteLine("Longitud " + Convert.ToString(cont));
-                }
+
+            //int cont = 0;
+            //int pack = 0;
+            //while (pack < listaCAT21.Count  && pack<20)
+            //{
+            //    cont = 0;
+            //    Console.WriteLine("Paquete "+pack+":");
+            //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
+            //    {
+            //        Console.WriteLine(listaCAT21[pack].getCat(cont));
+            //        cont++;
+
+
+            //    }
+            //    Console.WriteLine("Longitud " + Convert.ToString(cont));
+            //    pack++;
+            //}
+            //int cont = 0;
+            //int pack = 0;
+            //string mensaje = "";
+            //while (pack < listaCAT21.Count)
+            //{
+            //    cont = 0;
+
+            //    while (cont < Convert.ToInt32(listaCAT21[pack].getCat(2), 16))
+            //    {
+            //        mensaje+=listaCAT21[pack].getCat(cont);
+            //        cont++;
+            //    }
+            //    pack++;
+            //}
+            //Console.WriteLine(mensaje);
+
+
+            //Console.WriteLine("Paquete 2:");
+            //cont = 0;
+            //while (cont < Convert.ToInt32(listaCAT21[3].getCat(2), 16))
+            //{
+            //    Console.WriteLine(listaCAT21[3].getCat(cont));
+            //    cont++;
+            //}
+            //Console.WriteLine("Longitud " + Convert.ToString(cont));
+        }
             }
 }
