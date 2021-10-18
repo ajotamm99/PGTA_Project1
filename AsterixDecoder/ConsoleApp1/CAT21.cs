@@ -13,7 +13,7 @@ namespace AsterixDecoder
         }
         
 
-        public string getCat(int v)
+        public string Get_Data_Item(int v)
         {
             return cat21[v];
         }

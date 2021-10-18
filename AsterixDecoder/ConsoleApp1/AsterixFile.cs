@@ -7,7 +7,7 @@ using System.Data;
 
 namespace AsterixDecoder
 {
-    public class AsterixFile
+     class AsterixFile
     {
         string path;
         List<CAT10> listaCAT10 = new List<CAT10>();
@@ -33,7 +33,7 @@ namespace AsterixDecoder
         }*/
         public List<CAT21> getListCAT21()
         {
-            return listaCAT21;
+            return this.listaCAT21;
         }
 
         public void leer()

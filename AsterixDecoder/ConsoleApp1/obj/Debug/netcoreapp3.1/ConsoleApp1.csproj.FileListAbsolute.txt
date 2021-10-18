@@ -39,3 +39,17 @@ D:\Usuario\Documents\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcorea
 D:\Usuario\Documents\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
 D:\Usuario\Documents\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
 D:\Usuario\Documents\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.AssemblyReference.cache
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfo.cs
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.exe
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.deps.json
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.json
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\erics\OneDrive\Documentos\GitHub\PGTA_Project1\AsterixDecoder\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache
