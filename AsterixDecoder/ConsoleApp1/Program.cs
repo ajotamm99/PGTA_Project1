@@ -102,7 +102,7 @@ namespace ConsoleApp1
                 int result = 0;
                 while (result == 0) {
                     result = TargetReportDescriptor(listaCAT21[0].getCat(i), i);
-                    i = i + 1;
+                    i += 1;
                 }
 
             }
@@ -342,7 +342,7 @@ namespace ConsoleApp1
                 ATP = atp switch
                 {
                     0 => "24-Bit ICAO address",
-                    1 => ATP = "Duplicate address",
+                    1 => "Duplicate address",
                     2 => "Surface vehicle address",
                     3 => "Anonymous address",
                     _ => "Reserved for future use",
