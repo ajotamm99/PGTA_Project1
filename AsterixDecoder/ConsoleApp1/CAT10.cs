@@ -744,10 +744,12 @@ namespace AsterixDecoder
         //4 octets
         public int Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(string[] data_block, int i)
         {
-            this.Vx = Convert.ToString((A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));
+            Vx = Convert.ToString((A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));//this.
 
-            this.Vy = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+            Vy = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
 
+            Console.WriteLine("Vx" + Vx);
+            Console.WriteLine("Vy" + Vy);
             i = i + 4;
             return i;
         }
@@ -755,9 +757,11 @@ namespace AsterixDecoder
         //2 octets
         public int Get_Calculated_Acceleration(string[] data_block, int i)
         {
-            this.Ax = Convert.ToString(A2_Complement_To_Decimal(data_block[i]) * 0.25);
-            this.Ay = Convert.ToString(A2_Complement_To_Decimal(data_block[i + 1]) * 0.25);
+            Ax = Convert.ToString(A2_Complement_To_Decimal(data_block[i]) * 0.25);//this.
+            Ay = Convert.ToString(A2_Complement_To_Decimal(data_block[i + 1]) * 0.25);
             i = i + 2;
+            Console.WriteLine("Ax" + Ax);
+            Console.WriteLine("Ay" + Ay);
             return i;
         }
 
