@@ -648,6 +648,7 @@ namespace AsterixDecoder
         public int Get_Track_Number(string[] data_block, int i)
         {
             this.Track_Number = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2));
+            Console.WriteLine("Track Number: " + Track_Number);
             i = i + 2;
             return i;
         }
@@ -663,9 +664,13 @@ namespace AsterixDecoder
             if (code_CNF == "0") { this.CNF = "Confirmed track"; }
             else { this.CNF = "Track in initialisation phase"; }
 
+            Console.WriteLine("CNF " + CNF);
+
             string code_TRE = octet1.Substring(1, 1);
             if (code_TRE == "0") { this.CNF = "Default"; }
             else { this.TRE = "Last report for a track"; }
+
+            Console.WriteLine("TRE " + TRE);
 
             string code_CST = octet1.Substring(2, 2);
             if (code_CST == "00") { this.CST = "No extrapolation"; }
@@ -673,17 +678,25 @@ namespace AsterixDecoder
             if (code_CST == "10") { this.CST = "Predictable extrapolation in masked area"; }
             if (code_CST == "11") { this.CST = "Extrapolation due to unpredictable absence of detection"; }
 
+            Console.WriteLine("CST " + CST);
+
             string code_MAH = octet1.Substring(4, 1);
             if (code_MAH == "0") { this.MAH = "Default"; }
             else { this.MAH = "Horizontal manoeuvre"; }
+
+            Console.WriteLine("MAH " + MAH);
 
             string code_TCC = octet1.Substring(5, 1);
             if (code_TCC == "0") { this.TCC = "Tracking performed in 'Sensor Plane', i.e. neither slant range correction nor projection was applied"; }
             else { this.TCC = "Slant range correction and a suitable projection technique are used to track in a 2D.reference plane, tangential to the earth model at the Sensor Site co-ordinates"; }
 
+            Console.WriteLine("TCC " + TCC);
+
             string code_STH = octet1.Substring(4, 1);
             if (code_STH == "0") { this.STH = "Measured position"; }
             else { this.STH = "Smoothed position"; }
+
+            Console.WriteLine("STH: " + STH);
 
             string code_FX = octet1.Substring(7, 1);
 
@@ -700,6 +713,8 @@ namespace AsterixDecoder
                     if (code_TOM == "10") { this.TOM = "Landing"; }
                     if (code_TOM == "11") { this.TOM = "Other types of movement"; }
 
+                    Console.WriteLine("TOM: " + TOM);
+
                     string code_DOU = octet.Substring(2, 3);
                     if (code_DOU == "000") { this.DOU = "No doubt"; }
                     if (code_DOU == "001") { this.DOU = "Doubtful correlation (undetermined reason)"; }
@@ -709,12 +724,15 @@ namespace AsterixDecoder
                     if (code_DOU == "101") { this.DOU = "Unstable track"; }
                     if (code_DOU == "110") { this.DOU = "Previously coasted"; }
 
+                    Console.WriteLine("DOU: " + DOU);
+
                     string code_MRS = octet.Substring(5, 2);
                     if (code_MRS == "00") { this.MRS = "Merge or split indication undetermined"; }
                     if (code_MRS == "01") { this.MRS = "Track merged by association to plot"; }
                     if (code_MRS == "10") { this.MRS = "Track merged by non-association to plot"; }
                     if (code_MRS == "11") { this.MRS = "Split track"; }
 
+                    Console.WriteLine("MRS " + MRS);
                 }
 
                 else //STRUCTURE OF SECOND EXTENT
@@ -722,6 +740,8 @@ namespace AsterixDecoder
                     string code_GHO = octet.Substring(0, 1);
                     if (code_GHO == "0") { this.GHO = "Default"; }
                     else { this.GHO = "Ghost track"; }
+
+                    Console.WriteLine("GHO " + GHO);
 
                 }
                 code_FX = octet.Substring(7, 1);
@@ -737,8 +757,10 @@ namespace AsterixDecoder
             double gs = Convert.ToDouble(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2)) * Math.Pow(2, -14); // in NM
             if (gs > 2) { gs = 2; } //OR ERROR???
             this.Ground_Speed = Convert.ToString(gs);
+            Console.WriteLine("Ground Speed: " + Ground_Speed);
 
             this.Track_Angle = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i + 2], data_block[i + 3]), 2) * (360 / (Math.Pow(2, 16))));
+            Console.WriteLine("Track Angle " + Track_Angle);
 
             i = i + 4;
             return i;
@@ -772,6 +794,7 @@ namespace AsterixDecoder
         public int Get_Target_Address(string[] data_block, int i)
         {
             this.Target_Address = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]);
+            Console.WriteLine("Target_Address: " + Target_Address);
             i = i + 3;
             return i;
         }
@@ -785,6 +808,8 @@ namespace AsterixDecoder
             if (code_STI == "01") { this.STI = "Callsign not downlinked from transponder"; }
             if (code_STI == "10") { this.STI = "Registration not downlinked from transponder"; }
 
+            Console.WriteLine("STI: " + STI);
+
             string character1 = Character_Decoding_Target_Identification(data.Substring(8, 6));
             string character2 = Character_Decoding_Target_Identification(data.Substring(14, 6));
             string character3 = Character_Decoding_Target_Identification(data.Substring(20, 2));
@@ -795,7 +820,7 @@ namespace AsterixDecoder
             string character8 = Character_Decoding_Target_Identification(data.Substring(50, 2));
 
             this.Target_Identification = string.Concat(character1, character2, character3, character4, character5, character6, character7, character8);
-
+            Console.WriteLine("Target Idnetification: " + Target_Identification);
             i = i + 7;
             return i;
         }
@@ -804,6 +829,7 @@ namespace AsterixDecoder
         {
             int code_modeS_rep = Convert.ToInt32(data_block[i], 2);
             this.ModeS_Rep = Convert.ToString(code_modeS_rep);
+            Console.WriteLine("ModeS_Rep: " + ModeS_Rep);
 
             for (int c = 0; i < code_modeS_rep; i++)
             {
@@ -812,6 +838,9 @@ namespace AsterixDecoder
                 this.BDS2[c] = data_block[i + 8].Substring(4, 4);
                 i = i + 9;
             }
+            Console.WriteLine("MB_Data: " + MB_Data);
+            Console.WriteLine("BDS1: " + BDS1);
+            Console.WriteLine("BDS2: " + BDS2);
             return i;
         }
 
@@ -825,11 +854,13 @@ namespace AsterixDecoder
                 if (number_of_octets == 1)
                 { //FIRST EXTENT
                     this.Orientation = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i + number_of_octets].Substring(0, 7), 2)) * (360 / 128));
+                    Console.WriteLine("Orientation: " + Orientation);
                     code_FX = data_block[i + number_of_octets].Substring(7, 1);
                 }
                 else
                 { //SECOND EXTENT
                     this.Width = Convert.ToString(Convert.ToInt32(data_block[i + number_of_octets].Substring(0, 7), 2));
+                    Console.WriteLine("Width: " + Width);
                     code_FX = data_block[i + number_of_octets].Substring(7, 1);
                 }
                 number_of_octets = number_of_octets + 1;
@@ -849,6 +880,8 @@ namespace AsterixDecoder
             {
                 this.DRHO[c] = Convert.ToString(Convert.ToInt32(data_block[i], 2));
                 this.DTHETA[c] = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i + 1], 2)) * 0.15);
+                Console.WriteLine("DRHO: " + DRHO);
+                Console.WriteLine("DRHO: " + DTHETA);
                 i = i + 2;
                 c = c + 1;
             }
@@ -876,6 +909,8 @@ namespace AsterixDecoder
             if (code_vfi == 14) { this.VFI = "Catering"; }
             if (code_vfi == 15) { this.VFI = "Aircraft maintenance"; }
             if (code_vfi == 16) { this.VFI = "Flyco (follow me)"; }
+
+            Console.WriteLine("VFI: " + VFI);
             i = i + 1;
             return i;
         }
@@ -884,15 +919,16 @@ namespace AsterixDecoder
         public int Get_Pre_Programmed_Message(string[] data_block, int i)
         {
             string code_TRB = data_block[i].Substring(0, 1);
-            if (code_TRB == "0") { this.TRB = "Trouble: Default"; }
-            else { this.TRB = "Trouble: In Trouble"; }
-
+            if (code_TRB == "0") { this.TRB = "Trouble: Default";  }
+            else { this.TRB = "Trouble: In Trouble";  }
+            Console.WriteLine("TRB: " + TRB);
             int code_MSG = Convert.ToInt32(data_block[i].Substring(1, 7), 2);
-            if (code_MSG == 1) { this.MSG = "Towing aircraft"; }
-            if (code_MSG == 2) { this.MSG = "Follow me” operation"; }
-            if (code_MSG == 3) { this.MSG = "Runway check"; }
-            if (code_MSG == 4) { this.MSG = "Emergency operation (fire, medical…)"; }
-            if (code_MSG == 5) { this.MSG = "Work in progress (maintenance, birds scarer, sweepers…)"; }
+            if (code_MSG == 1) { this.MSG = "Towing aircraft";  }
+                if (code_MSG == 2) { this.MSG = "Follow me” operation"; ; }
+            if (code_MSG == 3) { this.MSG = "Runway check";  }
+            if (code_MSG == 4) { this.MSG = "Emergency operation (fire, medical…)";  }
+            if (code_MSG == 5) { this.MSG = "Work in progress (maintenance, birds scarer, sweepers…)";  }
+            Console.WriteLine("Message PreProgrammed: " + MSG);
             i = i + 1;
             return i;
         }
@@ -901,8 +937,11 @@ namespace AsterixDecoder
         public int Get_Standard_Deviation_Of_Position(string[] data_block, int i)
         {
             this.Standard_Deviation_X = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.25);
+            Console.WriteLine("Standard_Deviation_X" + Standard_Deviation_X);
             this.Standard_Deviation_Y = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i + 1], 2)) * 0.25);
+            Console.WriteLine("Standard_Deviation_Y" + Standard_Deviation_Y);
             this.Covariance_XY_2C = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+            Console.WriteLine("Covariance_XY_2C" + Covariance_XY_2C);
             i = i + 4;
             return i;
         }
@@ -911,25 +950,25 @@ namespace AsterixDecoder
         public int Get_System_Status(string[] data_block, int i)
         {
             string code_NOGO = data_block[i].Substring(0, 2);
-            if (code_NOGO == "00") { this.NOGO = "Operational"; }
-            if (code_NOGO == "01") { this.NOGO = "Degraded"; }
-            if (code_NOGO == "10") { this.NOGO = "NOGO"; }
+            if (code_NOGO == "00") { this.NOGO = "Operational"; Console.WriteLine("NOGO:" + "Operational"); }
+            if (code_NOGO == "01") { this.NOGO = "Degraded"; Console.WriteLine("NOGO:" + "Degraded"); }
+            if (code_NOGO == "10") { this.NOGO = "NOGO"; Console.WriteLine("NOGO:" + "NOGO"); }
 
             string code_OVL = data_block[i].Substring(2, 1);
-            if (code_OVL == "0") { this.OVL = "No overload"; }
-            else { this.OVL = "Overload"; }
+            if (code_OVL == "0") { this.OVL = "No overload"; Console.WriteLine("OVL:" + "No overload"); }
+            else { this.OVL = "Overload"; Console.WriteLine("OVL:" + "Overload"); }
 
             string code_TSV = data_block[i].Substring(3, 1);
-            if (code_TSV == "0") { this.TSV = "valid"; }
-            else { this.TSV = "invalid"; }
+            if (code_TSV == "0") { this.TSV = "valid"; Console.WriteLine("TSV:" + "valid"); }
+            else { this.TSV = "invalid"; Console.WriteLine("TSV:" + "invalid"); }
 
             string code_DIV = data_block[i].Substring(4, 1);
-            if (code_DIV == "0") { this.DIV = "Normal operation"; }
-            else { this.DIV = "Diversity degraded"; }
+            if (code_DIV == "0") { this.DIV = "Normal operation"; Console.WriteLine("DIV:" + "Normal operation"); }
+            else { this.DIV = "Diversity degraded"; Console.WriteLine("DIV:" + "Diversity degraded"); }
 
             string code_TTF = data_block[i].Substring(5, 1);
-            if (code_TTF == "0") { this.TTF = "Test Target Operative"; }
-            else { this.TTF = "Test Target Failure"; }
+            if (code_TTF == "0") { this.TTF = "Test Target Operative"; Console.WriteLine("TTF:" + "Test Target Operative"); }
+            else { this.TTF = "Test Target Failure"; Console.WriteLine("TTF:" + "Test Target Failure"); }
 
 
             i = i + 1;
