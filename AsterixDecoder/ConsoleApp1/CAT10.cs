@@ -565,20 +565,20 @@ namespace AsterixDecoder
             string octets = string.Concat(data_block[i], data_block[i + 1]);
 
             string code_V = octets.Substring(0, 1);
-            if (code_V == "0") { this.V_Mode3A = "Code validated"; }
-            else { this.V_Mode3A = "Code not validated"; }
+            if (code_V == "0") {  Console.WriteLine("V_Mode3A:Code validated"); }//this.V_Mode3A
+            else { Console.WriteLine("V_Mode3A:Code not validated"); }
 
             string code_G = octets.Substring(1, 1);
-            if (code_G == "0") { this.G_Mode3A = "Default"; }
-            else { this.G_Mode3A = "Garbled code"; }
+            if (code_G == "0") { Console.WriteLine("G_Mode3A:Default"); }//this.G_Mode3A
+            else { Console.WriteLine("G_Mode3A:Garbled code"); }
 
             string code_L = octets.Substring(0, 1);
-            if (code_L == "0") { this.L_Mode3A = "Mode-3/A code derived from the reply of the transponder"; }
-            else { this.L_Mode3A = "Mode-3/A code not extracted during the last scan"; }
+            if (code_L == "0") { Console.WriteLine("L_Mode3A:Mode-3/A code derived from the reply of the transponde");  }//this.L_Mode3A
+            else { Console.WriteLine("L_Mode3A:Mode-3/A code not extracted during the last scan"); }
 
             string code_Mode3A = octets.Substring(4, 12);
-            this.Mode_3A_octal = Convert.ToString(Convert_Decimal_To_Octal(Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2)))).PadLeft(4, '0');
-
+            Mode_3A_octal = Convert.ToString(Convert_Decimal_To_Octal(Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2)))).PadLeft(4, '0'); //this.Mode_3A_octal
+            Console.WriteLine("Mode_3A_octal" + Mode_3A_octal);
             i = i + 2;
             return i;
         }
@@ -590,16 +590,17 @@ namespace AsterixDecoder
             i = i + 2;
 
             string code_V = octets.Substring(0, 1);
-            if (code_V == "0") { this.V_Flight_Level = "Code validated"; }
-            else { this.V_Flight_Level = "Code not validated"; }
+            if (code_V == "0") { Console.WriteLine("V_Flight_Level:Code validated"); }//V_Flight_Level
+            else { Console.WriteLine("V_Flight_Level:Code not validated"); }
 
             string code_G = octets.Substring(1, 1);
-            if (code_G == "0") { this.G_Flight_Level = "Default"; }
-            else { this.G_Flight_Level = "Garbled code"; }
+            if (code_G == "0") { Console.WriteLine("G_Mode3A:Default"); }//this.G_Flight_Level
+            else { Console.WriteLine("G_Mode3A:Garbled code");}
 
             string code_Flight_Level = octets.Substring(2, 14);
 
             Flight_Level = Convert.ToString(A2_Complement_To_Decimal(code_Flight_Level) * (0.25));
+            Console.WriteLine("Flight Level"+Flight_Level);
 
             return i;
         }
@@ -607,7 +608,8 @@ namespace AsterixDecoder
         //2 octets
         public int Get_Measured_Height(string[] data_block, int i)
         {
-            this.Measured_Height = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 6.25) + " ft";
+            Measured_Height = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 6.25) + " ft";//this.Measured_Height
+            Console.WriteLine("Measured_Height" + Measured_Height);
             i = i + 2;
             return i;
         }
@@ -615,7 +617,8 @@ namespace AsterixDecoder
         //1 octet
         public int Get_Amplitude_of_Primary_Plot(string[] data_block, int i)
         {
-            this.PAM = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+            PAM = Convert.ToString(Convert.ToInt32(data_block[i], 2)); //this.PAM
+            Console.WriteLine("PAM" + PAM);
             i = i + 1;
             return i;
         }

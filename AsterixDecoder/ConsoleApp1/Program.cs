@@ -166,55 +166,55 @@ namespace ConsoleApp1
             Console.WriteLine("DATA_BLOCK_end");
             Console.WriteLine("FSPEC="+ listaCAT10[paq].Get_FSPEC_char()[0] + listaCAT10[paq].Get_FSPEC_char()[1] + listaCAT10[paq].Get_FSPEC_char()[2] + listaCAT10[paq].Get_FSPEC_char()[3] + listaCAT10[paq].Get_FSPEC_char()[4] + listaCAT10[paq].Get_FSPEC_char()[5] + listaCAT10[paq].Get_FSPEC_char()[6]);
             
-            if (listaCAT10[paq].Get_FSPEC_char()[0] == '1') { e = listaCAT10[1].Get_Data_Source_Identifier(data_block_binary, e); }
-            if (listaCAT10[paq].Get_FSPEC_char()[1] == '1') { e = listaCAT10[1].Get_Message_Type(data_block_binary, e); }
-            if (listaCAT10[paq].Get_FSPEC_char()[2] == '1') { e = listaCAT10[1].Get_Target_Report_Descriptor(data_block_binary, e); }
-            if (listaCAT10[paq].Get_FSPEC_char()[3] == '1') { e = listaCAT10[1].Get_Time_of_Day(data_block_binary, e); }
-            if (listaCAT10[paq].Get_FSPEC_char()[4] == '1') { e = listaCAT10[1].Get_Position_in_WGS_84_Coordinates(data_block_binary, e); }
-            if (listaCAT10[paq].Get_FSPEC_char()[5] == '1') { e = listaCAT10[1].Get_Measured_Position_in_Polar_Coordinates(data_block_binary, e); }
-            if (listaCAT10[paq].Get_FSPEC_char()[6] == '1') { e = listaCAT10[1].Get_Position_in_Cartesian_Coordinates(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[0] == '1') { e = listaCAT10[paq].Get_Data_Source_Identifier(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[1] == '1') { e = listaCAT10[paq].Get_Message_Type(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[2] == '1') { e = listaCAT10[paq].Get_Target_Report_Descriptor(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[3] == '1') { e = listaCAT10[paq].Get_Time_of_Day(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[4] == '1') { e = listaCAT10[paq].Get_Position_in_WGS_84_Coordinates(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[5] == '1') { e = listaCAT10[paq].Get_Measured_Position_in_Polar_Coordinates(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[6] == '1') { e = listaCAT10[paq].Get_Position_in_Cartesian_Coordinates(data_block_binary, e); }
 
             if (listaCAT10[paq].Get_FSPEC_char()[7] == '1') //bit FX1
             {
-                if (listaCAT10[paq].Get_FSPEC_char()[8] == '1') { i = Get_Flight_Level_in_Binary_Representation(data_block_binary, i); }
+                if (listaCAT10[paq].Get_FSPEC_char()[8] == '1') { e = listaCAT10[paq].Get_Calculated_Track_Velocity_in_Polar_Coordinates(data_block_binary, e); }
 
-                if (listaCAT10[paq].Get_FSPEC_char()[9] == '1') { i = Get_Measured_Height(data_block_binary, i); }
+                if (listaCAT10[paq].Get_FSPEC_char()[9] == '1') { e = listaCAT10[paq].Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(data_block_binary, e); }
 
-                if (listaCAT10[paq].Get_FSPEC_char()[10] == '1') { i = Get_Amplitude_of_Primary_Plot(data_block_binary, i); }
+                if (listaCAT10[paq].Get_FSPEC_char()[10] == '1') { e = listaCAT10[paq].Get_Track_Number(data_block_binary, e); }
 
-                if (listaCAT10[paq].Get_FSPEC_char()[11] == '1') { i = Get_Time_of_Day(data_block_binary, i); }
+                if (listaCAT10[paq].Get_FSPEC_char()[11] == '1') { e = listaCAT10[paq].Get_Track_Status(data_block_binary, e); }
 
-                if (listaCAT10[paq].Get_FSPEC_char()[12] == '1') { i = Get_Track_Number(data_block_binary, i); }
+                if (listaCAT10[paq].Get_FSPEC_char()[12] == '1') { e = listaCAT10[paq].Get_Mode_3A_Code_in_Octal_Representation(data_block_binary, e); }
 
-                if (listaCAT10[paq].Get_FSPEC_char()[13] == '1') { i = Get_Track_Status(data_block_binary, i); }
+                if (listaCAT10[paq].Get_FSPEC_char()[13] == '1') { e = listaCAT10[paq].Get_Target_Address(data_block_binary, e); }
 
-                if (listaCAT10[paq].Get_FSPEC_char()[14] == '1') { i = Get_Calculated_Track_Velocity_in_Polar_Coordinates(data_block_binary, i); }
+                if (listaCAT10[paq].Get_FSPEC_char()[14] == '1') { e = listaCAT10[paq].Get_Target_Identification(data_block_binary, e); }
 
                 if (listaCAT10[paq].Get_FSPEC_char()[15] == '1')
                 {
-                    if (listaCAT10[paq].Get_FSPEC_char()[16] == '1') { i = Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(data_block_binary, i); }
+                    if (listaCAT10[paq].Get_FSPEC_char()[16] == '1') { e = listaCAT10[paq].Get_Mode_S_MB_Data(data_block_binary, e); }
 
-                    if (listaCAT10[paq].Get_FSPEC_char()[17] == '1') { i = Get_Calculated_Acceleration(data_block_binary, i); }
+                    if (listaCAT10[paq].Get_FSPEC_char()[17] == '1') { e = listaCAT10[paq].Get_Vehicle_Fleet_Identificatior(data_block_binary, e); }
 
-                    if (listaCAT10[paq].Get_FSPEC_char()[18] == '1') { i = Get_Target_Address(data_block_binary, i); }
+                    if (listaCAT10[paq].Get_FSPEC_char()[18] == '1') { e = listaCAT10[paq].Get_Flight_Level_in_Binary_Representation(data_block_binary, e); }
 
-                    if (listaCAT10[paq].Get_FSPEC_char()[19] == '1') { i = Get_Target_Identification(data_block_binary, i); }
+                    if (listaCAT10[paq].Get_FSPEC_char()[19] == '1') { e = listaCAT10[paq].Get_Measured_Height(data_block_binary, e); }
 
-                    if (listaCAT10[paq].Get_FSPEC_char()[20] == '1') { i = Get_Mode_S_MB_Data(data_block_binary, i); }
+                    if (listaCAT10[paq].Get_FSPEC_char()[20] == '1') { e = listaCAT10[paq].Get_Target_Size_and_Orientation(data_block_binary, e); }
 
-                    if (listaCAT10[paq].Get_FSPEC_char()[21] == '1') { i = Get_Target_Size_and_Orientation(data_block_binary, i); }
+                    if (listaCAT10[paq].Get_FSPEC_char()[21] == '1') { e = listaCAT10[paq].Get_System_Status(data_block_binary, e); }
 
-                    if (listaCAT10[paq].Get_FSPEC_char()[22] == '1') { i = Get_Presence(data_block_binary, i); }
+                    if (listaCAT10[paq].Get_FSPEC_char()[22] == '1') { e = listaCAT10[paq].Get_Pre_Programmed_Message(data_block_binary, e); }
 
                     if (listaCAT10[paq].Get_FSPEC_char()[23] == '1')
                     {
-                        if (listaCAT10[paq].Get_FSPEC_char()[24] == '1') { i = Get_Vehicle_Fleet_Identificatior(data_block_binary, i); }
+                        if (listaCAT10[paq].Get_FSPEC_char()[24] == '1') { e = listaCAT10[paq].Get_Standard_Deviation_Of_Position(data_block_binary, e); }
 
-                        if (listaCAT10[paq].Get_FSPEC_char()[25] == '1') { i = Get_Pre_Programmed_Message(data_block_binary, i); }
+                        if (listaCAT10[paq].Get_FSPEC_char()[25] == '1') { e = listaCAT10[paq].Get_Presence(data_block_binary, e); }
 
-                        if (listaCAT10[paq].Get_FSPEC_char()[26] == '1') { i = Get_Standard_Deviation_Of_Position(data_block_binary, i); }
+                        if (listaCAT10[paq].Get_FSPEC_char()[26] == '1') { e = listaCAT10[paq].Get_Amplitude_of_Primary_Plot(data_block_binary, e); }
 
-                        if (listaCAT10[paq].Get_FSPEC_char()[27] == '1') { i = Get_System_Status(data_block_binary, i); }
+                        if (listaCAT10[paq].Get_FSPEC_char()[27] == '1') { e = listaCAT10[paq].Get_Calculated_Acceleration(data_block_binary, e); }
 
                     }
 
