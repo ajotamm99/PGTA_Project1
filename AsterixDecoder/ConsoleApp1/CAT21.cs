@@ -7,7 +7,55 @@ namespace AsterixDecoder
     class CAT21
     {
         String[] Data_block;
+
+        //Variables
         char[] FSPEC_char;//Get_FSPEC
+
+        string RA;
+        string TC;
+        string TS;
+        string ARV;
+        string CDTIA;
+        string NTCAS;
+        string SA;
+
+        string SAC;
+        string SIC;
+
+        string Service_Id;
+
+        string RP;
+
+        string ECAT;
+
+        string ATP;
+        string ARC;
+        string RC;
+        string RAB;
+        string DCR;
+        string GBS;
+        string SIM;
+        string TST;
+        string SAA;
+        string CL;
+        string IPC;
+        string NOGO;
+        string CPR;
+        string LDPJ;
+        string RCF;
+        string FX;
+
+        string MODEA3;
+
+        string TOAP;
+
+        string TOAV;
+
+        string TOMRP;
+
+        string TOMRP_HP;
+
+
         public CAT21(String[] X)
         {
             this.Data_block = X;
@@ -346,6 +394,289 @@ namespace AsterixDecoder
                 i = i + 1;
             }
             FSPEC_char = FSPEC_string.ToCharArray(0, FSPEC_string.Length);
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i) {
+            SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+            SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
+            i += 2;
+            return i;
+        }
+
+        public int Get_Target_Report_Descriptor(string[] data_block, int i)
+        {
+            int a = i;
+            int result = 1;
+            while (result == 1)
+            {
+                char[] oct = data_block[a].ToCharArray();
+                int atp = Convert.ToInt32(string.Concat(oct[0], oct[1], oct[2]), 2);
+                int arc = Convert.ToInt32(string.Concat(oct[3], oct[4]), 2);
+
+                ATP = atp switch
+                {
+                    0 => "24-bit icao address",
+                    1 => "duplicate address",
+                    2 => "surface vehicle address",
+                    3 => "anonymous address",
+                    _ => "reserved for future use",
+                };
+                ARC = arc switch
+                {
+                    0 => "25 ft ",
+                    1 => "100 ft",
+                    2 => "unknown",
+                    _ => "invalid",
+                };
+                string rc = "";
+                if (oct[5] == '0') { rc = "default"; }
+                else { rc = "range check passed, cpr validation pending"; }
+                RC = rc;
+                string rab = "";
+                if (oct[6] == '0') { rab = "report from target transponder"; }
+                else { rab = "report from field monitor (fixed transponder)"; }
+                RAB = rab;
+                result = Convert.ToInt32(oct[7]);
+                a = a + 1;
+            }
+
+
+            
+            return a;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
+            return i;
+        }
+
+        public int Get_Data_Source_Identification(string[] data_block, int i)
+        {
+
             return i;
         }
 
