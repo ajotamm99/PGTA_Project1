@@ -188,6 +188,7 @@ namespace AsterixDecoder
 
                 }
             }
+        }
 
         private static readonly Dictionary<char, string> hexCharacterToBinary = new Dictionary<char, string> {
                 { '0', "0000" },

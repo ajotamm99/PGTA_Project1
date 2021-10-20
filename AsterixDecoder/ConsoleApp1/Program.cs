@@ -33,7 +33,7 @@ namespace ConsoleApp1
         {
             String[] Data_block;
 
-            char[] FSPEC_char= new char[2000];//Get_FSPEC
+            char[] FSPEC_char = new char[2000];//Get_FSPEC
 
             string Message_Type; // Get_Message_Type;
 
@@ -164,8 +164,8 @@ namespace ConsoleApp1
                 Console.WriteLine(data_block_binary[a]);
             }
             Console.WriteLine("DATA_BLOCK_end");
-            Console.WriteLine("FSPEC="+ listaCAT10[paq].Get_FSPEC_char()[0] + listaCAT10[paq].Get_FSPEC_char()[1] + listaCAT10[paq].Get_FSPEC_char()[2] + listaCAT10[paq].Get_FSPEC_char()[3] + listaCAT10[paq].Get_FSPEC_char()[4] + listaCAT10[paq].Get_FSPEC_char()[5] + listaCAT10[paq].Get_FSPEC_char()[6]);
-            
+            Console.WriteLine("FSPEC=" + listaCAT10[paq].Get_FSPEC_char()[0] + listaCAT10[paq].Get_FSPEC_char()[1] + listaCAT10[paq].Get_FSPEC_char()[2] + listaCAT10[paq].Get_FSPEC_char()[3] + listaCAT10[paq].Get_FSPEC_char()[4] + listaCAT10[paq].Get_FSPEC_char()[5] + listaCAT10[paq].Get_FSPEC_char()[6]);
+
             if (listaCAT10[paq].Get_FSPEC_char()[0] == '1') { e = listaCAT10[paq].Get_Data_Source_Identifier(data_block_binary, e); }
             if (listaCAT10[paq].Get_FSPEC_char()[1] == '1') { e = listaCAT10[paq].Get_Message_Type(data_block_binary, e); }
             if (listaCAT10[paq].Get_FSPEC_char()[2] == '1') { e = listaCAT10[paq].Get_Target_Report_Descriptor(data_block_binary, e); }
@@ -1019,6 +1019,7 @@ namespace ConsoleApp1
                 //}
                 //Console.WriteLine("Longitud " + Convert.ToString(cont));
             }
-    }       
+        }
+    }
 }
 //#endregion
