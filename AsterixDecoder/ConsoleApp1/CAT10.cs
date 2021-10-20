@@ -7,6 +7,7 @@ namespace AsterixDecoder
     class CAT10
     {
         String[] Data_block;
+
         char[] FSPEC_char;//Get_FSPEC
 
         string Message_Type; // Get_Message_Type;
@@ -81,7 +82,7 @@ namespace AsterixDecoder
         string[] MB_Data; //Get_Mode_S_MB_Data
         string[] BDS1; //Get_Mode_S_MB_Data
         string[] BDS2; //Get_Mode_S_MB_Data
-        string modeS_rep; //Get_Mode_S_MB_Data
+        string ModeS_Rep; //Get_Mode_S_MB_Data
 
         string Lenght; //Get_Target_Size_and_Orientation
         string Orientation; //Get_Target_Size_and_Orientation
@@ -403,6 +404,7 @@ namespace AsterixDecoder
 
                 i = i + 1;
             }
+            Console.WriteLine("FSPEC STRING=" + FSPEC_string);
             FSPEC_char = FSPEC_string.ToCharArray(0, FSPEC_string.Length);
             return i;
         }
@@ -411,11 +413,11 @@ namespace AsterixDecoder
         public int Get_Message_Type(string[] data_block, int i)
         {
             int data = Convert.ToInt32(data_block[i], 2);
-            Console.WriteLine("data_MessageType=" + data);
-            if (data == 1) { Console.WriteLine("Target Report"); } //this.Message_Type = 
-            if (data == 2) { Console.WriteLine("Start of Update Cycle"); }
-            if (data == 3) { Console.WriteLine("Periodic Status Message"); }
-            if (data == 4) { Console.WriteLine("Event-triggered Status Message"); }
+            //Console.WriteLine("data_MessageType=" + data);
+            if (data == 1) { Console.WriteLine("Message Type=Target Report"); } //this.Message_Type = 
+            if (data == 2) { Console.WriteLine("Message Type=Start of Update Cycle"); }
+            if (data == 3) { Console.WriteLine("Message Type=Periodic Status Message"); }
+            if (data == 4) { Console.WriteLine("Message Type=Event-triggered Status Message"); }
             i = i + 1;
             return i;
         }
@@ -426,9 +428,9 @@ namespace AsterixDecoder
             SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
             SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
             i = i + 2;
-            Console.WriteLine("SAC=" + SAC);
+            Console.WriteLine("Data Source Identifier:SAC=" + SAC);
 
-            Console.WriteLine("SIC=" + SIC);
+            Console.WriteLine("Data Source Identifier:SIC=" + SIC);
             return i;
         }
 
@@ -439,31 +441,31 @@ namespace AsterixDecoder
             string octet1 = data_block[i];
 
             string code_TYP = octet1.Substring(0, 3);
-            if (code_TYP == "000") { this.TYP = "SSR multilateration"; }
-            if (code_TYP == "001") { this.TYP = "Mode S multilateration"; }
-            if (code_TYP == "010") { this.TYP = "ADS-B"; }
-            if (code_TYP == "011") { this.TYP = "PSR"; }
-            if (code_TYP == "100") { this.TYP = "Magnetic Loop System"; }
-            if (code_TYP == "101") { this.TYP = "HF multilateration"; }
-            if (code_TYP == "110") { this.TYP = "Not defined"; }
-            if (code_TYP == "111") { this.TYP = "Other types"; }
+            if (code_TYP == "000") { Console.WriteLine("SSR multilateration"); }//this.TYP
+            if (code_TYP == "001") { Console.WriteLine("Mode S multilateration"); }
+            if (code_TYP == "010") { Console.WriteLine("ADS-B"); }
+            if (code_TYP == "011") { Console.WriteLine("PSR"); }
+            if (code_TYP == "100") { Console.WriteLine("Magnetic Loop System"); }
+            if (code_TYP == "101") { Console.WriteLine("HF multilateration"); }
+            if (code_TYP == "110") { Console.WriteLine("Not defined"); }
+            if (code_TYP == "111") { Console.WriteLine("Other types"); }
 
 
             string code_DCR = octet1.Substring(3, 1);
-            if (code_DCR == "0") { this.DCR = "No differential correction (ADS-B)"; }
-            if (code_DCR == "1") { this.DCR = "Differential correction (ADS-B)"; }
+            if (code_DCR == "0") { Console.WriteLine("No differential correction (ADS-B)"); }//this.DCR 
+            if (code_DCR == "1") { Console.WriteLine("Differential correction (ADS-B)"); }
 
             string code_CHN = octet1.Substring(4, 1);
-            if (code_CHN == "0") { this.CHN = "Chain 1"; }
-            if (code_CHN == "1") { this.CHN = "Chain 2"; }
+            if (code_CHN == "0") { Console.WriteLine("Chain 1"); }//this.CHN
+            if (code_CHN == "1") { Console.WriteLine("Chain 2");  }
 
             string code_GBS = octet1.Substring(5, 1);
-            if (code_GBS == "0") { this.GBS = "Transponder Ground bit not set"; }
-            if (code_GBS == "1") { this.GBS = "Transponder Ground bit set"; }
+            if (code_GBS == "0") { Console.WriteLine ("Transponder Ground bit not set"); }//this.GBS
+            if (code_GBS == "1") { Console.WriteLine("Transponder Ground bit set"); }
 
             string code_CRT = octet1.Substring(6, 1);
-            if (code_CRT == "0") { this.CRT = "No Corrupted reply in multilateration"; }
-            if (code_CRT == "1") { this.CRT = "Corrupted replies in multilateration"; }
+            if (code_CRT == "0") { Console.WriteLine("No Corrupted reply in multilateration"); }//this.CRT
+            if (code_CRT == "1") { Console.WriteLine("Corrupted replies in multilateration"); }
 
             string code_FX = octet1.Substring(7, 1);
 
@@ -474,40 +476,40 @@ namespace AsterixDecoder
                 if (number_of_octets == 1) //first extend
                 {
                     string code_SIM = octet.Substring(0, 1);
-                    if (code_SIM == "0")
-                        this.SIM = "Actual target report";
+                    if (code_SIM == "0") { }
+                        Console.WriteLine("Actual target report");//this.SIM 
                     if (code_SIM == "1")
-                        this.SIM = "Simulated target report";
+                        Console.WriteLine("Simulated target report");
 
                     string code_TST = octet.Substring(1, 1);
                     if (code_TST == "0")
-                        this.TST = "TST: Default";
+                        Console.WriteLine("Default");//this.TST
                     if (code_TST == "1")
-                        this.TST = "Test Target";
+                        Console.WriteLine("Test Target");
 
                     string code_RAB = octet.Substring(2, 1);
                     if (code_RAB == "0")
-                        this.RAB = "Report from target transponder";
+                        Console.WriteLine("Report from target transponder");//this.RAB
                     if (code_RAB == "1")
-                        this.RAB = "Report from field monitor (fixed transponder)";
+                        Console.WriteLine("Report from field monitor (fixed transponder)");
 
                     string code_LOP = octet.Substring(3, 2);
                     if (code_LOP == "00")
-                        this.LOP = "Loop status: Undetermined";
+                        Console.WriteLine("Loop status: Undetermined");//this.LOP 
                     if (code_LOP == "01")
-                        this.LOP = "Loop start";
+                        Console.WriteLine("Loop start");
                     if (code_LOP == "10")
-                        this.LOP = "Loop finish";
+                        Console.WriteLine("Loop finish");
 
                     string code_TOT = octet.Substring(5, 2);
                     if (code_TOT == "00")
-                        this.TOT = "Type of vehicle: Undetermined";
+                        Console.WriteLine("Type of vehicle: Undetermined");//this.TOT 
                     if (code_TOT == "01")
-                        this.TOT = "Aircraft";
+                        Console.WriteLine("Aircraft");
                     if (code_TOT == "10")
-                        this.TOT = "Ground vehicle";
+                        Console.WriteLine("Ground vehicle");
                     if (code_TOT == "11")
-                        this.TOT = "Helicopter";
+                        Console.WriteLine("Helicopter");
 
 
                 }
@@ -515,8 +517,8 @@ namespace AsterixDecoder
                 else //second extend
                 {
                     string code_SPI = octet.Substring(0, 1);
-                    if (code_SPI == "0") { this.SPI = "Absence of SPI (Special Position Identification)"; }
-                    if (code_SPI == "1") { this.SPI = "SPI (Special Position Identification)"; }
+                    if (code_SPI == "0") { Console.WriteLine("Absence of SPI (Special Position Identification)"); }//this.SPI
+                    if (code_SPI == "1") {Console.WriteLine("Special Position Identification"); }
 
                 }
                 code_FX = octet.Substring(7, 1);
@@ -529,27 +531,31 @@ namespace AsterixDecoder
         //4 octets
         public int Get_Measured_Position_in_Polar_Coordinates(string[] data_block, int i)
         {
-            this.RHO = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2));
-            this.Theta = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i + 2], data_block[i + 3]), 2) * (360 / (Math.Pow(2, 16))));
+            RHO = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2));//this.
+            Theta = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i + 2], data_block[i + 3]), 2) * (360 / (Math.Pow(2, 16))));//this.
 
+            Console.WriteLine("RHO=" + RHO);
+            Console.WriteLine("THETA=" + Theta);
             i = i + 4;
             return i;
         } //incomplete
         //8 octets
         public int Get_Position_in_WGS_84_Coordinates(string[] data_block, int i)
         {
-            this.Latitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3])) * (180 / (Math.Pow(2, 31))));
-            this.Longitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 3])) * (180 / (Math.Pow(2, 31))));
+            Latitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3])) * (180 / (Math.Pow(2, 31)))); //this
+            Longitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 3])) * (180 / (Math.Pow(2, 31)))); //this
             i = i + 8;
-           
+            Console.WriteLine("Latitude_WG84=" + Latitude_WGS84);
+            Console.WriteLine("Longitude_WG84=" + Longitude_WGS84);
             return i;
         } //incomplete
 
         public int Get_Position_in_Cartesian_Coordinates(string[] data_block, int i)
         {
-            this.X = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])));
-            this.Y = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])));
-
+            X = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])));//this.
+            Y = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])));//this.
+            Console.WriteLine("X=" + X);
+            Console.WriteLine("Y=" + Y);
             return i + 1;
         }
 
@@ -618,16 +624,19 @@ namespace AsterixDecoder
         public int Get_Time_of_Day(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            double segundos_totales = (Convert.ToDouble(data_decimal) * (1 / 128));
-            this.Time_of_Day_seconds = Convert.ToString(segundos_totales);
+            Console.WriteLine("data-decimal" + data_decimal);
+            float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
+            Console.WriteLine("segundos totales"+segundos_totales);
+            Time_of_Day_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             double segundos = segundos_totales % 60;
             double aux = segundos_totales / 60;
             double minutos = aux % 60;
             double horas = aux / 60;
 
-            this.Time_of_Day_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            //this.Time_of_Day_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
 
+            Console.WriteLine("TIME OF THE DAY="+ Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }

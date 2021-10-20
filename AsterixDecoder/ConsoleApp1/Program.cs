@@ -31,8 +31,105 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            //char[] FSPEC_char;
-            //string Message_Type=""; 
+            String[] Data_block;
+
+            char[] FSPEC_char= new char[2000];//Get_FSPEC
+
+            string Message_Type; // Get_Message_Type;
+
+            string SAC; //Get_Data_Source_Identifier
+            string SIC; //Get_Data_Source_Identifier
+
+            string TYP; //Get_Target_Report_Descriptor
+            string DCR; //Get_Target_Report_Descriptor
+            string CHN; //Get_Target_Report_Descriptor
+            string GBS; //Get_Target_Report_Descriptor
+            string CRT; //Get_Target_Report_Descriptor
+            string SIM; //Get_Target_Report_Descriptor
+            string TST; //Get_Target_Report_Descriptor
+            string RAB; //Get_Target_Report_Descriptor
+            string LOP; //Get_Target_Report_Descriptor
+            string TOT; //Get_Target_Report_Descriptor
+            string SPI; //Get_Target_Report_Descriptor
+
+            string RHO; //Get_Measured_Position_in_Polar_Coordinates
+            string Theta; //Get_Measured_Position_in_Polar_Coordinates
+
+            string Latitude_WGS84;//Get_Position_in_WGS_84_Coordinates
+            string Longitude_WGS84;//Get_Position_in_WGS_84_Coordinates
+
+            string X; //Get_Position_in_Cartesian_Coordinates
+            string Y; //Get_Position_in_Cartesian_Coordinates
+
+            string V_Mode3A; //Get_Mode_3A_Code_in_Octal_Representation
+            string G_Mode3A; //Get_Mode_3A_Code_in_Octal_Representation
+            string L_Mode3A; //Get_Mode_3A_Code_in_Octal_Representation
+            string Mode_3A_octal; //Get_Mode_3A_Code_in_Octal_Representation
+
+            string V_Flight_Level; //Get_Flight_Level_in_Binary_Representation
+            string G_Flight_Level; //Get_Flight_Level_in_Binary_Representation
+            string Flight_Level; //Get_Flight_Level_in_Binary_Representation
+
+            string Measured_Height; //Get_Measured_Height
+
+            string PAM; //Get_Amplitude_of_Primary_Plot
+
+            string Time_of_Day_seconds; //Compute_Time_of_Day
+            string Time_of_Day_HHMMSS; //Compute_Time_of_Day
+
+            string Track_Number; //Get_Track_Number
+
+            string CNF; //Get_Track_Status
+            string TRE; //Get_Track_Status
+            string CST; //Get_Track_Status
+            string MAH; //Get_Track_Status
+            string TCC; //Get_Track_Status
+            string STH; //Get_Track_Status
+            string TOM; //Get_Track_Status
+            string DOU; //Get_Track_Status
+            string MRS; //Get_Track_Status
+            string GHO; //Get_Track_Status
+
+            string Ground_Speed; //Get_Calculated_Track_Velocity_in_Polar_Coordinates
+            string Track_Angle; //Get_Calculated_Track_Velocity_in_Polar_Coordinates
+
+            string Vx; //Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
+            string Vy; //Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
+
+            string Ax; //Get_Calculated_Acceleration
+            string Ay; //Get_Calculated_Acceleration
+
+            string Target_Address; //Get_Target_Address
+
+            string STI; //Get_Target_Identification
+            string Target_Identification; //Get_Target_Identification
+
+            string[] MB_Data; //Get_Mode_S_MB_Data
+            string[] BDS1; //Get_Mode_S_MB_Data
+            string[] BDS2; //Get_Mode_S_MB_Data
+            string ModeS_Rep; //Get_Mode_S_MB_Data
+
+            string Lenght; //Get_Target_Size_and_Orientation
+            string Orientation; //Get_Target_Size_and_Orientation
+            string Width; //Get_Target_Size_and_Orientation
+
+            string[] DRHO; //Get_Presence
+            string[] DTHETA; //Get_Presence
+
+            string VFI; //Get_Vehicle_Fleet_Identificatior
+
+            string TRB; //Get_Pre_programmed_Message
+            string MSG; //Get_Pre_programmed_Message
+
+            string Standard_Deviation_X; //Get_Standard_Deviation_Of_Position
+            string Standard_Deviation_Y; //Get_Standard_Deviation_Of_Position
+            string Covariance_XY_2C; //Get_Standard_Deviation_Of_Position
+
+            string NOGO; //Get_System_Status
+            string OVL; //Get_System_Status
+            string TSV; //Get_System_Status
+            string DIV; //Get_System_Status
+            string TTF; //Get_System_Status
 
             Console.WriteLine("Hello World!");
             String path = @"..\Ficheros_asterix\201002-lebl-080001_smr.ast";
@@ -43,27 +140,43 @@ namespace ConsoleApp1
 
             //listaCAT21 es una lista de paquetes (enteros) ASTERIX. Cada paquete ASTERIX, tiene una lista de octetos
             //PRUEBA 1 RUBEN
-            Console.WriteLine("punto1");
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(0)); // 15 = cat21
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(1)); // 0 = len (en hexa)
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(2)); // 63 = len (en hexa)
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(3)); // F7 = comienzo FSPEC
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(4)); // F1
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(5)); // 9 
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(6)); // 10 
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(7));//  0 = fin FSPEC
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(8)); // message type
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(9)); // 
-            Console.WriteLine(listaCAT10[0].Get_Data_Item(10));
-            string[] data_block_binary = listaCAT10[0].Convert_HexadecimalDataBLock_To_BinaryDataBlock(listaCAT10[0].Get_Data_Block());
-            int e = 2;
-            e = listaCAT10[0].Get_FSPEC(data_block_binary, e);
-            Console.WriteLine("e=" + e);
-            e = listaCAT10[0].Get_Data_Source_Identifier(data_block_binary, e);
-            e = listaCAT10[0].Get_Message_Type(data_block_binary, e);
+            //Console.WriteLine("punto1");
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(0)); // 15 = cat21
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(1)); // 0 = len (en hexa)
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(2)); // 63 = len (en hexa)
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(3)); // F7 = comienzo FSPEC
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(4)); // F1
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(5)); // 9 
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(6)); // 10 
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(7));//  0 = fin FSPEC
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(8)); // message type
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(9)); // 
+            //Console.WriteLine(listaCAT10[0].Get_Data_Item(10));
 
-            if (listaCAT10[0].Get_FSPEC_char()[0] == '1') { e = listaCAT10[0].Get_Data_Source_Identifier(data_block_binary, e); }
-            if (listaCAT10[0].Get_FSPEC_char()[1] == '1') { e = listaCAT10[0].Get_Message_Type(data_block_binary, e); }
+            int paq = 0;
+            string[] data_block_binary = listaCAT10[paq].Convert_HexadecimalDataBLock_To_BinaryDataBlock(listaCAT10[paq].Get_Data_Block());
+
+            int e = 3;
+            e = listaCAT10[paq].Get_FSPEC(data_block_binary, e);
+            Console.WriteLine("DATA_BLOCK");
+            for (int a = 0; a < 10; a++)
+            {
+                Console.WriteLine(data_block_binary[a]);
+            }
+            Console.WriteLine("DATA_BLOCK_end");
+            Console.WriteLine("FSPEC="+ listaCAT10[paq].Get_FSPEC_char()[0] + listaCAT10[paq].Get_FSPEC_char()[1] + listaCAT10[paq].Get_FSPEC_char()[2] + listaCAT10[paq].Get_FSPEC_char()[3] + listaCAT10[paq].Get_FSPEC_char()[4] + listaCAT10[paq].Get_FSPEC_char()[5] + listaCAT10[paq].Get_FSPEC_char()[6]);
+            
+            if (listaCAT10[paq].Get_FSPEC_char()[0] == '1') { e = listaCAT10[1].Get_Data_Source_Identifier(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[1] == '1') { e = listaCAT10[1].Get_Message_Type(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[2] == '1') { e = listaCAT10[1].Get_Target_Report_Descriptor(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[3] == '1') { e = listaCAT10[1].Get_Time_of_Day(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[4] == '1') { e = listaCAT10[1].Get_Position_in_WGS_84_Coordinates(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[5] == '1') { e = listaCAT10[1].Get_Measured_Position_in_Polar_Coordinates(data_block_binary, e); }
+            if (listaCAT10[paq].Get_FSPEC_char()[6] == '1') { e = listaCAT10[1].Get_Position_in_Cartesian_Coordinates(data_block_binary, e); }
+
+
+
+
 
             //Prueba del Hex to Binary (Funciona)
 
@@ -399,174 +512,11 @@ namespace ConsoleApp1
             //#endregion
 
 
-            #region CAT10
+            //#region CAT10
             //atributos del objeto CAT10
-            char[] FSPEC_char;
-
-            string Message_Type; //Get_Message_Type
-
-            string SAC; //Get_Data_Source_Identifier
-            string SIC; //Get_Data_Source_Identifier
-
-            string TYP; //Get_Target_Report_Descriptor
-            string DCR; //Get_Target_Report_Descriptor
-            string CHN; //Get_Target_Report_Descriptor
-            string GBS; //Get_Target_Report_Descriptor
-            string CRT; //Get_Target_Report_Descriptor
-            string SIM; //Get_Target_Report_Descriptor
-            string TST; //Get_Target_Report_Descriptor
-            string RAB; //Get_Target_Report_Descriptor
-            string LOP; //Get_Target_Report_Descriptor
-            string TOT; //Get_Target_Report_Descriptor
-            string SPI; //Get_Target_Report_Descriptor
-
-            string RHO; //Get_Measured_Position_in_Polar_Coordinates
-            string Theta; //Get_Measured_Position_in_Polar_Coordinates
-
-            string X; //Get_Position_in_Cartesian_Coordinates
-            string Y; //Get_Position_in_Cartesian_Coordinates
-
-            string V_Mode3A;
-            string G_Mode3A;
-            string L_Mode3A;
-            string Mode_3A_octal;
-
-            string V_Flight_Level; //Get_Flight_Level_in_Binary_Representation
-            string G_Flight_Level; //Get_Flight_Level_in_Binary_Representation
-            string Flight_Level; //Get_Flight_Level_in_Binary_Representation
-
-            string Measured_Height; //Get_Measured_Height
-
-            string PAM; //Get_Amplitude_of_Primary_Plot
-
-            string Time_Of_Day; //Compute_Time_of_Day
-            string Time_of_Day_HHMMSS; //Compute_Time_of_Day
-
-            string Track_Number; //Get_Track_Number
-
-            string CNF;//Get_Track_Status
-            string TRE;//Get_Track_Status
-            string CST;//Get_Track_Status
-            string MAH;//Get_Track_Status
-            string TCC;//Get_Track_Status
-            string STH;//Get_Track_Status
-            string TOM;//Get_Track_Status
-            string DOU;//Get_Track_Status
-            string MRS;//Get_Track_Status
-            string GHO;//Get_Track_Status
-
-            string Ground_Speed;//Get_Calculated_Track_Velocity_in_Polar_Coordinates
-            string Track_Angle;//Get_Calculated_Track_Velocity_in_Polar_Coordinates
-
-            string Vx;//Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
-            string Vy;//Get_Calculated_Track_Velocity_in_Cartesian_Coordinates
-
-            string Ax;//Get_Calculated_Acceleration
-            string Ay; //Get_Calculated_Acceleration
-
-            string Target_Address; //Get_Target_Address
-
-            string STI;//Get_Target_Identification
-            string Target_Identification;//Get_Target_Identification
-
-            string[] MB_Data;//Get_Mode_S_MB_Data
-            string[] BDS1;//Get_Mode_S_MB_Data
-            string[] BDS2;//Get_Mode_S_MB_Data
-            string modeS_rep;//Get_Mode_S_MB_Data
-
-            string Lenght; //Get_Target_Size_and_Orientation
-            string Orientation;//Get_Target_Size_and_Orientation
-            string Width;//Get_Target_Size_and_Orientation
-
-            string[] DRHO; //Get_Presence
-            string[] DTHETA; //Get_Presence
-
-            string VFI;//Get_Vehicle_Fleet_Identificatior
-
-            string TRB;//Get_Pre_programmed_Message
-            string MSG;//Get_Pre_programmed_Message
-
-            string Standard_Deviation_X;//Get_Standard_Deviation_Of_Position
-            string Standard_Deviation_Y;//Get_Standard_Deviation_Of_Position
-            string Covariance_XY_2C;//Get_Standard_Deviation_Of_Position
-
-            string NOGO;//Get_System_Status
-            string OVL;//Get_System_Status
-            string TSV;//Get_System_Status
-            string DIV;//Get_System_Status
-            string TIF;//Get_System_Status
-
-            void CAT10_Decoding(string[] data_block_hexa, Decoding_Library decoding_library)
-            {
-                string[] data_block_binary = Convert_HexadecimalDataBLock_To_BinaryDataBlock(data_block_hexa);
-
-                int i = 2;
-
-                i = Get_FSPEC(data_block_binary, i); //ERROR????? creo que no le gusta el nombre del argumento i
 
 
-                if (FSPEC_char[0] == '1') { i = Get_Message_Type(data_block_binary, i); }
 
-                if (FSPEC_char[1] == '1') { i = Get_Data_Source_Identifier(data_block_binary, i); }
-
-                if (FSPEC_char[2] == '1') { i = Get_Target_Report_Descriptor(data_block_binary, i); }
-
-                if (FSPEC_char[3] == '1') { i = Get_Measured_Position_in_Polar_Coordinates(data_block_binary, i); }
-
-                if (FSPEC_char[4] == '1') { i = Get_Position_in_WGS_84_Coordinates(data_block_binary, i); }
-
-                if (FSPEC_char[5] == '1') { i = Get_Position_in_Cartesian_Coordinates(data_block_binary, i); }
-
-                if (FSPEC_char[6] == '1') { i = Get_Mode_3A_Code_in_Octal_Representation(data_block_binary, i); }
-
-                if (FSPEC_char[7] == '1') //bit FX1
-                {
-                    if (FSPEC_char[8] == '1') { i = Get_Flight_Level_in_Binary_Representation(data_block_binary, i); }
-
-                    if (FSPEC_char[9] == '1') { i = Get_Measured_Height(data_block_binary, i); }
-
-                    if (FSPEC_char[10] == '1') { i = Get_Amplitude_of_Primary_Plot(data_block_binary, i); }
-
-                    if (FSPEC_char[11] == '1') { i = Get_Time_of_Day(data_block_binary, i); }
-
-                    if (FSPEC_char[12] == '1') { i = Get_Track_Number(data_block_binary, i); }
-
-                    if (FSPEC_char[13] == '1') { i = Get_Track_Status(data_block_binary, i); }
-
-                    if (FSPEC_char[14] == '1') { i = Get_Calculated_Track_Velocity_in_Polar_Coordinates(data_block_binary, i); }
-
-                    if (FSPEC_char[15] == '1')
-                    {
-                        if (FSPEC_char[16] == '1') { i = Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(data_block_binary, i); }
-
-                        if (FSPEC_char[17] == '1') { i = Get_Calculated_Acceleration(data_block_binary, i); }
-
-                        if (FSPEC_char[18] == '1') { i = Get_Target_Address(data_block_binary, i); }
-
-                        if (FSPEC_char[19] == '1') { i = Get_Target_Identification(data_block_binary, i); }
-
-                        if (FSPEC_char[20] == '1') { i = Get_Mode_S_MB_Data(data_block_binary, i); }
-
-                        if (FSPEC_char[21] == '1') { i = Get_Target_Size_and_Orientation(data_block_binary, i); }
-
-                        if (FSPEC_char[22] == '1') { i = Get_Presence(data_block_binary, i); }
-
-                        if (FSPEC_char[23] == '1')
-                        {
-                            if (FSPEC_char[24] == '1') { i = Get_Vehicle_Fleet_Identificatior(data_block_binary, i); }
-
-                            if (FSPEC_char[25] == '1') { i = Get_Pre_Programmed_Message(data_block_binary, i); }
-
-                            if (FSPEC_char[26] == '1') { i = Get_Standard_Deviation_Of_Position(data_block_binary, i); }
-
-                            if (FSPEC_char[27] == '1') { i = Get_System_Status(data_block_binary, i); }
-
-                        }
-
-                    }
-
-                }
-            }
             //Prueba del Hex to Binary (Funciona)
 
             //string resultado = "";
@@ -1025,4 +975,4 @@ namespace ConsoleApp1
         }
     }       
 }
-#endregion
+//#endregion
