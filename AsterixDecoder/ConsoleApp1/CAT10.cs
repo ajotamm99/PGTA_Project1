@@ -632,13 +632,18 @@ namespace AsterixDecoder
             Console.WriteLine("segundos totales"+segundos_totales);
             Time_of_Day_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
-            double segundos = segundos_totales % 60;
-            double aux = segundos_totales / 60;
-            double minutos = aux % 60;
-            double horas = aux / 60;
+            //double segundos = segundos_totales % 60;
+            //double aux = segundos_totales / 60;
+            //double minutos = aux % 60;
+            //double horas = aux / 60;
 
-            //this.Time_of_Day_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            int horas = Convert.ToInt32(segundos_totales / 3600) ;
+            float rest = segundos_totales % 3600;
+            int minutos = Convert.ToInt32(rest / 60);
+            float segundos = rest % 60;
 
+            Time_of_Day_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            Console.WriteLine(Time_of_Day_HHMMSS);
             Console.WriteLine("TIME OF THE DAY="+ Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
