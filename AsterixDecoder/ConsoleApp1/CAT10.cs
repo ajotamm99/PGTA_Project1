@@ -49,8 +49,8 @@ namespace AsterixDecoder
 
         string PAM; //Get_Amplitude_of_Primary_Plot
 
-        string Time_of_Day_seconds; //Compute_Time_of_Day
-        string Time_of_Day_HHMMSS; //Compute_Time_of_Day
+        string Time_of_Day_seconds; //Get_Time_of_Day
+        string Time_of_Day_HHMMSS; //Get_Time_of_Day
 
         string Track_Number; //Get_Track_Number
 
@@ -245,7 +245,6 @@ namespace AsterixDecoder
 
         public double A2_Complement_To_Decimal(string binari_number)
         {
-
             char[] binari_number_char = binari_number.ToCharArray();
 
             if (binari_number_char[0] == '0')
@@ -258,6 +257,7 @@ namespace AsterixDecoder
             {
                 string a2_number = "";
                 int i = 1;
+                Console.WriteLine("binari_number.length=" + binari_number.Length);
 
                 while (i < binari_number.Length)
                 {
@@ -267,9 +267,9 @@ namespace AsterixDecoder
 
                     i++;
                 }
-
+                Console.WriteLine("a2_number=" + a2_number);
                 double decimal_number = Convert.ToInt32(a2_number, 2);
-                decimal_number = -decimal_number + 1;
+                decimal_number = -(decimal_number + 1);
                 return decimal_number;
             }
 
@@ -556,7 +556,7 @@ namespace AsterixDecoder
             Y = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])));//this.
             Console.WriteLine("X=" + X);
             Console.WriteLine("Y=" + Y);
-            return i + 1;
+            return i + 4;
         }
 
         //2 octets
@@ -672,7 +672,7 @@ namespace AsterixDecoder
             Console.WriteLine("CNF " + CNF);
 
             string code_TRE = octet1.Substring(1, 1);
-            if (code_TRE == "0") { this.CNF = "Default"; }
+            if (code_TRE == "0") { this.TRE = "Default"; }
             else { this.TRE = "Last report for a track"; }
 
             Console.WriteLine("TRE " + TRE);
@@ -759,13 +759,14 @@ namespace AsterixDecoder
         //4 octets
         public int Get_Calculated_Track_Velocity_in_Polar_Coordinates(string[] data_block, int i)
         {
-            double gs = Convert.ToDouble(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2)) * Math.Pow(2, -14); // in NM
-            if (gs > 2) { gs = 2; } //OR ERROR???
+            //double gs = Convert.ToDouble(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2)) * Math.Pow(2, -14); // in NM/s
+            double gs = Convert.ToDouble(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2))* 0.22; // in kt
+            if (gs > 7200) { gs = 7200; } 
             this.Ground_Speed = Convert.ToString(gs);
-            Console.WriteLine("Ground Speed: " + Ground_Speed);
+            Console.WriteLine("Ground Speed: " + Ground_Speed+"kt");
 
-            this.Track_Angle = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i + 2], data_block[i + 3]), 2) * (360 / (Math.Pow(2, 16))));
-            Console.WriteLine("Track Angle " + Track_Angle);
+            this.Track_Angle = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i + 2], data_block[i + 3]), 2)* (360 / (Math.Pow(2, 16))));
+            Console.WriteLine("Track Angle " + Track_Angle+ "°");
 
             i = i + 4;
             return i;
@@ -774,9 +775,10 @@ namespace AsterixDecoder
         //4 octets
         public int Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(string[] data_block, int i)
         {
-            Vx = Convert.ToString((A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));//this.
-
-            Vy = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
+            //this.Vx = string.Concat(data_block[i], data_block[i + 1]);
+            this.Vx = Convert.ToString((A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1])) * 0.25));//this.
+            //this.Vy = string.Concat(data_block[i+2], data_block[i + 3]);
+            this.Vy = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 2], data_block[i + 3])) * 0.25);
 
             Console.WriteLine("Vx" + Vx);
             Console.WriteLine("Vy" + Vy);
@@ -852,14 +854,15 @@ namespace AsterixDecoder
         public int Get_Target_Size_and_Orientation(string[] data_block, int i)
         {
             this.Lenght = Convert.ToString(Convert.ToInt32(data_block[i].Substring(0, 7), 2));
+            Console.WriteLine("LENGTH=" + this.Lenght);
             string code_FX = data_block[i].Substring(7, 1);
             int number_of_octets = 1;
             while (code_FX == "1")
             {
                 if (number_of_octets == 1)
                 { //FIRST EXTENT
-                    this.Orientation = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i + number_of_octets].Substring(0, 7), 2)) * (360 / 128));
-                    Console.WriteLine("Orientation: " + Orientation);
+                    this.Orientation = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i + number_of_octets].Substring(0, 7), 2)) * 2.8125);
+                    Console.WriteLine("Orientation: " + this.Orientation+ "°");
                     code_FX = data_block[i + number_of_octets].Substring(7, 1);
                 }
                 else

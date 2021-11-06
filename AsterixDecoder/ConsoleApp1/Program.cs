@@ -130,8 +130,11 @@ namespace ConsoleApp1
             string TSV; //Get_System_Status
             string DIV; //Get_System_Status
             string TTF; //Get_System_Status
-
+            
+            
+            
             Console.WriteLine("Hello World!");
+
             String path = @"..\Ficheros_asterix\201002-lebl-080001_smr.ast";
             AsterixFile asterixFile = new AsterixFile(path);
             asterixFile.leer();
@@ -153,16 +156,16 @@ namespace ConsoleApp1
             //Console.WriteLine(listaCAT10[0].Get_Data_Item(9)); // 
             //Console.WriteLine(listaCAT10[0].Get_Data_Item(10));
 
-            int paq = 0;
+            int paq = 4;
             string[] data_block_binary = listaCAT10[paq].Convert_HexadecimalDataBLock_To_BinaryDataBlock(listaCAT10[paq].Get_Data_Block());
 
             int e = 3;
             e = listaCAT10[paq].Get_FSPEC(data_block_binary, e);
             Console.WriteLine("DATA_BLOCK");
-            for (int a = 0; a < 10; a++)
-            {
-                Console.WriteLine(data_block_binary[a]);
-            }
+            //for (int a = e; a < 30; a++)
+            //{
+            //    Console.WriteLine(data_block_binary[a]);
+            //}
             Console.WriteLine("DATA_BLOCK_end");
             Console.WriteLine("FSPEC=" + listaCAT10[paq].Get_FSPEC_char()[0] + listaCAT10[paq].Get_FSPEC_char()[1] + listaCAT10[paq].Get_FSPEC_char()[2] + listaCAT10[paq].Get_FSPEC_char()[3] + listaCAT10[paq].Get_FSPEC_char()[4] + listaCAT10[paq].Get_FSPEC_char()[5] + listaCAT10[paq].Get_FSPEC_char()[6]);
 
