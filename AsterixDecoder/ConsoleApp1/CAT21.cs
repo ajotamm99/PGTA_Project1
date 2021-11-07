@@ -11,20 +11,20 @@ namespace AsterixDecoder
         //Variables
         char[] FSPEC_char;//Get_FSPEC
 
-        string RA;
-        string TC;
-        string TS;
-        string ARV;
-        string CDTIA;
-        string NTCAS;
-        string SA;
+        string RA;//Get_Aircraft_Operational_Status
+        string TC;//Get_Aircraft_Operational_Status
+        string TS;//Get_Aircraft_Operational_Status
+        string ARV;//Get_Aircraft_Operational_Status
+        string CDTI_A;//Get_Aircraft_Operational_Status
+        string Not_TCAS;//Get_Aircraft_Operational_Status
+        string SA;//Get_Aircraft_Operational_Status
 
         string SAC;
         string SIC;
 
-        string Service_Id;
+        string Service_Identification; //Get_Service_Identification
 
-        string RP;
+        string RP;//Get_Service_Management
 
         string ECAT;
 
@@ -45,7 +45,7 @@ namespace AsterixDecoder
         string RCF;
         string FX;
 
-        string MODEA3;
+        string Mode_3A_octal;
 
         string TOAP;
 
@@ -54,6 +54,40 @@ namespace AsterixDecoder
         string TOMRP;
 
         string TOMRP_HP;
+
+        string Time_of_Applicability_For_Position_seconds; //Get_Time_Of_Applicability_For_Position
+        string Time_of_Applicability_For_Position_HHMMSS; //Get_Time_Of_Applicability_For_Position
+
+        string Time_of_Applicability_For_Velocity_seconds; //Get_Time_Of_Applicability_For_Velocity
+        string Time_of_Applicability_For_Velocity_HHMMSS; //Get_Time_Of_Applicability_For_Velocity
+
+        string Time_Of_Message_Reception_For_Position_seconds;//Get_Time_Of_Message_Reception_For_Position
+        string Time_Of_Message_Reception_For_Position_HHMMSS;//Get_Time_Of_Message_Reception_For_Position
+
+        string Time_of_Message_Reception_Position_High_Precision;//Get_Time_Of_Message_Reception_Of_Position_High_Precision
+
+        string Time_Of_Message_Reception_For_Velocity_seconds;//Get_Time_Of_Message_Reception_For_Velocity
+        string Time_Of_Message_Reception_For_Velocity_HHMMSS;//Get_Time_Of_Message_Reception_For_Velocity
+
+        string Time_of_Message_Reception_Velocity_High_Precision;//Get_Time_Of_Message_Reception_Velocity_High_Precision
+
+        string Time_Of_MASTERIX_Report_Transmission_seconds;//Get_Time_Of_ASTERIX_Report_Transmission
+        string Time_Of_MASTERIX_Report_Transmission_HHMMSS;//Get_Time_Of_ASTERIX_Report_Transmission
+
+        string Target_Address; //Get_Target_Adress
+
+        public string NUCr_or_NACv;//Get_Quality_Indicators
+        public string NUCp_or_NIC;//Get_Quality_Indicators
+        public string NIC_BARO;//Get_Quality_Indicators
+        public string SIL;//Get_Quality_Indicators
+        public string NAC_P;//Get_Quality_Indicators
+        public string SILS;//Get_Quality_Indicators
+        public string SDA;//Get_Quality_Indicators
+        public string GVA;//Get_Quality_Indicators
+        public int PIC;//Get_Quality_Indicators
+        public string ICB;//Get_Quality_Indicators
+        public string NUC_P;//Get_Quality_Indicators
+        public string NIC;//Get_Quality_Indicators
 
 
         public CAT21(String[] X)
@@ -406,47 +440,114 @@ namespace AsterixDecoder
             return i;
         }
 
+        //Varible length 1/3 octets
         public int Get_Target_Report_Descriptor(string[] data_block, int i)
         {
-            int a = i;
-            int result = 1;
-            while (result == 1)
+            int code_ATP = Convert.ToInt32(data_block[i].Substring(0, 3), 2);
+            if (code_ATP == 0){ this.ATP = "24-Bit ICAO address ";  }
+            if (code_ATP == 1) { this.ATP = "Duplicate address "; }
+            if (code_ATP == 2) { this.ATP = "Surface vehicle address"; }
+            if (code_ATP == 3) { this.ATP = "Anonymous address"; }
+            if (code_ATP >= 4 || code_ATP<= 7) { this.ATP = "Reserved for future use "; }
+            Console.WriteLine("ATP="+this.ATP);
+
+            int code_ARC= Convert.ToInt32(data_block[i].Substring(4, 2), 2);
+            if (code_ARC == 0) { this.ARC = "25 ft"; }
+            if (code_ARC == 1) { this.ARC = "100 ft "; }
+            if (code_ARC == 2) { this.ARC = "Unknown"; }
+            if (code_ARC == 3) { this.ARC = "Invalid"; }
+            Console.WriteLine("ARC=" + this.ARC);
+
+            string code_RC = data_block[i].Substring(5, 1);
+            if (code_RC == "0") { this.RC = "Default"; }
+            else { this.RC = "Range Check passed, CPR Validation pending"; }
+            Console.WriteLine("RC=" + this.RC);
+
+            string code_RAB = data_block[i].Substring(6, 1);
+            if (code_RAB == "0") { this.RAB = "Report from target transponder"; }
+            else { this.RAB = "Report from field monitor(fixed transponder) "; }
+            Console.WriteLine("RAB=" + this.RAB);
+
+            string code_FX = data_block[i].Substring(7, 1);
+            int number_of_octets = 1;
+            while (code_FX == "1")
             {
-                char[] oct = data_block[a].ToCharArray();
-                int atp = Convert.ToInt32(string.Concat(oct[0], oct[1], oct[2]), 2);
-                int arc = Convert.ToInt32(string.Concat(oct[3], oct[4]), 2);
+                if (number_of_octets == 1)
+                { //FIRST EXTENT
+                    string code_DCR = data_block[i+number_of_octets].Substring(0, 1);
+                    if (code_DCR == "0") { this.DCR = "No differential correction (ADS-B)"; }
+                    else { this.DCR = "Differential correction (ADS-B)"; }
+                    Console.WriteLine("DCR=" + this.DCR);
 
-                ATP = atp switch
-                {
-                    0 => "24-bit icao address",
-                    1 => "duplicate address",
-                    2 => "surface vehicle address",
-                    3 => "anonymous address",
-                    _ => "reserved for future use",
-                };
-                ARC = arc switch
-                {
-                    0 => "25 ft ",
-                    1 => "100 ft",
-                    2 => "unknown",
-                    _ => "invalid",
-                };
-                string rc = "";
-                if (oct[5] == '0') { rc = "default"; }
-                else { rc = "range check passed, cpr validation pending"; }
-                RC = rc;
-                string rab = "";
-                if (oct[6] == '0') { rab = "report from target transponder"; }
-                else { rab = "report from field monitor (fixed transponder)"; }
-                RAB = rab;
-                result = Convert.ToInt32(oct[7]);
-                a = a + 1;
+                    string code_GBS = data_block[i].Substring(1, 1);
+                    if (code_GBS == "0") { this.GBS = "Ground Bit not set "; }
+                    else { this.GBS = "Ground Bit set "; }
+                    Console.WriteLine("DCR=" + this.DCR);
+
+                    string code_SIM = data_block[i].Substring(2, 1);
+                    if (code_SIM == "0") { this.SIM = "Actual target report"; }
+                    else { this.SIM = "Simulated target report"; }
+                    Console.WriteLine("SIM=" + this.SIM);
+
+                    string code_TST = data_block[i].Substring(3, 1);
+                    if (code_TST == "0") { this.TST = "Default"; }
+                    else { this.TST = "Test Target"; }
+                    Console.WriteLine("TST=" + this.TST);
+
+                    string code_SAA = data_block[i].Substring(4, 1);
+                    if (code_SAA == "0") { this.SAA = "Equipment capable to provide Selected Altitude"; }
+                    else { this.SAA = "Equipment not capable to provide Selected Altitude"; }
+                    Console.WriteLine("SAA=" + this.SAA);
+
+                    string code_CL = data_block[i].Substring(5, 2);
+                    if (code_CL == "00") { this.CL = "Report valid "; }
+                    if (code_CL == "01") { this.CL = "Report suspect"; }
+                    if (code_CL == "10") { this.CL = "No information"; }
+                    else { this.CL = "Reserved for future use"; }
+                    Console.WriteLine("CL=" + this.CL);
+
+                    code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                }
+                else
+                { //SECOND EXTENT
+                    
+                    string code_IPC = data_block[i].Substring(2, 1);
+                    if (code_IPC == "0") { this.IPC = "Independent Position Check default"; }
+                    else { this.IPC = "Independent Position Check failed"; }
+                    Console.WriteLine("IPC=" + this.IPC);
+
+                    string code_NOGO = data_block[i].Substring(3, 1);
+                    if (code_NOGO == "0") { this.NOGO = "NOGO-bit not set"; }
+                    else { this.NOGO = "NOGO-bit set"; }
+                    Console.WriteLine("NOGO=" + this.NOGO);
+
+                    string code_CPR = data_block[i].Substring(4, 1);
+                    if (code_CPR == "0") { this.CPR = "CPR Validation correct"; }
+                    else { this.CPR = "CPR Validation failed"; }
+                    Console.WriteLine("CPR=" + this.CPR);
+
+                    string code_LDPJ = data_block[i].Substring(3, 1);
+                    if (code_LDPJ == "0") { this.LDPJ = "LDPJ not detected "; }
+                    else { this.LDPJ = "LDPJ detected"; }
+                    Console.WriteLine("LDPJ=" + this.LDPJ);
+
+                    string code_RCF = data_block[i].Substring(4, 1);
+                    if (code_RCF == "0") { this.RCF = "Range Check default"; }
+                    else { this.RCF = "Range Check failed"; }
+                    Console.WriteLine("RCF=" + this.RCF);
+
+                    code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                }
+                number_of_octets = number_of_octets + 1;
+
             }
-
-
-
-            return a;
+            i = i + number_of_octets;
+            return i;
         }
+
+
+
+
 
         public int Get_Track_Number(string[] data_block, int i)
         {
@@ -454,15 +555,37 @@ namespace AsterixDecoder
             return i;
         }
 
+        //1 octet
         public int Get_Service_Identification(string[] data_block, int i)
         {
-
+            this.Service_Identification = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+            Console.WriteLine("Service_Identification=" + this.Service_Identification);
+            i = i + 1;
             return i;
         }
 
-        public int Get_Time_Applicability_Position(string[] data_block, int i)
+        public int Get_Time_Of_Applicability_For_Position(string[] data_block, int i)
         {
+            int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
+            Console.WriteLine("data-decimal" + data_decimal);
+            float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
+            Console.WriteLine("segundos totales" + segundos_totales);
+            Time_of_Applicability_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
+            //double segundos = segundos_totales % 60;
+            //double aux = segundos_totales / 60;
+            //double minutos = aux % 60;
+            //double horas = aux / 60;
+
+            int horas = Convert.ToInt32(segundos_totales / 3600);
+            float rest = segundos_totales % 3600;
+            int minutos = Convert.ToInt32(rest / 60);
+            float segundos = rest % 60;
+
+            Time_of_Applicability_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            Console.WriteLine(Time_of_Applicability_For_Position_HHMMSS);
+            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            i = i + 3;
             return i;
         }
 
@@ -477,10 +600,29 @@ namespace AsterixDecoder
 
             return i;
         }
-
+        //3 octets
         public int Get_Time_Applicability_Velocity(string[] data_block, int i)
         {
+            int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
+            Console.WriteLine("data-decimal" + data_decimal);
+            float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
+            Console.WriteLine("segundos totales" + segundos_totales);
+            Time_of_Applicability_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
+            //double segundos = segundos_totales % 60;
+            //double aux = segundos_totales / 60;
+            //double minutos = aux % 60;
+            //double horas = aux / 60;
+
+            int horas = Convert.ToInt32(segundos_totales / 3600);
+            float rest = segundos_totales % 3600;
+            int minutos = Convert.ToInt32(rest / 60);
+            float segundos = rest % 60;
+
+            Time_of_Applicability_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            Console.WriteLine(Time_of_Applicability_For_Position_HHMMSS);
+            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            i = i + 3;
             return i;
         }
 
@@ -496,33 +638,95 @@ namespace AsterixDecoder
             return i;
         }
 
+        // 3 octets
         public int Get_Target_Address(string[] data_block, int i)
         {
-
+            this.Target_Address = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]);
+            Console.WriteLine("Target_Address: " + Target_Address);
+            i = i + 3;
             return i;
         }
 
-        public int Get_Time_Message_Reception_Position(string[] data_block, int i)
+        public int Get_Time_Of_Message_Reception_For_Position(string[] data_block, int i)
         {
+            int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
+            Console.WriteLine("data-decimal" + data_decimal);
+            float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
+            Console.WriteLine("segundos totales" + segundos_totales);
+            Time_Of_Message_Reception_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
+            //double segundos = segundos_totales % 60;
+            //double aux = segundos_totales / 60;
+            //double minutos = aux % 60;
+            //double horas = aux / 60;
+
+            int horas = Convert.ToInt32(segundos_totales / 3600);
+            float rest = segundos_totales % 3600;
+            int minutos = Convert.ToInt32(rest / 60);
+            float segundos = rest % 60;
+
+            Time_Of_Message_Reception_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            Console.WriteLine(Time_Of_Message_Reception_For_Position_HHMMSS);
+            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            i = i + 3;
             return i;
         }
 
-        public int Get_Time_Message_Reception_Position_High(string[] data_block, int i)
+        //4 octets
+        public int Get_Time_Of_Message_Reception_Of_Position_High_Precision(string[] data_block, int i)
         {
+            string FSI = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3]).Substring(0, 2);
+            string Time_binary = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3]).Substring(2, 30);
 
+            double total_seconds = Convert.ToDouble(Convert.ToInt32(Time_binary, 2))* Math.Pow(2, -30);
+            
+            if (FSI == "10") { total_seconds= total_seconds-1; }
+            if (FSI == "01") { total_seconds= total_seconds+1; }
+
+            this.Time_of_Message_Reception_Position_High_Precision = Convert.ToString(total_seconds) + " s";
+            i = i + 4;
             return i;
         }
 
-        public int Get_Message_Reception_Velocity(string[] data_block, int i)
+        //3 octets
+        public int Get_Time_Of_Message_Reception_For_Velocity(string[] data_block, int i)
         {
+            int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
+            Console.WriteLine("data-decimal" + data_decimal);
+            float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
+            Console.WriteLine("segundos totales" + segundos_totales);
+            this.Time_Of_Message_Reception_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
+            //double segundos = segundos_totales % 60;
+            //double aux = segundos_totales / 60;
+            //double minutos = aux % 60;
+            //double horas = aux / 60;
+
+            int horas = Convert.ToInt32(segundos_totales / 3600);
+            float rest = segundos_totales % 3600;
+            int minutos = Convert.ToInt32(rest / 60);
+            float segundos = rest % 60;
+
+            this.Time_Of_Message_Reception_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            Console.WriteLine(Time_Of_Message_Reception_For_Velocity_HHMMSS);
+            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            i = i + 3;
             return i;
         }
 
-        public int Get_Message_Reception_Velocity_High(string[] data_block, int i)
+        //4 octets
+        public int Get_Time_Of_Message_Reception_Velocity_High_Precision(string[] data_block, int i)
         {
+            string FSI = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3]).Substring(0, 2);
+            string Time_binary = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3]).Substring(2, 30);
 
+            double total_seconds = Convert.ToDouble(Convert.ToInt32(Time_binary, 2)) * Math.Pow(2, -30);
+
+            if (FSI == "10") { total_seconds = total_seconds - 1; }
+            if (FSI == "01") { total_seconds = total_seconds + 1; }
+
+            this.Time_of_Message_Reception_Velocity_High_Precision = Convert.ToString(total_seconds) + " s";
+            i = i + 4;
             return i;
         }
 
@@ -534,9 +738,73 @@ namespace AsterixDecoder
 
         public int Get_Quality_Indicators(string[] data_block, int i)
         {
+            this.NUCr_or_NACv = Convert.ToString(Convert.ToInt32(data_block[i].Substring(0, 3), 2));
+            this.NUCp_or_NIC= Convert.ToString(Convert.ToInt32(data_block[i].Substring(3, 4), 2));
+            string code_FX= data_block[i].Substring(7, 1);
 
+            int number_of_octets = 1;
+            while (code_FX == "1")
+            {
+                if (number_of_octets == 1)
+                { //FIRST EXTENT
+                    this.NIC_BARO = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 1), 2));
+                    Console.WriteLine("NIC_BARO=" + this.NIC_BARO);
+                    this.SIL = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(1, 2), 2));
+                    Console.WriteLine("SIL=" + this.SIL);
+                    this.NAC_P = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(3, 4), 2));
+                    Console.WriteLine("NAC_P=" + this.NAC_P);
+
+                    code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                }
+                if (number_of_octets == 2)
+                { //SECOND EXTENT
+                    string code_SIL = data_block[i+number_of_octets].Substring(2, 1);
+                    if (code_SIL == "0") { this.SIL = "measured per flight-hour"; }
+                    else { this.SIL = "measured per sample"; }
+                    Console.WriteLine("SIL=" + this.SIL);
+
+                    this.SDA = Convert.ToString(Convert.ToInt32(data_block[i + number_of_octets].Substring(3, 2), 2));
+                    Console.WriteLine("SDA=" + this.SDA);
+
+                    this.GVA = Convert.ToString(Convert.ToInt32(data_block[i + number_of_octets].Substring(5, 2), 2));
+                    Console.WriteLine("GVA=" + this.GVA);
+
+                    code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                }
+
+                else
+                { //THIRD EXTENT
+                    this.PIC = Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 4), 2);
+                    if (PIC == 0) { this.ICB = "No integrity(or > 20.0 NM)"; this.NUC_P = "0"; this.NIC = "0"; }
+                    if (PIC == 1) { this.ICB = "< 20.0 NM"; this.NUC_P = "1"; this.NIC = "1"; }
+                    if (PIC == 2) { this.ICB = "< 10.0 NM"; this.NUC_P = "2"; this.NIC = "-"; }
+                    if (PIC == 3) { this.ICB = "< 8.0 NM"; this.NUC_P = "-"; this.NIC = "2"; }
+                    if (PIC == 4) { this.ICB = "< 4.0 NM"; this.NUC_P = "-"; this.NIC = "3"; }
+                    if (PIC == 5) { this.ICB = "< 2.0 NM"; this.NUC_P = "3"; this.NIC = "4"; }
+                    if (PIC == 6) { this.ICB = "< 1.0 NM"; this.NUC_P = "4"; this.NIC = "5"; }
+                    if (PIC == 7) { this.ICB = "< 0.6 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 1/1)"; }
+                    if (PIC == 8) { this.ICB = "< 0.5 NM"; this.NUC_P = "5"; this.NIC = "6 (+ 0/0)"; }
+                    if (PIC == 9) { this.ICB = "< 0.3 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 0/1)"; }
+                    if (PIC == 10) { this.ICB = "< 0.2 NM"; this.NUC_P = "6"; this.NIC = "7"; }
+                    if (PIC == 11) { this.ICB = "< 0.1 NM"; this.NUC_P = "7"; this.NIC = "8"; }
+                    if (PIC == 12) { this.ICB = "< 0.04 NM"; this.NUC_P = ""; this.NIC = "9"; }
+                    if (PIC == 13) { this.ICB = "< 0.013 NM"; this.NUC_P = "8"; this.NIC = "10"; }
+                    if (PIC == 14) { this.ICB = "< 0.004 NM"; this.NUC_P = "9"; this.NIC = "11"; }
+                    if (PIC == 15) { this.ICB = "not defined"; this.NUC_P = "not defined"; this.NIC = "not defined"; }
+
+                    Console.WriteLine("PIC=" + this.PIC);
+                    Console.WriteLine("ICB=" + this.ICB);
+                    Console.WriteLine("NUC_P=" + this.NUC_P);
+                    Console.WriteLine("NIC=" + this.NIC);
+                    code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                }
+                number_of_octets = number_of_octets + 1;
+
+            }
+            i = i + number_of_octets;
             return i;
         }
+    }
 
         public int Get_MOPS_Version(string[] data_block, int i)
         {
@@ -544,8 +812,12 @@ namespace AsterixDecoder
             return i;
         }
 
-        public int Get_Mode_3A_Code(string[] data_block, int i)
+        //2 octets
+        public int Get_Mode_3A_Code_In_Octal_Representation(string[] data_block, int i)
         {
+ 
+            this.Mode_3A_octal = Convert_Decimal_To_Octal(Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2))).PadLeft(4, '0'); //this.Mode_3A_octal
+            Console.WriteLine("Mode_3A_octal=" + Mode_3A_octal);
 
             return i;
         }
@@ -597,11 +869,31 @@ namespace AsterixDecoder
 
             return i;
         }
-
-        public int Get_Time_Report_Transmission(string[] data_block, int i)
+        //3 octets
+        public int Get_Time_Of_ASTERIX_Report_Transmission(string[] data_block, int i)
         {
+            int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
+            Console.WriteLine("data-decimal" + data_decimal);
+            float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
+            Console.WriteLine("segundos totales" + segundos_totales);
+            this.Time_Of_MASTERIX_Report_Transmission_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
+            //double segundos = segundos_totales % 60;
+            //double aux = segundos_totales / 60;
+            //double minutos = aux % 60;
+            //double horas = aux / 60;
+
+            int horas = Convert.ToInt32(segundos_totales / 3600);
+            float rest = segundos_totales % 3600;
+            int minutos = Convert.ToInt32(rest / 60);
+            float segundos = rest % 60;
+
+            this.Time_Of_MASTERIX_Report_Transmission_HHMMSS= Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            Console.WriteLine(Time_Of_MASTERIX_Report_Transmission_HHMMSS);
+            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            i = i + 3;
             return i;
+
         }
 
         public int Get_Target_Identification(string[] data_block, int i)
@@ -610,9 +902,34 @@ namespace AsterixDecoder
             return i;
         }
 
+        //1 octet
         public int Get_Emitter_Category(string[] data_block, int i)
         {
+            int code_ECAT = Convert.ToInt32(data_block[i], 2);
 
+            if (code_ECAT == 0) { this.ECAT = "No ADS-B Emitter Category Information"; }
+            if (code_ECAT == 1) { this.ECAT = "light aircraft <= 15500 lbs"; }
+            if (code_ECAT == 2) { this.ECAT = "15500 lbs < small aircraft <75000 lbs"; }
+            if (code_ECAT == 3) { this.ECAT = "75000 lbs < medium a/c < 300000 lbs"; }
+            if (code_ECAT == 4) { this.ECAT = "High Vortex Large"; }
+            if (code_ECAT == 5) { this.ECAT = "300000 lbs <= heavy aircraft "; }
+            if (code_ECAT == 6) { this.ECAT = "highly manoeuvrable (5g acceleration capability) and high speed(> 400 knots cruise)";}
+            if (code_ECAT >= 7 || code_ECAT <= 9) { this.ECAT = "reserved"; }
+            if (code_ECAT == 10) { this.ECAT = "rotocraft"; }
+            if (code_ECAT == 11) { this.ECAT = "glider / sailplane"; }
+            if (code_ECAT == 12) { this.ECAT = "lighter-than-air"; }
+            if (code_ECAT == 13) { this.ECAT = "unmanned aerial vehicle"; }
+            if (code_ECAT == 14) { this.ECAT = "space / transatmospheric vehicle"; }
+            if (code_ECAT == 15) { this.ECAT = "ultralight / handglider / paraglider "; }
+            if (code_ECAT == 16) { this.ECAT = "parachutist / skydiver"; }
+            if (code_ECAT >= 17 || code_ECAT <= 19) { ECAT = "reserved"; }
+            if (code_ECAT == 20) { this.ECAT = "surface emergency vehicle "; }
+            if (code_ECAT == 21) { this.ECAT = "surface service vehicle "; }
+            if (code_ECAT == 22) { this.ECAT = "fixed ground or tethered obstruction "; }
+            if (code_ECAT == 23) { this.ECAT = "cluster obstacle "; }
+            if (code_ECAT == 24) { this.ECAT = "line obstacle"; }
+            
+            i=i+1;
             return i;
         }
 
@@ -640,14 +957,48 @@ namespace AsterixDecoder
             return i;
         }
 
+        //1 octet
         public int Get_Service_Management(string[] data_block, int i)
         {
-
+            this.RP = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.5) + " s";
+            i = i + 1;
             return i;
         }
 
+        //1 octet
         public int Get_Aircraft_Operational_Status(string[] data_block, int i)
         {
+            string code_RA = data_block[i].Substring(0, 1);
+            if (code_RA == "0") { this.RA= "TCAS II or ACAS RA not active"; Console.WriteLine("RA= TCAS II or ACAS RA not active"); }
+            else { this.RA = "TCAS RA active"; Console.WriteLine("RA=TCAS RA active"); }
+
+            string code_TC = data_block[i].Substring(1, 2);
+            if (code_TC == "00") { this.TC = "no capability for trajectory Change Reports"; Console.WriteLine("TC = No capability for trajectory Change Reports"); }
+            if (code_TC == "01") { this.TC = "support fot TC+0 reports only"; Console.WriteLine("TC = Support fot TC+0 reports only"); }
+            if (code_TC == "10") { this.TC = "support for multiple TC reports"; Console.WriteLine("TC = Support for multiple TC reports"); }
+            if (code_TC == "11") { this.TC = "reserved"; Console.WriteLine("TC = reserved"); }
+
+            string code_TS = data_block[i].Substring(3, 1);
+            if (code_TS == "0") { this.TS = "no capability to support Target State Reports "; Console.WriteLine("TS=no capability to support Target State Reports "); }
+            else { this.TS = "TCAS RA active"; Console.WriteLine("TS=capable of supporting target State Reports "); }
+
+            string code_ARV = data_block[i].Substring(4, 1);
+            if (code_ARV == "0") { this.ARV = "no capability to generate ARV-reports"; Console.WriteLine("ARV=no capability to generate ARV-reports"); }
+            else { this.ARV = "capable of generate ARV-reports"; Console.WriteLine("ARV=capable of generate ARV-reports"); }
+
+            string code_CDTI_A = data_block[i].Substring(5, 1);
+            if (code_CDTI_A == "0") { this.CDTI_A = "CDTI not operational"; Console.WriteLine("CDTI=CDTI not operational"); }//this.TYP
+            else { this.CDTI_A = "CDTI operational"; Console.WriteLine("CDTI=CDTI operational"); }
+
+            string code_Not_TCAS = data_block[i].Substring(6, 1);
+            if (code_Not_TCAS == "0") { this.Not_TCAS = "TCAS operational"; Console.WriteLine("TCAS=TCAS operational "); }//this.TYP
+            else { this.Not_TCAS = "TCAS not operational"; Console.WriteLine("TCAS=TCAS not operational "); }
+
+            string code_SA = data_block[i].Substring(6, 1);
+            if (code_SA == "0") { this.SA = "Antenna Diversity"; Console.WriteLine("SA=Antenna Diversity"); }//this.TYP
+            else { this.SA = "Single Antenna only "; Console.WriteLine("RA=Single Antenna only "); }
+
+            i = i + 1;
 
             return i;
         }
