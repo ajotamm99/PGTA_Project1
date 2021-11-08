@@ -404,7 +404,7 @@ namespace AsterixDecoder
 
                 i = i + 1;
             }
-            Console.WriteLine("FSPEC STRING=" + FSPEC_string);
+            //Console.WriteLine("FSPEC STRING=" + FSPEC_string);
             FSPEC_char = FSPEC_string.ToCharArray(0, FSPEC_string.Length);
             return i;
         }

@@ -155,12 +155,21 @@ namespace ConsoleApp1
             //Console.WriteLine(listaCAT10[0].Get_Data_Item(8)); // message type
             //Console.WriteLine(listaCAT10[0].Get_Data_Item(9)); // 
             //Console.WriteLine(listaCAT10[0].Get_Data_Item(10));
-
-            int paq = 4;
+            
+                
+            int paq = 26164;
             string[] data_block_binary = listaCAT10[paq].Convert_HexadecimalDataBLock_To_BinaryDataBlock(listaCAT10[paq].Get_Data_Block());
 
             int e = 3;
             e = listaCAT10[paq].Get_FSPEC(data_block_binary, e);
+
+            //for (int i = 0; i < 52659; i++)
+            //{
+            //    e = 3;
+            //    e = listaCAT10[i].Get_FSPEC(data_block_binary, e);
+            //    if (listaCAT10[i].Get_FSPEC_char()[4] == '1') { Console.WriteLine("La i es ="+i); }
+            //}
+
             Console.WriteLine("DATA_BLOCK");
             //for (int a = e; a < 30; a++)
             //{
