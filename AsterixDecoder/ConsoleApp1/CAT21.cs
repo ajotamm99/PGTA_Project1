@@ -126,6 +126,8 @@ namespace AsterixDecoder
         string AM;//Get_Final_State_Selected_Altitude
         string Final_State_Selected_Altitude;//Get_Final_State_Selected_Altitude
 
+        string Flight_Level;//Get_Flight_Level
+
         string IM;//Get_Air_Speed
         string Air_Speed;//Get_Air_Speed
 
@@ -186,6 +188,30 @@ namespace AsterixDecoder
         string RAS;//Get_Surface_Capabilities_Characteristics
         string IDENT;//Get_Surface_Capabilities_Characteristics
         string Length_And_Width;//Get_Surface_Capabilities_Characteristics
+
+        string AOS_Data_Age;//Get_Data_Ages
+        string TRD_Data_Age;//Get_Data_Ages
+        string M3A_Data_Age;//Get_Data_Ages
+        string QI_Data_Age;//Get_Data_Ages
+        string Trajectory_Intent_Data_Age;//Get_Data_Ages
+        string MAM_Data_Age;//Get_Data_Ages
+        string GH_Data_Age;//Get_Data_Ages
+        string FL_Data_Age;//Get_Data_Ages
+        string ISA_Data_Age;//Get_Data_Ages
+        string FSA_Data_Age;//Get_Data_Ages
+        string AS_Data_Age;//Get_Data_Ages
+        string TAS_Data_Age;//Get_Data_Ages
+        string MH_Data_Age;//Get_Data_Ages
+        string BVR_Data_Age;//Get_Data_Ages
+        string GVR_Data_Age;//Get_Data_Ages
+        string GV_Data_Age;//Get_Data_Ages
+        string TAR_Data_Age;//Get_Data_Ages
+        string Target_Identification_Data_Age;//Get_Data_Ages
+        string TS_Data_Age;//Get_Data_Ages
+        string MET_Data_Age;//Get_Data_Ages
+        string ROA_Data_Age;//Get_Data_Ages
+        string ARA_Data_Age;//Get_Data_Ages
+        string SCC_Data_Age;//Get_Data_Ages
 
         public CAT21(String[] X)
         {
@@ -971,7 +997,7 @@ namespace AsterixDecoder
             i = i + 2;
             return i;
         }
-        string Flight_Level;//Get_Flight_Level
+        
         //2 octets
         public int Get_Flight_Level(string[] data_block, int i)
         {
@@ -1463,38 +1489,20 @@ namespace AsterixDecoder
             return i;
         }
 
-        public int Get_Receiver_Id(string[] data_block, int i)
+        string RID;//Get_Reciever_ID
+        //1 octet
+        public int Get_Receiver_ID(string[] data_block, int i)
         {
-
+            this.RID=Convert.ToString(Convert.ToInt32(data_block[i],2));
+            Console.WriteLine("RID=" + this.RID);
+            i = i + 1;
             return i;
         }
-        int Data_Ages_present = 0;//Get_Data_Ages
-        string AOS_Data_Age;//Get_Data_Ages
-        string TRD_Data_Age;//Get_Data_Ages
-        string M3A_Data_Age;//Get_Data_Ages
-        string QI_Data_Age;//Get_Data_Ages
-        string Trajectory_Intent_Data_Age;//Get_Data_Ages
-        string MAM_Data_Age;//Get_Data_Ages
-        string GH_Data_Age;//Get_Data_Ages
-        string FL_Data_Age;//Get_Data_Ages
-        string ISA_Data_Age;//Get_Data_Ages
-        string FSA_Data_Age;//Get_Data_Ages
-        string AS_Data_Age;//Get_Data_Ages
-        string TAS_Data_Age;//Get_Data_Ages
-        string MH_Data_Age;//Get_Data_Ages
-        string BVR_Data_Age;//Get_Data_Ages
-        string GVR_Data_Age;//Get_Data_Ages
-        string GV_Data_Age;//Get_Data_Ages
-        string TAR_Data_Age;//Get_Data_Ages
-        string Target_Identification_Data_Age;//Get_Data_Ages
-        string TS_Data_Age;//Get_Data_Ages
-        string MET_Data_Age;//Get_Data_Ages
-        string ROA_Data_Age;//Get_Data_Ages
-        string ARA_Data_Age;//Get_Data_Ages
-        string SCC_Data_Age;//Get_Data_Ages
+        
+        //Variable
         public int Get_Data_Ages(string[] data_block, int i)
         {
-            int octets = 1;
+            int octets = 1;//octets que te el Primary subfield
             string code_AOS_Data_Age = data_block[i].Substring(0, 1);
             string code_TRD_Data_Age = data_block[i].Substring(1, 1);
             string code_M3A_Data_Age = data_block[i].Substring(2, 1);
@@ -1503,44 +1511,66 @@ namespace AsterixDecoder
             string code_MAM_Data_Age = data_block[i].Substring(5, 1);
             string code_GH_Data_Age = data_block[i].Substring(6, 1);
             string code_FX1 = data_block[i].Substring(7, 1);
+
+            string code_FL_Data_Age = "-";
+            string code_ISA_Data_Age = "-";
+            string code_FSA_Data_Age = "-";
+            string code_AS_Data_Age = "-";
+            string code_TAS_Data_Age = "-";
+            string code_MH_Data_Age = "-";
+            string code_BVR_Data_Age = "-";
+            string code_FX2 = "-";
+
+            string code_GVR_Data_Age = "-";
+            string code_GV_Data_Age = "-";
+            string code_TAR_Data_Age = "-";
+            string code_Target_Identification_Data_Age = "-";
+            string code_TS_Data_Age = "-";
+            string code_MET_Data_Age = "-";
+            string code_ROA_Data_Age = "-";
+            string code_FX3 = "-";
+
+            string code_ARA_Data_Age = "-";
+            string code_SCC_Data_Age = "-";
+
             i = i + 1;
             if (code_FX1 == "1")
             {
                 octets = octets + 1;
-                string code_FL_Data_Age = data_block[i].Substring(0, 1);
-                string code_ISA_Data_Age = data_block[i].Substring(1, 1);
-                string code_FSA_Data_Age = data_block[i].Substring(2, 1);
-                string code_AS_Data_Age = data_block[i].Substring(3, 1);
-                string code_TAS_Data_Age = data_block[i].Substring(4, 1);
-                string code_MH_Data_Age = data_block[i].Substring(5, 1);
-                string code_BVR_Data_Age = data_block[i].Substring(6, 1);
-                string code_FX2 = data_block[i].Substring(7, 1);
+                code_FL_Data_Age = data_block[i].Substring(0, 1);
+                code_ISA_Data_Age = data_block[i].Substring(1, 1);
+                code_FSA_Data_Age = data_block[i].Substring(2, 1);
+                code_AS_Data_Age = data_block[i].Substring(3, 1);
+                code_TAS_Data_Age = data_block[i].Substring(4, 1);
+                code_MH_Data_Age = data_block[i].Substring(5, 1);
+                code_BVR_Data_Age = data_block[i].Substring(6, 1);
+                code_FX2 = data_block[i].Substring(7, 1);
                 i = i + 1;
                 if (code_FX2 == "1")
                 {
                     octets = octets + 1;
-                    string code_GVR_Data_Age = data_block[i].Substring(0, 1);
-                    string code_GV_Data_Age = data_block[i].Substring(1, 1);
-                    string code_TAR_Data_Age = data_block[i].Substring(2, 1);
-                    string code_Target_Identification_Data_Age = data_block[i].Substring(3, 1);
-                    string code_TS_Data_Age = data_block[i].Substring(4, 1);
-                    string code_MET_Data_Age = data_block[i].Substring(5, 1);
-                    string code_ROA_Data_Age = data_block[i].Substring(6, 1);
-                    string code_FX3 = data_block[i].Substring(7, 1);
+                    code_GVR_Data_Age = data_block[i].Substring(0, 1);
+                    code_GV_Data_Age = data_block[i].Substring(1, 1);
+                    code_TAR_Data_Age = data_block[i].Substring(2, 1);
+                    code_Target_Identification_Data_Age = data_block[i].Substring(3, 1);
+                    code_TS_Data_Age = data_block[i].Substring(4, 1);
+                    code_MET_Data_Age = data_block[i].Substring(5, 1);
+                    code_ROA_Data_Age = data_block[i].Substring(6, 1);
+                    code_FX3 = data_block[i].Substring(7, 1);
 
                     i = i + 1;
 
                     if (code_FX3 == "1")
                     {
                         octets = octets + 1;
-                        string code_ARA_Data_Age = data_block[i].Substring(0, 1);
-                        string code_SCC_Data_Age = data_block[i].Substring(1, 1);
+                        code_ARA_Data_Age = data_block[i].Substring(0, 1);
+                        code_SCC_Data_Age = data_block[i].Substring(1, 1);
                         i = i + 1;
 
                     }
                 }
             }
-            if (octets == 1) 
+            if (octets >= 1) 
             {
                 if (code_AOS_Data_Age == "1")
                 {
@@ -1578,14 +1608,8 @@ namespace AsterixDecoder
                     this.GH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                     i = i + 1;
                 }
-                string code_FL_Data_Age = data_block[i].Substring(0, 1);
-                string code_ISA_Data_Age = data_block[i].Substring(1, 1);
-                string code_FSA_Data_Age = data_block[i].Substring(2, 1);
-                string code_AS_Data_Age = data_block[i].Substring(3, 1);
-                string code_TAS_Data_Age = data_block[i].Substring(4, 1);
-                string code_MH_Data_Age = data_block[i].Substring(5, 1);
-                string code_BVR_Data_Age = data_block[i].Substring(6, 1);
-                if (octets == 2)
+                
+                if (octets >= 2)
                 {
                     if (code_FL_Data_Age == "1")
                     {
@@ -1617,50 +1641,61 @@ namespace AsterixDecoder
                         this.MH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                         i = i + 1;
                     }
-
-                    if (octets == 3)
+                    if (code_BVR_Data_Age == "1")
                     {
-                        if (code_AOS_Data_Age == "1")
+                        this.BVR_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        i = i + 1;
+                    }
+                    
+                    if (octets >= 3)
+                    {
+                        if (code_GVR_Data_Age == "1")
                         {
-                            this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.GVR_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                             i = i + 1;
                         }
-                        if (code_TRD_Data_Age == "1")
+                        if (code_GV_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.GV_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                             i = i + 1;
                         }
-                        if (code_M3A_Data_Age == "1")
+                        if (code_TAR_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.TAR_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                             i = i + 1;
                         }
-                        if (code_QI_Data_Age == "1")
+                        if (code_Target_Identification_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.Target_Identification_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                             i = i + 1;
                         }
-                        if (code_Target_Intent_Data_Age == "1")
+                        if (code_TS_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.TS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                             i = i + 1;
                         }
-                        if (code_MAM_Data_Age == "1")
+                        if (code_MET_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.MET_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                             i = i + 1;
                         }
 
-                        if (octets == 4)
+                        if (code_ROA_Data_Age == "1")
                         {
-                            if (code_AOS_Data_Age == "1")
+                            this.ROA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            i = i + 1;
+                        }
+
+                        if (octets >= 4)
+                        {
+                            if (code_ARA_Data_Age == "1")
                             {
-                                this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                this.ARA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                                 i = i + 1;
                             }
-                            if (code_TRD_Data_Age == "1")
+                            if (code_SCC_Data_Age == "1")
                             {
-                                this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                this.SCC_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
                                 i = i + 1;
                             }
                             
@@ -1672,6 +1707,8 @@ namespace AsterixDecoder
 
             return i;
         }
+
+        
 
     }
 }
