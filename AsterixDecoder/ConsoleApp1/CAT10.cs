@@ -542,8 +542,8 @@ namespace AsterixDecoder
         //8 octets
         public int Get_Position_in_WGS_84_Coordinates(string[] data_block, int i)
         {
-            Latitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3])) * (180 / (Math.Pow(2, 31)))); //this
-            Longitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 3])) * (180 / (Math.Pow(2, 31)))); //this
+            Latitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3])) * (180 / (Math.Pow(2, 31))))+"º"; //this
+            Longitude_WGS84 = Convert.ToString(A2_Complement_To_Decimal(string.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 7])) * (180 / (Math.Pow(2, 31))))+"º"; //this
             i = i + 8;
             Console.WriteLine("Latitude_WG84=" + Latitude_WGS84);
             Console.WriteLine("Longitude_WG84=" + Longitude_WGS84);
@@ -807,7 +807,7 @@ namespace AsterixDecoder
         }
 
         //7 octets
-        public int Get_Target_Identification(string[] data_block, int i) //incomplete, mirar atenea
+        public int Get_Target_Identification(string[] data_block, int i) 
         {
             string data = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3], data_block[i + 4], data_block[i + 5], data_block[i + 6]);
             string code_STI = data.Substring(0, 2);
@@ -819,12 +819,12 @@ namespace AsterixDecoder
 
             string character1 = Character_Decoding_Target_Identification(data.Substring(8, 6));
             string character2 = Character_Decoding_Target_Identification(data.Substring(14, 6));
-            string character3 = Character_Decoding_Target_Identification(data.Substring(20, 2));
-            string character4 = Character_Decoding_Target_Identification(data.Substring(26, 2));
-            string character5 = Character_Decoding_Target_Identification(data.Substring(32, 2));
-            string character6 = Character_Decoding_Target_Identification(data.Substring(38, 2));
-            string character7 = Character_Decoding_Target_Identification(data.Substring(44, 2));
-            string character8 = Character_Decoding_Target_Identification(data.Substring(50, 2));
+            string character3 = Character_Decoding_Target_Identification(data.Substring(20, 6));
+            string character4 = Character_Decoding_Target_Identification(data.Substring(26, 6));
+            string character5 = Character_Decoding_Target_Identification(data.Substring(32, 6));
+            string character6 = Character_Decoding_Target_Identification(data.Substring(38, 6));
+            string character7 = Character_Decoding_Target_Identification(data.Substring(44, 6));
+            string character8 = Character_Decoding_Target_Identification(data.Substring(50, 6));
 
             this.Target_Identification = string.Concat(character1, character2, character3, character4, character5, character6, character7, character8);
             Console.WriteLine("Target Idnetification: " + Target_Identification);
@@ -834,16 +834,19 @@ namespace AsterixDecoder
 
         public int Get_Mode_S_MB_Data(string[] data_block, int i)
         {
+
             int code_modeS_rep = Convert.ToInt32(data_block[i], 2);
             this.ModeS_Rep = Convert.ToString(code_modeS_rep);
             Console.WriteLine("ModeS_Rep: " + ModeS_Rep);
 
-            for (int c = 0; i < code_modeS_rep; i++)
+            int c = 0;
+            while (c < code_modeS_rep)
             {
                 this.MB_Data[c] = String.Concat(data_block[i + 1], data_block[i + 2], data_block[i + 3], data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 7]);
                 this.BDS1[c] = data_block[i + 8].Substring(0, 4);
                 this.BDS2[c] = data_block[i + 8].Substring(4, 4);
                 i = i + 9;
+                c++;
             }
             Console.WriteLine("MB_Data: " + MB_Data);
             Console.WriteLine("BDS1: " + BDS1);

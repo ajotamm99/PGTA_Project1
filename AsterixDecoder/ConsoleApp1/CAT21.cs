@@ -76,19 +76,116 @@ namespace AsterixDecoder
 
         string Target_Address; //Get_Target_Adress
 
-        public string NUCr_or_NACv;//Get_Quality_Indicators
-        public string NUCp_or_NIC;//Get_Quality_Indicators
-        public string NIC_BARO;//Get_Quality_Indicators
-        public string SIL;//Get_Quality_Indicators
-        public string NAC_P;//Get_Quality_Indicators
-        public string SILS;//Get_Quality_Indicators
-        public string SDA;//Get_Quality_Indicators
-        public string GVA;//Get_Quality_Indicators
-        public int PIC;//Get_Quality_Indicators
-        public string ICB;//Get_Quality_Indicators
-        public string NUC_P;//Get_Quality_Indicators
-        public string NIC;//Get_Quality_Indicators
+        string NUCr_or_NACv;//Get_Quality_Indicators
+        string NUCp_or_NIC;//Get_Quality_Indicators
+        string NIC_BARO;//Get_Quality_Indicators
+        string SIL;//Get_Quality_Indicators
+        string NAC_P;//Get_Quality_Indicators
+        string SILS;//Get_Quality_Indicators
+        string SDA;//Get_Quality_Indicators
+        string GVA;//Get_Quality_Indicators
+        string PIC;//Get_Quality_Indicators
+        string ICB;//Get_Quality_Indicators
+        string NUC_P;//Get_Quality_Indicators
+        string NIC;//Get_Quality_Indicators
 
+        string TIS;//Get_Trajectory_Intent
+        string TID;//Get_Trajectory_Intent
+        string NAV;//Get_Trajectory_Intent
+        string NVB;//Get_Trajectory_Intent
+        string REP;//Get_Trajectory_Intent
+        string[] TCA;//Get_Trajectory_Intent
+        string[] NC;//Get_Trajectory_Intent
+        string[] TCP;//Get_Trajectory_Intent
+        string[] Altitude;//Get_Trajectory_Intent
+        string[] Latitude;//Get_Trajectory_Intent
+        string[] Longitude;//Get_Trajectory_Intent
+        string[] Point_Type;//Get_Trajectory_Intent
+        string[] TD;//Get_Trajectory_Intent
+        string[] TRA;//Get_Trajectory_Intent
+        string[] TOA;//Get_Trajectory_Intent
+        string[] TOV;//Get_Trajectory_Intent
+        string[] TTR;//Get_Trajectory_Intent
+
+        string Latitude_WGS84_Coordinates;//Get_Position_In_WGS84_Coordinates
+        string Longitude_WGS84_Coordinates;//Get_Position_In_WGS84_Coordinates
+
+        string Latitude_WGS84_Coordinates_High_Precision;//Get_Position_In_WGS84_Coordinates_High_Precision
+        string Longitude_WGS84_Coordinates_High_Precision;//Get_Position_In_WGS84_Coordinates_High_Precision
+
+        string MAM;//Get_Message_Amplitude
+
+        string Geometric_Height;//Get_Geometric_Height
+
+        string SAS;//Get_Selected_Altitude
+        string Source;//Get_Selected_Altitude
+        string Selected_Altitude;//Get_Selected_Altitude
+
+        string MV;//Get_Final_State_Selected_Altitude
+        string AH;//Get_Final_State_Selected_Altitude
+        string AM;//Get_Final_State_Selected_Altitude
+        string Final_State_Selected_Altitude;//Get_Final_State_Selected_Altitude
+
+        string IM;//Get_Air_Speed
+        string Air_Speed;//Get_Air_Speed
+
+        string RE_True_AirSpeed;//Get_True_AirSpeed
+        string True_AirSpeed;//Get_True_AirSpeed
+
+        string RE_Barometric_Vertical_Rate;//Get_Barometric_Vertical_Rate
+        string Barometric_Vertical_Rate;//Get_Barometric_Vertical_Rate
+
+        string RE_Geometric_Vertical_Rate;//Get_Geometric_Vertical_Rate
+        string Geometric_Vertical_Rate;//Get_Geometric_Vertical_Rate
+
+        string RE_Airborne_Ground_Vector;//Get_Airborne_Ground_Vector
+        string Ground_Speed;//Get_Airborne_Ground_Vector
+        string Track_Angle;//Get_Airborne_Ground_Vector
+
+        string Target_Identification;//Get_Target_Identification
+
+        string ICF;//Get_Target_Status
+        string LNAV;//Get_Target_Status
+        string PS;//Get_Target_Status
+        string SS;//Get_Target_Status
+
+        string VNS;//Get_MOPS_Version
+        string VN;//Get_MOPS_Version
+        string LTT;//Get_MOPS_Version
+
+        string WS;//Get_Met_Information
+        string WD;//Get_Met_Information
+        string TMP;//Get_Met_Information
+        string TRB;//Get_Met_Information
+        string Wind_Speed;//Get_Met_Information
+        string Wind_Direction;//Get_Met_Information
+        string Temperature;//Get_Met_Information
+        string Turbulence;//Get_Met_Information
+
+        string Roll_Angle;//Get_Roll_Angle
+
+        string TAR;//Get_Track_Angle_Rate
+
+        string ModeS_Rep;//Get_Mode_S_MB_Data
+        string[] MB_Data;//Get_Mode_S_MB_Data
+        string[] BDS1;//Get_Mode_S_MB_Data
+        string[] BDS2;//Get_Mode_S_MB_Data
+
+        string TYP;//Get_ACAS_Resolution_Advisory_Report
+        string STYP;//Get_ACAS_Resolution_Advisory_Report
+        string ARA;//Get_ACAS_Resolution_Advisory_Report
+        string RAC;//Get_ACAS_Resolution_Advisory_Report
+        string RAT;//Get_ACAS_Resolution_Advisory_Report
+        string MTE;//Get_ACAS_Resolution_Advisory_Report
+        string TTI;//Get_ACAS_Resolution_Advisory_Report
+        string TID_ACAS;//Get_ACAS_Resolution_Advisory_Report
+
+        string POA;//Get_Surface_Capabilities_Characteristics
+        string CDTI_S;//Get_Surface_Capabilities_Characteristics
+        string B2_low;//Get_Surface_Capabilities_Characteristics
+        string RAS;//Get_Surface_Capabilities_Characteristics
+        string IDENT;//Get_Surface_Capabilities_Characteristics
+        string Length_And_Width;//Get_Surface_Capabilities_Characteristics
 
         public CAT21(String[] X)
         {
@@ -128,11 +225,11 @@ namespace AsterixDecoder
 
             if (FSPEC_char[3] == '1') { i = Get_Service_Identification(data_block_binary, i); }
 
-            if (FSPEC_char[4] == '1') { i = Get_Time_Applicability_Position(data_block_binary, i); }
+            if (FSPEC_char[4] == '1') { i = Get_Time_Of_Applicability_For_Position(data_block_binary, i); }
 
-            if (FSPEC_char[5] == '1') { i = Get_Position_Wgs84(data_block_binary, i); }
+            if (FSPEC_char[5] == '1') { i = Get_Position_In_WGS84_Coordinates(data_block_binary, i); }
 
-            if (FSPEC_char[6] == '1') { i = Get_Position_Wgs84_High(data_block_binary, i); }
+            if (FSPEC_char[6] == '1') { i = Get_Position_In_WGS84_Coordinates_High_Precision(data_block_binary, i); }
 
             if (FSPEC_char[7] == '1') //bit FX1
             {
@@ -140,19 +237,19 @@ namespace AsterixDecoder
 
                 if (FSPEC_char[9] == '1') { i = Get_Air_Speed(data_block_binary, i); }
 
-                if (FSPEC_char[10] == '1') { i = Get_True_Air_Speed(data_block_binary, i); }
+                if (FSPEC_char[10] == '1') { i = Get_True_AirSpeed(data_block_binary, i); }
 
                 if (FSPEC_char[11] == '1') { i = Get_Target_Address(data_block_binary, i); }
 
-                if (FSPEC_char[12] == '1') { i = Get_Time_Message_Reception_Position(data_block_binary, i); }
+                if (FSPEC_char[12] == '1') { i = Get_Time_Of_Message_Reception_For_Position(data_block_binary, i); }
 
-                if (FSPEC_char[13] == '1') { i = Get_Time_Message_Reception_Position_High(data_block_binary, i); }
+                if (FSPEC_char[13] == '1') { i = Get_Time_Of_Message_Reception_Of_Position_High_Precision(data_block_binary, i); }
 
-                if (FSPEC_char[14] == '1') { i = Get_Message_Reception_Velocity(data_block_binary, i); }
+                if (FSPEC_char[14] == '1') { i = Get_Time_Of_Message_Reception_For_Velocity(data_block_binary, i); }
 
                 if (FSPEC_char[15] == '1')
                 {
-                    if (FSPEC_char[16] == '1') { i = Get_Message_Reception_Velocity_High(data_block_binary, i); }
+                    if (FSPEC_char[16] == '1') { i = Get_Time_Of_Message_Reception_Velocity_High_Precision(data_block_binary, i); }
 
                     if (FSPEC_char[17] == '1') { i = Get_Geometric_Height(data_block_binary, i); }
 
@@ -160,7 +257,7 @@ namespace AsterixDecoder
 
                     if (FSPEC_char[19] == '1') { i = Get_MOPS_Version(data_block_binary, i); }
 
-                    if (FSPEC_char[20] == '1') { i = Get_Mode_3A_Code(data_block_binary, i); }
+                    if (FSPEC_char[20] == '1') { i = Get_Mode_3A_Code_In_Octal_Representation(data_block_binary, i); }
 
                     if (FSPEC_char[21] == '1') { i = Get_Roll_Angle(data_block_binary, i); }
 
@@ -170,7 +267,7 @@ namespace AsterixDecoder
                     {
                         if (FSPEC_char[24] == '1') { i = Get_Magnetic_Heading(data_block_binary, i); }
 
-                        if (FSPEC_char[25] == '1') { i = Get_Targe_Status(data_block_binary, i); }
+                        if (FSPEC_char[25] == '1') { i = Get_Target_Status(data_block_binary, i); }
 
                         if (FSPEC_char[26] == '1') { i = Get_Barometric_Vertical_Rate(data_block_binary, i); }
 
@@ -180,7 +277,7 @@ namespace AsterixDecoder
 
                         if (FSPEC_char[29] == '1') { i = Get_Track_Angle_Rate(data_block_binary, i); }
 
-                        if (FSPEC_char[30] == '1') { i = Get_Time_Report_Transmission(data_block_binary, i); }
+                        if (FSPEC_char[30] == '1') { i = Get_Time_Of_ASTERIX_Report_Transmission(data_block_binary, i); }
 
                         if (FSPEC_char[31] == '1')
                         {
@@ -545,13 +642,13 @@ namespace AsterixDecoder
             return i;
         }
 
-
-
-
-
+        string Track_Number;//Get_Track_Number
+        //2 octets
         public int Get_Track_Number(string[] data_block, int i)
         {
+            this.Track_Number = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i].Substring(4, 4), data_block[i + 1]),2));
 
+            i = i + 2;
             return i;
         }
 
@@ -589,15 +686,22 @@ namespace AsterixDecoder
             return i;
         }
 
-        public int Get_Position_Wgs84(string[] data_block, int i)
+       
+        //6 octets
+        public int Get_Position_In_WGS84_Coordinates(string[] data_block, int i)
         {
-
+            this.Latitude_WGS84_Coordinates = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2])))* (180 / (Math.Pow(2, 23))));
+            this.Longitude_WGS84_Coordinates = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i+3], data_block[i + 4], data_block[i + 5]))) * (180 / (Math.Pow(2, 23))));
+            i = i + 6;
             return i;
         }
-
-        public int Get_Position_Wgs84_High(string[] data_block, int i)
+        
+        //8 octets
+        public int Get_Position_In_WGS84_Coordinates_High_Precision(string[] data_block, int i)
         {
-
+            this.Latitude_WGS84_Coordinates_High_Precision = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3]))) * (180 / (Math.Pow(2, 30))));
+            this.Longitude_WGS84_Coordinates_High_Precision = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 7]))) * (180 / (Math.Pow(2, 30))));
+            i = i + 8;
             return i;
         }
         //3 octets
@@ -626,15 +730,32 @@ namespace AsterixDecoder
             return i;
         }
 
+        
+        //2 octets
         public int Get_Air_Speed(string[] data_block, int i)
         {
+            string code_IM = data_block[i].Substring(0, 1);
+            if (code_IM == "0") { this.IM = "IAS"; }
+            else { this.IM = "Mach"; }
+
+            if (this.Air_Speed == "IAS") { this.Air_Speed = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * Math.Pow(2, -14)); }
+
+            else { this.Air_Speed = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 0.001); }
 
             return i;
         }
 
-        public int Get_True_Air_Speed(string[] data_block, int i)
+        
+        //2 octets
+        public int Get_True_AirSpeed(string[] data_block, int i)
         {
+            string code_RE = data_block[i].Substring(0, 1);
+            if (code_RE == "0") { this.RE_True_AirSpeed = "Value in defined range"; }
+            else { this.RE_True_AirSpeed = "Value exceeds defined range"; }
 
+            this.True_AirSpeed = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) + " ft";
+
+            i = i + 2;
             return i;
         }
 
@@ -730,9 +851,13 @@ namespace AsterixDecoder
             return i;
         }
 
+        
+        //2 octets
         public int Get_Geometric_Height(string[] data_block, int i)
         {
-
+            this.Geometric_Height = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2)) * 6.25 + " ft");
+            Console.Write("Geometric_Height=" + this.Geometric_Height);
+            i = i + 2;
             return i;
         }
 
@@ -774,23 +899,24 @@ namespace AsterixDecoder
 
                 else
                 { //THIRD EXTENT
-                    this.PIC = Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 4), 2);
-                    if (PIC == 0) { this.ICB = "No integrity(or > 20.0 NM)"; this.NUC_P = "0"; this.NIC = "0"; }
-                    if (PIC == 1) { this.ICB = "< 20.0 NM"; this.NUC_P = "1"; this.NIC = "1"; }
-                    if (PIC == 2) { this.ICB = "< 10.0 NM"; this.NUC_P = "2"; this.NIC = "-"; }
-                    if (PIC == 3) { this.ICB = "< 8.0 NM"; this.NUC_P = "-"; this.NIC = "2"; }
-                    if (PIC == 4) { this.ICB = "< 4.0 NM"; this.NUC_P = "-"; this.NIC = "3"; }
-                    if (PIC == 5) { this.ICB = "< 2.0 NM"; this.NUC_P = "3"; this.NIC = "4"; }
-                    if (PIC == 6) { this.ICB = "< 1.0 NM"; this.NUC_P = "4"; this.NIC = "5"; }
-                    if (PIC == 7) { this.ICB = "< 0.6 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 1/1)"; }
-                    if (PIC == 8) { this.ICB = "< 0.5 NM"; this.NUC_P = "5"; this.NIC = "6 (+ 0/0)"; }
-                    if (PIC == 9) { this.ICB = "< 0.3 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 0/1)"; }
-                    if (PIC == 10) { this.ICB = "< 0.2 NM"; this.NUC_P = "6"; this.NIC = "7"; }
-                    if (PIC == 11) { this.ICB = "< 0.1 NM"; this.NUC_P = "7"; this.NIC = "8"; }
-                    if (PIC == 12) { this.ICB = "< 0.04 NM"; this.NUC_P = ""; this.NIC = "9"; }
-                    if (PIC == 13) { this.ICB = "< 0.013 NM"; this.NUC_P = "8"; this.NIC = "10"; }
-                    if (PIC == 14) { this.ICB = "< 0.004 NM"; this.NUC_P = "9"; this.NIC = "11"; }
-                    if (PIC == 15) { this.ICB = "not defined"; this.NUC_P = "not defined"; this.NIC = "not defined"; }
+                    int code_PIC = Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 4), 2);
+                    this.PIC = Convert.ToString(code_PIC);
+                    if (code_PIC == 0) { this.ICB = "No integrity(or > 20.0 NM)"; this.NUC_P = "0"; this.NIC = "0"; }
+                    if (code_PIC == 1) { this.ICB = "< 20.0 NM"; this.NUC_P = "1"; this.NIC = "1"; }
+                    if (code_PIC == 2) { this.ICB = "< 10.0 NM"; this.NUC_P = "2"; this.NIC = "-"; }
+                    if (code_PIC == 3) { this.ICB = "< 8.0 NM"; this.NUC_P = "-"; this.NIC = "2"; }
+                    if (code_PIC == 4) { this.ICB = "< 4.0 NM"; this.NUC_P = "-"; this.NIC = "3"; }
+                    if (code_PIC == 5) { this.ICB = "< 2.0 NM"; this.NUC_P = "3"; this.NIC = "4"; }
+                    if (code_PIC == 6) { this.ICB = "< 1.0 NM"; this.NUC_P = "4"; this.NIC = "5"; }
+                    if (code_PIC == 7) { this.ICB = "< 0.6 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 1/1)"; }
+                    if (code_PIC == 8) { this.ICB = "< 0.5 NM"; this.NUC_P = "5"; this.NIC = "6 (+ 0/0)"; }
+                    if (code_PIC == 9) { this.ICB = "< 0.3 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 0/1)"; }
+                    if (code_PIC == 10) { this.ICB = "< 0.2 NM"; this.NUC_P = "6"; this.NIC = "7"; }
+                    if (code_PIC == 11) { this.ICB = "< 0.1 NM"; this.NUC_P = "7"; this.NIC = "8"; }
+                    if (code_PIC == 12) { this.ICB = "< 0.04 NM"; this.NUC_P = ""; this.NIC = "9"; }
+                    if (code_PIC == 13) { this.ICB = "< 0.013 NM"; this.NUC_P = "8"; this.NIC = "10"; }
+                    if (code_PIC == 14) { this.ICB = "< 0.004 NM"; this.NUC_P = "9"; this.NIC = "11"; }
+                    if (code_PIC == 15) { this.ICB = "not defined"; this.NUC_P = "not defined"; this.NIC = "not defined"; }
 
                     Console.WriteLine("PIC=" + this.PIC);
                     Console.WriteLine("ICB=" + this.ICB);
@@ -804,11 +930,27 @@ namespace AsterixDecoder
             i = i + number_of_octets;
             return i;
         }
-    }
 
+        //1 octet
         public int Get_MOPS_Version(string[] data_block, int i)
         {
+            string code_VNS = data_block[i].Substring(1, 1);
+            if (code_VNS == "0") { this.VNS = "The MOPS Version is supported by the GS"; }
+            else { this.VNS = "The MOPS Version is not supported by the GS"; }
 
+            string code_VN = data_block[i].Substring(2, 2);
+            if (code_VN == "00") { this.VN = "ED102/DO-260 [Ref. 8]"; }
+            if (code_VN == "01") { this.VN = "DO-260A [Ref. 9] "; }
+            else { this.VN = "ED102A/DO-260B [Ref. 11]"; }
+
+            int code_LTT = Convert.ToInt32(data_block[i].Substring(5, 3), 2);
+            if (code_LTT == 0) { this.LTT = "Other"; }
+            if (code_LTT == 1) { this.LTT = "UAT"; }
+            if (code_LTT == 2) { this.LTT = "1090 ES "; }
+            if (code_LTT == 3) { this.LTT = "VDL 4"; }
+            else { this.LTT = "Not assigned"; }
+
+            i = i + 1;
             return i;
         }
 
@@ -821,52 +963,110 @@ namespace AsterixDecoder
 
             return i;
         }
-
+        
+        //2 octets
         public int Get_Roll_Angle(string[] data_block, int i)
         {
-
+            this.Roll_Angle = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2)) * 0.01)+"º";
+            i = i + 2;
             return i;
         }
-
+        string Flight_Level;//Get_Flight_Level
+        //2 octets
         public int Get_Flight_Level(string[] data_block, int i)
         {
-
+            this.Flight_Level = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2)) * 0.25);
+            Console.Write("Flight_Level=" + this.Flight_Level);
+            i = i + 2;
             return i;
         }
-
+        string Magnetic_Heading;//Get_Magnetic_Heading
+        //2 octets  
         public int Get_Magnetic_Heading(string[] data_block, int i)
         {
+            this.Magnetic_Heading = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]),2))*(360/Math.Pow(2,16)));
 
+            i = i + 2;
             return i;
         }
-
-        public int Get_Targe_Status(string[] data_block, int i)
+        
+        //1 octet
+        public int Get_Target_Status(string[] data_block, int i)
         {
+            string code_ICF = data_block[i].Substring(0, 1);
+            if (code_ICF == "0") { this.ICF = "No intent change active"; }
+            else { this.ICF = "Intent change flag raised"; }
 
+            string code_LNAV = data_block[i].Substring(1, 1);
+            if (code_ICF == "0") { this.LNAV = "LNAV Mode engaged"; }
+            else { this.LNAV = "LNAV Mode not engaged"; }
+
+            int code_PS = Convert.ToInt32(data_block[i].Substring(3, 3), 2);
+            if (code_PS == 0) { this.PS = "No emergency / not reported"; }
+            if (code_PS == 1) { this.PS = "General emergency"; }
+            if (code_PS == 2) { this.PS = "Lifeguard / medical emergency"; }
+            if (code_PS == 3) { this.PS = "Minimum fuel"; }
+            if (code_PS == 4) { this.PS = "No communications"; }
+            if (code_PS == 5) { this.PS = "Unlawful interference"; }
+            else { PS = "'Downed' Aircraft"; }
+
+            string code_SS = data_block[i].Substring(6, 2);
+            if (code_SS == "00") { this.SS = "No condition reported"; }
+            if (code_SS == "01") { this.SS = "Permanent Alert (Emergency condition)"; }
+            if (code_SS == "10") { this.SS = "Temporary Alert (change in Mode 3/A Code other than emergency)"; }
+            else { SS = "SPI set"; }
+
+            i = i + 1;
             return i;
         }
-
+        //2 octets
         public int Get_Barometric_Vertical_Rate(string[] data_block, int i)
         {
+            string code_RE = data_block[i].Substring(0, 1);
+            if (code_RE == "0") { this.RE_Barometric_Vertical_Rate = "Value in defined range"; }
+            else { this.RE_Barometric_Vertical_Rate = "Value exceeds defined range"; }
 
+            this.Barometric_Vertical_Rate = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25)+" ft/min"; 
+
+            i=i+2;
             return i;
         }
-
+        
+        //2 octets
         public int Get_Geometric_Vertical_Rate(string[] data_block, int i)
         {
+            string code_RE = data_block[i].Substring(0, 1);
+            if (code_RE == "0") { this.RE_Geometric_Vertical_Rate = "Value in defined range"; }
+            else { this.RE_Geometric_Vertical_Rate = "Value exceeds defined range"; }
 
+            this.Geometric_Vertical_Rate  = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25) + " ft/min";
+
+            i = i + 2;
             return i;
         }
 
+        //4 octets
         public int Get_Airborne_Ground_Vector(string[] data_block, int i)
         {
+            string code_RE = data_block[i].Substring(0, 1);
+            if (code_RE == "0") { this.RE_Airborne_Ground_Vector = "Value in defined range"; }
+            else { this.RE_Airborne_Ground_Vector = "Value exceeds defined range"; }
+            Console.WriteLine("RE_Airborne_Ground_Vector" + this.RE_Airborne_Ground_Vector);
 
+            this.Ground_Speed = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 0.22) + " kts";
+            Console.WriteLine("Ground_Speed" + this.Ground_Speed);
+
+            this.Track_Angle = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i+2], data_block[i + 3]), 2)) * (360/Math.Pow(2,16))) + " º";
+            Console.WriteLine("Track_Angle" + this.Track_Angle);
+
+            i = i + 4;
             return i;
         }
-
+        
+        //2 octets
         public int Get_Track_Angle_Rate(string[] data_block, int i)
         {
-
+            this.TAR = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(6, 2), data_block[i + 1]),2))*(1/32))+" º/s";
             return i;
         }
         //3 octets
@@ -895,10 +1095,25 @@ namespace AsterixDecoder
             return i;
 
         }
-
+        
+        //6 octets
         public int Get_Target_Identification(string[] data_block, int i)
         {
+            string data = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3], data_block[i + 4], data_block[i + 5]);
 
+            string character1 = Character_Decoding_Target_Identification(data.Substring(0, 6));
+            string character2 = Character_Decoding_Target_Identification(data.Substring(6, 6));
+            string character3 = Character_Decoding_Target_Identification(data.Substring(12, 6));
+            string character4 = Character_Decoding_Target_Identification(data.Substring(18, 6));
+            string character5 = Character_Decoding_Target_Identification(data.Substring(24, 6));
+            string character6 = Character_Decoding_Target_Identification(data.Substring(30, 6));
+            string character7 = Character_Decoding_Target_Identification(data.Substring(36, 6));
+            string character8 = Character_Decoding_Target_Identification(data.Substring(42, 6));
+
+            this.Target_Identification = string.Concat(character1, character2, character3, character4, character5, character6, character7, character8);
+            Console.WriteLine("Target Idnetification: " + Target_Identification);
+
+            i = i + 6;
             return i;
         }
 
@@ -932,28 +1147,176 @@ namespace AsterixDecoder
             i=i+1;
             return i;
         }
+        
 
+        //Varible
         public int Get_Met_Information(string[] data_block, int i)
         {
-
+            this.WS = data_block[i].Substring(0, 1);
+            this.WD = data_block[i].Substring(1, 1);
+            this.TMP = data_block[i].Substring(2, 1);
+            this.TRB = data_block[i].Substring(3, 1);
+            i = i + 1;
+            if (this.WS == "1") //SUBFIELD 1
+            {
+                this.Wind_Speed = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2))+" kt";
+                i = i + 1;
+            }
+            if (this.WD == "1") //SUBFIELD 2
+            {
+                this.Wind_Direction = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2))+ "º";
+                i = i + 1;
+            }
+            if (this.TMP == "1") //SUBFIELD 3
+            {
+                this.Temperature = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2))*0.25)+" ºC";
+                i = i + 1;
+            }
+            if (this.TRB == "1") //SUBFIELD 4
+            {
+                this.Turbulence = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2));
+                i = i + 1;
+            }
             return i;
         }
-
+        
+        //2 octets
         public int Get_Selected_Altitude(string[] data_block, int i)
         {
+            string code_SAS = data_block[i].Substring(0, 1);
+            if (code_SAS == "0") { this.SAS = "No source information provided"; }
+            else { this.SAS = "Source Information provided"; }
+            Console.WriteLine("SAS=" + this.SAS);
+
+            string code_Source = data_block[i].Substring(1, 2);
+            if (code_Source == "00") { this.Source = "Unknown"; }
+            if (code_Source == "01") { this.Source = "Aircraft Altitude (Holding Altitude)"; }
+            if (code_Source == "10") { this.Source = "MCP/FCU Selected Altitude"; }
+            else { this.Source = "FMS Selected Altitude "; }
+            Console.WriteLine("Source=" + this.Source);
+
+            this.Selected_Altitude= Convert.ToString(A2_Complement_To_Decimal(String.Concat(data_block[i].Substring(3, 5),data_block[i+1]))*25)+" ft";
+            Console.WriteLine("Selected_Altitude=" + this.Selected_Altitude);
+            i = i + 2;
 
             return i;
         }
 
+        
+        //2 octets
         public int Get_Final_State_Selected_Altitude(string[] data_block, int i)
         {
+            string code_MV = data_block[i].Substring(0, 1);
+            if (code_MV == "0") { this.MV = "Not active or unknown"; }
+            else { this.MV = "Active"; }
+            Console.WriteLine("MV=" + this.MV);
+
+            string code_AH = data_block[i].Substring(1, 1);
+            if (code_AH == "0") { this.AH = "Not active or unknown"; }
+            else { this.AH = "Active"; }
+            Console.WriteLine("AH=" + this.AH);
+
+            string code_AM = data_block[i].Substring(2, 1);
+            if (code_AM == "0") { this.AM = "Not active or unknown"; }
+            else { this.AM = "Active"; }
+            Console.WriteLine("AM=" + this.AM);
+
+            this.Final_State_Selected_Altitude = Convert.ToString(A2_Complement_To_Decimal(String.Concat(data_block[i].Substring(3, 5), data_block[i + 1])) * 25) + " ft";
+
+            i = i + 2;
 
             return i;
         }
 
+        
         public int Get_Trajectory_Intent(string[] data_block, int i)
         {
 
+            this.TIS = data_block[i].Substring(0, 1);
+            this.TID = data_block[i].Substring(1, 1);
+            
+
+            if(this.TIS=="1")//PRESENCE OF SUBFIELD 1
+            {
+                i = i + 1;
+                string code_NAV = data_block[i].Substring(0, 1);
+                if (code_NAV == "0") { this.NAV = "Trajectory Intent Data is available for this aircraft"; }
+                else { this.NAV = "Trajectory Intent Data is not available for this aircraft "; }
+
+                string code_NVB = data_block[i].Substring(0, 1);
+                if (code_NVB == "0") { this.NVB = "Trajectory Intent Data is valid"; }
+                else { this.NVB = "Trajectory Intent Data is not valid"; }
+
+            }
+            if (this.TID == "1")//PRESENCE OF SUBFIELD 2
+            {
+                i=i+1;
+                this.REP = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+                i = i + 1;
+                int c = 0;
+                while (c < Convert.ToInt32(this.REP))
+                {
+                    string code_TCA = data_block[i].Substring(0, 1);
+                    if (code_TCA == "0") { this.TCA[c] = "TCP number available"; }
+                    else { this.TCA[c] = "TCP number not available"; }
+
+                    string code_NC = data_block[i].Substring(1, 1);
+                    if (code_NC == "0") { this.NC[c] = "TCP compliance"; }
+                    else { this.NC[c] = "TCP non-compliance"; }
+
+                    this.TCP[c] = Convert.ToString(Convert.ToInt32(data_block[i].Substring(2, 6),2));
+                    i = i + 1;
+
+                    this.Altitude[c] = Convert.ToString(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1]))*10+"ft");
+                    i = i + 2;
+
+                    this.Latitude[c]= Convert.ToString(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2])) * (180 / (Math.Pow(2, 23)))) + "º";
+                    i = i + 3;
+
+                    this.Longitude[c] = Convert.ToString(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2])) * (180 / (Math.Pow(2, 23)))) + "º";
+                    i = i + 3;
+
+                    int code_Point_Type = Convert.ToInt32(data_block[i].Substring(0, 4), 2);
+                    if (code_Point_Type == 0) { this.Point_Type[c] = "Unknown"; }
+                    if (code_Point_Type == 1) { this.Point_Type[c] = "Fly by waypoint (LT) "; }
+                    if (code_Point_Type == 2) { this.Point_Type[c] = "Fly over waypoint (LT)"; }
+                    if (code_Point_Type == 3) { this.Point_Type[c] = "Hold pattern (LT)"; }
+                    if (code_Point_Type == 4) { this.Point_Type[c] = "Procedure hold (LT)"; }
+                    if (code_Point_Type == 5) { this.Point_Type[c] = "Procedure turn (LT)"; }
+                    if (code_Point_Type == 6) { this.Point_Type[c] = "RF leg (LT)"; }
+                    if (code_Point_Type == 7) { this.Point_Type[c] = "Top of climb (VT)"; }
+                    if (code_Point_Type == 8) { this.Point_Type[c] = "Top of descent (VT)"; }
+                    if (code_Point_Type == 9) { this.Point_Type[c] = "Start of level (VT)"; }
+                    if (code_Point_Type == 10) { this.Point_Type[c] = "Cross-over altitude (VT)"; }
+                    else { this.Point_Type[c] = "Transition altitude (VT)"; }
+
+
+                    string code_TD = data_block[i].Substring(4, 2);
+                    if (code_TD == "00") { this.TD[c] = "N/A"; }
+                    if (code_TD == "01") { this.TD[c] = "Turn right"; }
+                    if (code_TD == "10") { this.TD[c] = "Turn left"; }
+                    else { this.TD[c] = "No turn"; }
+
+                    string code_TRA = data_block[i].Substring(6, 1);
+                    if (code_TRA == "0") { this.TRA[c] = "TTR not available"; }
+                    else { this.TRA[c] = "TTR available"; }
+
+                    string code_TOA = data_block[c].Substring(7, 1);
+                    if (code_TOA == "0") { this.TOA[c] = "TOV available"; }
+                    else { this.TOA[c] = "TOV not available"; }
+
+                    i = i + 1;
+
+                    this.TOV[i] = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2)) + " s";
+                    i = i + 3;
+
+                    this.TTR[i] = Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]), 2) * 0.01) + " Nm";
+                    i = i + 2;
+
+                    c = c + 1;
+                }
+                
+            }
             return i;
         }
 
@@ -1002,28 +1365,101 @@ namespace AsterixDecoder
 
             return i;
         }
-
+ 
+        //Variable (1 compulsory + 1 optional)
         public int Get_Surface_Capabilities_Characteristics(string[] data_block, int i)
         {
+            string code_POA = data_block[i].Substring(2, 1);
+            if (code_POA == "0") { this.POA = "Position transmitted is not ADS-B position reference point"; }
+            else { this.POA = "Position transmitted is the ADS-B position reference point"; }
 
+            string code_CDTI_S = data_block[i].Substring(3, 1);
+            if (code_CDTI_S == "0") { this.CDTI_S = "CDTI not operational"; }
+            else { this.CDTI_S = "CDTI operational"; }
+
+            string code_B2_low = data_block[i].Substring(4, 1);
+            if (code_B2_low == "0") { this.B2_low = "≥ 70 Watts"; }
+            else { this.B2_low = "< 70 Watts"; }
+
+            string code_RAS = data_block[i].Substring(5, 1);
+            if (code_RAS == "0") { this.RAS = "Aircraft not receiving ATC-services "; }
+            else { this.RAS = "Aircraft receiving ATC services"; }
+
+            string code_IDENT = data_block[i].Substring(6, 1);
+            if (code_IDENT == "0") { this.IDENT = "IDENT switch not active"; }
+            else { this.IDENT = "IDENT switch active "; }
+
+            string code_FX = data_block[i].Substring(7, 1);
+            i = i + 1;
+
+            if (code_FX == "1")
+            { 
+                int code_Length_and_Width = Convert.ToInt32(data_block[i].Substring(4, 4), 2);
+                if (code_Length_and_Width == 0) { this.Length_And_Width = "Lenght < 15m ; Width < 11.5m"; }
+                if (code_Length_and_Width == 1) { this.Length_And_Width = "Lenght < 15m ; Width < 23m"; }
+                if (code_Length_and_Width == 2) { this.Length_And_Width = "Lenght < 25m ; Width < 28.5m"; }
+                if (code_Length_and_Width == 3) { this.Length_And_Width = "Lenght < 25m ; Width < 34m"; }
+                if (code_Length_and_Width == 4) { this.Length_And_Width = "Lenght < 35m ; Width < 33m"; }
+                if (code_Length_and_Width == 5) { this.Length_And_Width = "Lenght < 35m ; Width < 38m"; }
+                if (code_Length_and_Width == 6) { this.Length_And_Width = "Lenght < 45m ; Width < 39.5m"; }
+                if (code_Length_and_Width == 7) { this.Length_And_Width = "Lenght < 45m ; Width < 45m"; }
+                if (code_Length_and_Width == 8) { this.Length_And_Width = "Lenght < 55m ; Width < 45m"; }
+                if (code_Length_and_Width == 9) { this.Length_And_Width = "Lenght < 55m ; Width < 52m"; }
+                if (code_Length_and_Width == 10) { this.Length_And_Width = "Lenght < 65m ; Width < 59.5m"; }
+                if (code_Length_and_Width == 11) { this.Length_And_Width = "Lenght < 65m ; Width < 67m"; }
+                if (code_Length_and_Width == 12) { this.Length_And_Width = "Lenght < 75m ; Width < 72.5m"; }
+                if (code_Length_and_Width == 13) { this.Length_And_Width = "Lenght < 75m ; Width < 80m"; }
+                if (code_Length_and_Width == 14) { this.Length_And_Width = "Lenght < 85m ; Width < 80m"; }
+                else { this.Length_And_Width = "Lenght > 85m ; Width > 80m"; }
+                i = i + 1;
+            }
             return i;
         }
-
+        
+        //1 octet
         public int Get_Message_Amplitude(string[] data_block, int i)
         {
-
+            this.MAM = Convert.ToString((Convert.ToInt32(data_block[i], 2))) + "dBm";
+            i = i + 1;
             return i;
         }
+        
 
+        //9 octets
         public int Get_Mode_S_MB_Data(string[] data_block, int i)
         {
+            int code_modeS_rep = Convert.ToInt32(data_block[i], 2);
+            this.ModeS_Rep = Convert.ToString(code_modeS_rep);
+            Console.WriteLine("ModeS_Rep: " + ModeS_Rep);
 
+            int c = 0;
+            while (c < code_modeS_rep)
+            {
+                this.MB_Data[c] = String.Concat(data_block[i + 1], data_block[i + 2], data_block[i + 3], data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 7]);
+                this.BDS1[c] = data_block[i + 8].Substring(0, 4);
+                this.BDS2[c] = data_block[i + 8].Substring(4, 4);
+                i = i + 9;
+                c++;
+            }
+            Console.WriteLine("MB_Data: " + MB_Data);
+            Console.WriteLine("BDS1: " + BDS1);
+            Console.WriteLine("BDS2: " + BDS2);
             return i;
         }
 
+        //7 octets
         public int Get_ACAS_Resolution_Advisory_Report(string[] data_block, int i)
         {
+            this.TYP = data_block[i].Substring(0, 5);
+            this.STYP = data_block[i].Substring(5, 3);
+            this.ARA = String.Concat(data_block[i + 1], data_block[i + 2].Substring(0, 6));
+            this.RAC= String.Concat(data_block[i + 2].Substring(6,2), data_block[i + 3].Substring(0, 2));
+            this.RAT= data_block[i+3].Substring(2,1);
+            this.MTE = data_block[i + 3].Substring(3, 1);
+            this.TTI = data_block[i + 3].Substring(4, 2);
+            this.TID_ACAS = String.Concat(data_block[i + 3].Substring(6, 2),data_block[i+4],data_block[i+5],data_block[i+6]);
 
+            i = i + 7;
             return i;
         }
 
@@ -1032,9 +1468,207 @@ namespace AsterixDecoder
 
             return i;
         }
-
+        int Data_Ages_present = 0;//Get_Data_Ages
+        string AOS_Data_Age;//Get_Data_Ages
+        string TRD_Data_Age;//Get_Data_Ages
+        string M3A_Data_Age;//Get_Data_Ages
+        string QI_Data_Age;//Get_Data_Ages
+        string Trajectory_Intent_Data_Age;//Get_Data_Ages
+        string MAM_Data_Age;//Get_Data_Ages
+        string GH_Data_Age;//Get_Data_Ages
+        string FL_Data_Age;//Get_Data_Ages
+        string ISA_Data_Age;//Get_Data_Ages
+        string FSA_Data_Age;//Get_Data_Ages
+        string AS_Data_Age;//Get_Data_Ages
+        string TAS_Data_Age;//Get_Data_Ages
+        string MH_Data_Age;//Get_Data_Ages
+        string BVR_Data_Age;//Get_Data_Ages
+        string GVR_Data_Age;//Get_Data_Ages
+        string GV_Data_Age;//Get_Data_Ages
+        string TAR_Data_Age;//Get_Data_Ages
+        string Target_Identification_Data_Age;//Get_Data_Ages
+        string TS_Data_Age;//Get_Data_Ages
+        string MET_Data_Age;//Get_Data_Ages
+        string ROA_Data_Age;//Get_Data_Ages
+        string ARA_Data_Age;//Get_Data_Ages
+        string SCC_Data_Age;//Get_Data_Ages
         public int Get_Data_Ages(string[] data_block, int i)
         {
+            int octets = 1;
+            string code_AOS_Data_Age = data_block[i].Substring(0, 1);
+            string code_TRD_Data_Age = data_block[i].Substring(1, 1);
+            string code_M3A_Data_Age = data_block[i].Substring(2, 1);
+            string code_QI_Data_Age = data_block[i].Substring(3, 1);
+            string code_Target_Intent_Data_Age = data_block[i].Substring(4, 1);
+            string code_MAM_Data_Age = data_block[i].Substring(5, 1);
+            string code_GH_Data_Age = data_block[i].Substring(6, 1);
+            string code_FX1 = data_block[i].Substring(7, 1);
+            i = i + 1;
+            if (code_FX1 == "1")
+            {
+                octets = octets + 1;
+                string code_FL_Data_Age = data_block[i].Substring(0, 1);
+                string code_ISA_Data_Age = data_block[i].Substring(1, 1);
+                string code_FSA_Data_Age = data_block[i].Substring(2, 1);
+                string code_AS_Data_Age = data_block[i].Substring(3, 1);
+                string code_TAS_Data_Age = data_block[i].Substring(4, 1);
+                string code_MH_Data_Age = data_block[i].Substring(5, 1);
+                string code_BVR_Data_Age = data_block[i].Substring(6, 1);
+                string code_FX2 = data_block[i].Substring(7, 1);
+                i = i + 1;
+                if (code_FX2 == "1")
+                {
+                    octets = octets + 1;
+                    string code_GVR_Data_Age = data_block[i].Substring(0, 1);
+                    string code_GV_Data_Age = data_block[i].Substring(1, 1);
+                    string code_TAR_Data_Age = data_block[i].Substring(2, 1);
+                    string code_Target_Identification_Data_Age = data_block[i].Substring(3, 1);
+                    string code_TS_Data_Age = data_block[i].Substring(4, 1);
+                    string code_MET_Data_Age = data_block[i].Substring(5, 1);
+                    string code_ROA_Data_Age = data_block[i].Substring(6, 1);
+                    string code_FX3 = data_block[i].Substring(7, 1);
+
+                    i = i + 1;
+
+                    if (code_FX3 == "1")
+                    {
+                        octets = octets + 1;
+                        string code_ARA_Data_Age = data_block[i].Substring(0, 1);
+                        string code_SCC_Data_Age = data_block[i].Substring(1, 1);
+                        i = i + 1;
+
+                    }
+                }
+            }
+            if (octets == 1) 
+            {
+                if (code_AOS_Data_Age == "1")
+                {
+                    this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    i = i + 1;
+                }
+                if (code_TRD_Data_Age == "1")
+                {
+                    this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    i = i + 1;
+                }
+                if (code_M3A_Data_Age == "1")
+                {
+                    this.M3A_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    i = i + 1;
+                }
+                if (code_QI_Data_Age == "1")
+                {
+                    this.QI_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    i = i + 1;
+                }
+                if (code_Target_Intent_Data_Age == "1")
+                {
+                    this.Trajectory_Intent_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    i = i + 1;
+                }
+                if (code_MAM_Data_Age == "1")
+                {
+                    this.MAM_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    i = i + 1;
+                }
+
+                if (code_GH_Data_Age == "1")
+                {
+                    this.GH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    i = i + 1;
+                }
+                string code_FL_Data_Age = data_block[i].Substring(0, 1);
+                string code_ISA_Data_Age = data_block[i].Substring(1, 1);
+                string code_FSA_Data_Age = data_block[i].Substring(2, 1);
+                string code_AS_Data_Age = data_block[i].Substring(3, 1);
+                string code_TAS_Data_Age = data_block[i].Substring(4, 1);
+                string code_MH_Data_Age = data_block[i].Substring(5, 1);
+                string code_BVR_Data_Age = data_block[i].Substring(6, 1);
+                if (octets == 2)
+                {
+                    if (code_FL_Data_Age == "1")
+                    {
+                        this.FL_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        i = i + 1;
+                    }
+                    if (code_ISA_Data_Age == "1")
+                    {
+                        this.ISA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        i = i + 1;
+                    }
+                    if (code_FSA_Data_Age == "1")
+                    {
+                        this.FSA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        i = i + 1;
+                    }
+                    if (code_AS_Data_Age == "1")
+                    {
+                        this.AS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        i = i + 1;
+                    }
+                    if (code_TAS_Data_Age == "1")
+                    {
+                        this.TAS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        i = i + 1;
+                    }
+                    if (code_MH_Data_Age == "1")
+                    {
+                        this.MH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        i = i + 1;
+                    }
+
+                    if (octets == 3)
+                    {
+                        if (code_AOS_Data_Age == "1")
+                        {
+                            this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            i = i + 1;
+                        }
+                        if (code_TRD_Data_Age == "1")
+                        {
+                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            i = i + 1;
+                        }
+                        if (code_M3A_Data_Age == "1")
+                        {
+                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            i = i + 1;
+                        }
+                        if (code_QI_Data_Age == "1")
+                        {
+                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            i = i + 1;
+                        }
+                        if (code_Target_Intent_Data_Age == "1")
+                        {
+                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            i = i + 1;
+                        }
+                        if (code_MAM_Data_Age == "1")
+                        {
+                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            i = i + 1;
+                        }
+
+                        if (octets == 4)
+                        {
+                            if (code_AOS_Data_Age == "1")
+                            {
+                                this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                i = i + 1;
+                            }
+                            if (code_TRD_Data_Age == "1")
+                            {
+                                this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                i = i + 1;
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            
 
             return i;
         }
