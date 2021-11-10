@@ -55,6 +55,8 @@ namespace AsterixDecoder
 
         string TOMRP_HP;
 
+        string Track_Number;//Get_Track_Number
+
         string Time_of_Applicability_For_Position_seconds; //Get_Time_Of_Applicability_For_Position
         string Time_of_Applicability_For_Position_HHMMSS; //Get_Time_Of_Applicability_For_Position
 
@@ -167,6 +169,8 @@ namespace AsterixDecoder
         string Roll_Angle;//Get_Roll_Angle
 
         string TAR;//Get_Track_Angle_Rate
+
+        string Magnetic_Heading;//Get_Magnetic_Heading
 
         string ModeS_Rep;//Get_Mode_S_MB_Data
         string[] MB_Data;//Get_Mode_S_MB_Data
@@ -557,9 +561,11 @@ namespace AsterixDecoder
 
         public int Get_Data_Source_Identification(string[] data_block, int i)
         {
-            SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
-            SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
-            i += 2;
+            this.SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+            this.SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
+            i = i + 2;
+            Console.WriteLine("SIC=" + this.SIC);
+            Console.WriteLine("SAC=" + this.SAC);
             return i;
         }
 
@@ -668,12 +674,12 @@ namespace AsterixDecoder
             return i;
         }
 
-        string Track_Number;//Get_Track_Number
+        
         //2 octets
         public int Get_Track_Number(string[] data_block, int i)
         {
             this.Track_Number = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i].Substring(4, 4), data_block[i + 1]),2));
-
+            Console.WriteLine("Track_Number=" + Track_Number);
             i = i + 2;
             return i;
         }
@@ -690,10 +696,10 @@ namespace AsterixDecoder
         public int Get_Time_Of_Applicability_For_Position(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
-            Time_of_Applicability_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
+            Console.WriteLine("Get_Time_Of_Applicability_For_Position(segundos totales)" + segundos_totales);
+            this.Time_of_Applicability_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
             //double aux = segundos_totales / 60;
@@ -705,9 +711,9 @@ namespace AsterixDecoder
             int minutos = Convert.ToInt32(rest / 60);
             float segundos = rest % 60;
 
-            Time_of_Applicability_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            this.Time_of_Applicability_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
             Console.WriteLine(Time_of_Applicability_For_Position_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            Console.WriteLine("Get_Time_Of_Applicability_For_Position=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -718,6 +724,8 @@ namespace AsterixDecoder
         {
             this.Latitude_WGS84_Coordinates = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2])))* (180 / (Math.Pow(2, 23))));
             this.Longitude_WGS84_Coordinates = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i+3], data_block[i + 4], data_block[i + 5]))) * (180 / (Math.Pow(2, 23))));
+            Console.WriteLine("Latitude_WGS84_Coordinates" + this.Latitude_WGS84_Coordinates);
+            Console.WriteLine("Longitude_WGS84_Coordinates" + this.Longitude_WGS84_Coordinates);
             i = i + 6;
             return i;
         }
@@ -727,6 +735,9 @@ namespace AsterixDecoder
         {
             this.Latitude_WGS84_Coordinates_High_Precision = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3]))) * (180 / (Math.Pow(2, 30))));
             this.Longitude_WGS84_Coordinates_High_Precision = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 7]))) * (180 / (Math.Pow(2, 30))));
+            
+            Console.WriteLine("Latitude_WGS84_Coordinates_High_Precision" + this.Latitude_WGS84_Coordinates_High_Precision);
+            Console.WriteLine("Latitude_WGS84_Coordinates_High_Precision" + this.Latitude_WGS84_Coordinates_High_Precision);
             i = i + 8;
             return i;
         }
@@ -734,10 +745,10 @@ namespace AsterixDecoder
         public int Get_Time_Applicability_Velocity(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
-            Time_of_Applicability_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
+            //Console.WriteLine("segundos totales" + segundos_totales);
+            this.Time_of_Applicability_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
             //double aux = segundos_totales / 60;
@@ -749,9 +760,9 @@ namespace AsterixDecoder
             int minutos = Convert.ToInt32(rest / 60);
             float segundos = rest % 60;
 
-            Time_of_Applicability_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_of_Applicability_For_Position_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            this.Time_of_Applicability_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            //Console.WriteLine(this.Time_of_Applicability_For_Position_HHMMSS);
+            Console.WriteLine("Get_Time_Applicability_Velocity=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -768,6 +779,8 @@ namespace AsterixDecoder
 
             else { this.Air_Speed = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 0.001); }
 
+            Console.WriteLine("IM=" + this.IM);
+            Console.WriteLine("Air_Speed=" + this.Air_Speed);
             return i;
         }
 
@@ -781,6 +794,8 @@ namespace AsterixDecoder
 
             this.True_AirSpeed = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) + " ft";
 
+            Console.WriteLine("RE=" + this.RE_True_AirSpeed);
+            Console.WriteLine("True_AirSpeed=" + this.True_AirSpeed);
             i = i + 2;
             return i;
         }
@@ -789,7 +804,7 @@ namespace AsterixDecoder
         public int Get_Target_Address(string[] data_block, int i)
         {
             this.Target_Address = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]);
-            Console.WriteLine("Target_Address: " + Target_Address);
+            Console.WriteLine("Target_Address: " + this.Target_Address);
             i = i + 3;
             return i;
         }
@@ -800,7 +815,7 @@ namespace AsterixDecoder
             Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
             Console.WriteLine("segundos totales" + segundos_totales);
-            Time_Of_Message_Reception_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
+            this.Time_Of_Message_Reception_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
             //double aux = segundos_totales / 60;
@@ -812,9 +827,9 @@ namespace AsterixDecoder
             int minutos = Convert.ToInt32(rest / 60);
             float segundos = rest % 60;
 
-            Time_Of_Message_Reception_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_Of_Message_Reception_For_Position_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            this.Time_Of_Message_Reception_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            //Console.WriteLine(Time_Of_Message_Reception_For_Position_HHMMSS);
+            Console.WriteLine("Time_Of_Message_Reception_For_Position_seconds=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -831,6 +846,8 @@ namespace AsterixDecoder
             if (FSI == "01") { total_seconds= total_seconds+1; }
 
             this.Time_of_Message_Reception_Position_High_Precision = Convert.ToString(total_seconds) + " s";
+
+            Console.Write("Time_of_Message_Reception_Position_High_Precision=" + this.Time_of_Message_Reception_Position_High_Precision);
             i = i + 4;
             return i;
         }
@@ -839,9 +856,9 @@ namespace AsterixDecoder
         public int Get_Time_Of_Message_Reception_For_Velocity(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
+            //Console.WriteLine("segundos totales" + segundos_totales);
             this.Time_Of_Message_Reception_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
@@ -855,8 +872,8 @@ namespace AsterixDecoder
             float segundos = rest % 60;
 
             this.Time_Of_Message_Reception_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_Of_Message_Reception_For_Velocity_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            //Console.WriteLine(Time_Of_Message_Reception_For_Velocity_HHMMSS);
+            Console.WriteLine("Time_Of_Message_Reception_For_Velocity_HHMMSS=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -873,6 +890,7 @@ namespace AsterixDecoder
             if (FSI == "01") { total_seconds = total_seconds + 1; }
 
             this.Time_of_Message_Reception_Velocity_High_Precision = Convert.ToString(total_seconds) + " s";
+            Console.WriteLine("Time_of_Message_Reception_Velocity_High_Precision=" + Time_of_Message_Reception_Velocity_High_Precision);
             i = i + 4;
             return i;
         }
@@ -976,6 +994,9 @@ namespace AsterixDecoder
             if (code_LTT == 3) { this.LTT = "VDL 4"; }
             else { this.LTT = "Not assigned"; }
 
+            Console.WriteLine("VNS=" + this.VNS);
+            Console.WriteLine("VN=" + this.VN);
+            Console.WriteLine("LTT=" + this.LTT);
             i = i + 1;
             return i;
         }
@@ -994,6 +1015,7 @@ namespace AsterixDecoder
         public int Get_Roll_Angle(string[] data_block, int i)
         {
             this.Roll_Angle = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2)) * 0.01)+"º";
+            Console.WriteLine("Roll_Angle=" + this.Roll_Angle);
             i = i + 2;
             return i;
         }
@@ -1006,12 +1028,12 @@ namespace AsterixDecoder
             i = i + 2;
             return i;
         }
-        string Magnetic_Heading;//Get_Magnetic_Heading
+        
         //2 octets  
         public int Get_Magnetic_Heading(string[] data_block, int i)
         {
             this.Magnetic_Heading = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]),2))*(360/Math.Pow(2,16)));
-
+            Console.WriteLine("Magnetic_Heading" + this.Magnetic_Heading);
             i = i + 2;
             return i;
         }
@@ -1043,6 +1065,12 @@ namespace AsterixDecoder
             else { SS = "SPI set"; }
 
             i = i + 1;
+
+            Console.WriteLine("ICF=" + this.ICF);
+            Console.WriteLine("LNAV=" + this.LNAV);
+            Console.WriteLine("PS=" + this.PS);
+            Console.WriteLine("SS=" + this.SS);
+
             return i;
         }
         //2 octets
@@ -1052,8 +1080,10 @@ namespace AsterixDecoder
             if (code_RE == "0") { this.RE_Barometric_Vertical_Rate = "Value in defined range"; }
             else { this.RE_Barometric_Vertical_Rate = "Value exceeds defined range"; }
 
-            this.Barometric_Vertical_Rate = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25)+" ft/min"; 
-
+            this.Barometric_Vertical_Rate = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25)+" ft/min";
+            
+            Console.WriteLine("RE_Barometric_Vertical_Rate=" + this.RE_Barometric_Vertical_Rate);
+            Console.WriteLine("Barometric_Vertical_Rate="+this.Barometric_Vertical_Rate);
             i=i+2;
             return i;
         }
@@ -1066,6 +1096,9 @@ namespace AsterixDecoder
             else { this.RE_Geometric_Vertical_Rate = "Value exceeds defined range"; }
 
             this.Geometric_Vertical_Rate  = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25) + " ft/min";
+
+            Console.WriteLine("RE_Geometric_Vertical_Rate=" + this.RE_Geometric_Vertical_Rate);
+            Console.WriteLine("Geometric_Vertical_Rate=" + this.Geometric_Vertical_Rate);
 
             i = i + 2;
             return i;
@@ -1093,15 +1126,17 @@ namespace AsterixDecoder
         public int Get_Track_Angle_Rate(string[] data_block, int i)
         {
             this.TAR = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(6, 2), data_block[i + 1]),2))*(1/32))+" º/s";
+            Console.WriteLine("TAR="+this.TAR);
+            i = i + 2;
             return i;
         }
         //3 octets
         public int Get_Time_Of_ASTERIX_Report_Transmission(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
+            //Console.WriteLine("segundos totales" + segundos_totales);
             this.Time_Of_MASTERIX_Report_Transmission_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
@@ -1115,8 +1150,8 @@ namespace AsterixDecoder
             float segundos = rest % 60;
 
             this.Time_Of_MASTERIX_Report_Transmission_HHMMSS= Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_Of_MASTERIX_Report_Transmission_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            //Console.WriteLine(Time_Of_MASTERIX_Report_Transmission_HHMMSS);
+            Console.WriteLine("Time_Of_MASTERIX_Report_Transmission_HHMMSS=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
 
@@ -1169,7 +1204,8 @@ namespace AsterixDecoder
             if (code_ECAT == 22) { this.ECAT = "fixed ground or tethered obstruction "; }
             if (code_ECAT == 23) { this.ECAT = "cluster obstacle "; }
             if (code_ECAT == 24) { this.ECAT = "line obstacle"; }
-            
+
+            Console.WriteLine("ECAT="+this.ECAT);
             i=i+1;
             return i;
         }
