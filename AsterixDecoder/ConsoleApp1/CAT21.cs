@@ -233,10 +233,16 @@ namespace AsterixDecoder
         public void CAT21_Decoding(string[] data_block_hexa)//, Decoding_Library decoding_library)
         {
             string[] data_block_binary = Convert_HexadecimalDataBLock_To_BinaryDataBlock(data_block_hexa);
-
-            int i = 2;
+            Console.WriteLine("DATA BLOCK");
+            Console.WriteLine(data_block_binary[0]);
+            Console.WriteLine(data_block_binary[1]);
+            Console.WriteLine(data_block_binary[2]);
+            Console.WriteLine(data_block_binary[3]);
+            Console.WriteLine("DATA BLOCK");
+            int i = 3;
 
             i = Get_FSPEC(data_block_binary, i); //ERROR????? creo que no le gusta el nombre del argumento i
+            Console.WriteLine("FSPEC=" + FSPEC_char[0] + FSPEC_char[1] + FSPEC_char[2] + FSPEC_char[3] + FSPEC_char[4] + FSPEC_char[5] + FSPEC_char[6]+ FSPEC_char[7]);
 
 
             if (FSPEC_char[0] == '1') { i = Get_Data_Source_Identification(data_block_binary, i); }
@@ -329,7 +335,7 @@ namespace AsterixDecoder
 
                                 if (FSPEC_char[44] == '1') { i = Get_ACAS_Resolution_Advisory_Report(data_block_binary, i); }
 
-                                if (FSPEC_char[45] == '1') { i = Get_Receiver_Id(data_block_binary, i); }
+                                if (FSPEC_char[45] == '1') { i = Get_Receiver_ID(data_block_binary, i); }
 
                                 if (FSPEC_char[46] == '1') { i = Get_Data_Ages(data_block_binary, i); }
 
@@ -556,20 +562,23 @@ namespace AsterixDecoder
             this.SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
             this.SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
             i = i + 2;
-            Console.WriteLine("SIC=" + this.SIC);
-            Console.WriteLine("SAC=" + this.SAC);
+            Console.WriteLine("SIC=" + data_block[i+1-2]);
+            Console.WriteLine("SAC=" + data_block[i-2]);
             return i;
         }
 
         //Varible length 1/3 octets
         public int Get_Target_Report_Descriptor(string[] data_block, int i)
         {
+            Console.WriteLine("Get_Target_Report_Descriptor"+data_block[i]+ data_block[i + 1]+ data_block[i + 2]);
+            Console.WriteLine("Substring ATP=" + data_block[i].Substring(0, 3));
             int code_ATP = Convert.ToInt32(data_block[i].Substring(0, 3), 2);
+            
             if (code_ATP == 0){ this.ATP = "24-Bit ICAO address ";  }
             if (code_ATP == 1) { this.ATP = "Duplicate address "; }
             if (code_ATP == 2) { this.ATP = "Surface vehicle address"; }
             if (code_ATP == 3) { this.ATP = "Anonymous address"; }
-            if (code_ATP >= 4 || code_ATP<= 7) { this.ATP = "Reserved for future use "; }
+            if (code_ATP >= 4 && code_ATP<= 7) { this.ATP = "Reserved for future use "; }
             Console.WriteLine("ATP="+this.ATP);
 
             int code_ARC= Convert.ToInt32(data_block[i].Substring(4, 2), 2);
@@ -603,7 +612,7 @@ namespace AsterixDecoder
                     string code_GBS = data_block[i].Substring(1, 1);
                     if (code_GBS == "0") { this.GBS = "Ground Bit not set "; }
                     else { this.GBS = "Ground Bit set "; }
-                    Console.WriteLine("DCR=" + this.DCR);
+                    Console.WriteLine("GBS=" + this.GBS);
 
                     string code_SIM = data_block[i].Substring(2, 1);
                     if (code_SIM == "0") { this.SIM = "Actual target report"; }
@@ -621,10 +630,11 @@ namespace AsterixDecoder
                     Console.WriteLine("SAA=" + this.SAA);
 
                     string code_CL = data_block[i].Substring(5, 2);
+                    Console.WriteLine("code_CL=" + code_CL);
                     if (code_CL == "00") { this.CL = "Report valid "; }
                     if (code_CL == "01") { this.CL = "Report suspect"; }
                     if (code_CL == "10") { this.CL = "No information"; }
-                    else { this.CL = "Reserved for future use"; }
+                    if (code_CL=="11") { this.CL = "Reserved for future use"; }
                     Console.WriteLine("CL=" + this.CL);
 
                     code_FX = data_block[i + number_of_octets].Substring(7, 1);
@@ -633,7 +643,8 @@ namespace AsterixDecoder
                 { //SECOND EXTENT
                     
                     string code_IPC = data_block[i].Substring(2, 1);
-                    if (code_IPC == "0") { this.IPC = "Independent Position Check default"; }
+                    Console.WriteLine("code_IPC=" + code_IPC);
+                    if (code_IPC == "0") { this.IPC = "default"; }
                     else { this.IPC = "Independent Position Check failed"; }
                     Console.WriteLine("IPC=" + this.IPC);
 
@@ -653,7 +664,7 @@ namespace AsterixDecoder
                     Console.WriteLine("LDPJ=" + this.LDPJ);
 
                     string code_RCF = data_block[i].Substring(4, 1);
-                    if (code_RCF == "0") { this.RCF = "Range Check default"; }
+                    if (code_RCF == "0") { this.RCF = "default"; }
                     else { this.RCF = "Range Check failed"; }
                     Console.WriteLine("RCF=" + this.RCF);
 
@@ -729,7 +740,7 @@ namespace AsterixDecoder
             this.Longitude_WGS84_Coordinates_High_Precision = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 7]))) * (180 / (Math.Pow(2, 30))));
             
             Console.WriteLine("Latitude_WGS84_Coordinates_High_Precision" + this.Latitude_WGS84_Coordinates_High_Precision);
-            Console.WriteLine("Latitude_WGS84_Coordinates_High_Precision" + this.Latitude_WGS84_Coordinates_High_Precision);
+            Console.WriteLine("Longitude_WGS84_Coordinates_High_Precision" + this.Longitude_WGS84_Coordinates_High_Precision);
             i = i + 8;
             return i;
         }
@@ -899,25 +910,29 @@ namespace AsterixDecoder
 
         public int Get_Quality_Indicators(string[] data_block, int i)
         {
+           
             this.NUCr_or_NACv = Convert.ToString(Convert.ToInt32(data_block[i].Substring(0, 3), 2));
             this.NUCp_or_NIC= Convert.ToString(Convert.ToInt32(data_block[i].Substring(3, 4), 2));
             string code_FX= data_block[i].Substring(7, 1);
 
+            Console.WriteLine("NUCr_or_NACv=" + this.NUCr_or_NACv);
+            Console.WriteLine("NUCp_or_NIC=" + this.NUCp_or_NIC);
+
             int number_of_octets = 1;
             while (code_FX == "1")
             {
-                if (number_of_octets == 1)
-                { //FIRST EXTENT
-                    this.NIC_BARO = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 1), 2));
-                    Console.WriteLine("NIC_BARO=" + this.NIC_BARO);
-                    this.SIL = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(1, 2), 2));
-                    Console.WriteLine("SIL=" + this.SIL);
-                    this.NAC_P = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(3, 4), 2));
-                    Console.WriteLine("NAC_P=" + this.NAC_P);
+                
+                //FIRST EXTENT
+                this.NIC_BARO = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 1), 2));
+                Console.WriteLine("NIC_BARO=" + this.NIC_BARO);
+                this.SIL = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(1, 2), 2));
+                Console.WriteLine("SIL=" + this.SIL);
+                this.NAC_P = Convert.ToString(Convert.ToInt32(data_block[i+number_of_octets].Substring(3, 4), 2));
+                Console.WriteLine("NAC_P=" + this.NAC_P);
 
-                    code_FX = data_block[i + number_of_octets].Substring(7, 1);
-                }
-                if (number_of_octets == 2)
+                code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                number_of_octets = number_of_octets + 1;
+                if (code_FX=="1")
                 { //SECOND EXTENT
                     string code_SIL = data_block[i+number_of_octets].Substring(2, 1);
                     if (code_SIL == "0") { this.SIL = "measured per flight-hour"; }
@@ -931,37 +946,37 @@ namespace AsterixDecoder
                     Console.WriteLine("GVA=" + this.GVA);
 
                     code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                    number_of_octets = number_of_octets + 1;
+
+                    if (code_FX == "1")
+                    { //THIRD EXTENT
+                        int code_PIC = Convert.ToInt32(data_block[i + number_of_octets].Substring(0, 4), 2);
+                        this.PIC = Convert.ToString(code_PIC);
+                        if (code_PIC == 0) { this.ICB = "No integrity(or > 20.0 NM)"; this.NUC_P = "0"; this.NIC = "0"; }
+                        if (code_PIC == 1) { this.ICB = "< 20.0 NM"; this.NUC_P = "1"; this.NIC = "1"; }
+                        if (code_PIC == 2) { this.ICB = "< 10.0 NM"; this.NUC_P = "2"; this.NIC = "-"; }
+                        if (code_PIC == 3) { this.ICB = "< 8.0 NM"; this.NUC_P = "-"; this.NIC = "2"; }
+                        if (code_PIC == 4) { this.ICB = "< 4.0 NM"; this.NUC_P = "-"; this.NIC = "3"; }
+                        if (code_PIC == 5) { this.ICB = "< 2.0 NM"; this.NUC_P = "3"; this.NIC = "4"; }
+                        if (code_PIC == 6) { this.ICB = "< 1.0 NM"; this.NUC_P = "4"; this.NIC = "5"; }
+                        if (code_PIC == 7) { this.ICB = "< 0.6 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 1/1)"; }
+                        if (code_PIC == 8) { this.ICB = "< 0.5 NM"; this.NUC_P = "5"; this.NIC = "6 (+ 0/0)"; }
+                        if (code_PIC == 9) { this.ICB = "< 0.3 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 0/1)"; }
+                        if (code_PIC == 10) { this.ICB = "< 0.2 NM"; this.NUC_P = "6"; this.NIC = "7"; }
+                        if (code_PIC == 11) { this.ICB = "< 0.1 NM"; this.NUC_P = "7"; this.NIC = "8"; }
+                        if (code_PIC == 12) { this.ICB = "< 0.04 NM"; this.NUC_P = ""; this.NIC = "9"; }
+                        if (code_PIC == 13) { this.ICB = "< 0.013 NM"; this.NUC_P = "8"; this.NIC = "10"; }
+                        if (code_PIC == 14) { this.ICB = "< 0.004 NM"; this.NUC_P = "9"; this.NIC = "11"; }
+                        if (code_PIC == 15) { this.ICB = "not defined"; this.NUC_P = "not defined"; this.NIC = "not defined"; }
+
+                        Console.WriteLine("PIC=" + this.PIC);
+                        Console.WriteLine("ICB=" + this.ICB);
+                        Console.WriteLine("NUC_P=" + this.NUC_P);
+                        Console.WriteLine("NIC=" + this.NIC);
+                        code_FX = data_block[i + number_of_octets].Substring(7, 1);
+                        number_of_octets = number_of_octets + 1;
+                    }
                 }
-
-                else
-                { //THIRD EXTENT
-                    int code_PIC = Convert.ToInt32(data_block[i+number_of_octets].Substring(0, 4), 2);
-                    this.PIC = Convert.ToString(code_PIC);
-                    if (code_PIC == 0) { this.ICB = "No integrity(or > 20.0 NM)"; this.NUC_P = "0"; this.NIC = "0"; }
-                    if (code_PIC == 1) { this.ICB = "< 20.0 NM"; this.NUC_P = "1"; this.NIC = "1"; }
-                    if (code_PIC == 2) { this.ICB = "< 10.0 NM"; this.NUC_P = "2"; this.NIC = "-"; }
-                    if (code_PIC == 3) { this.ICB = "< 8.0 NM"; this.NUC_P = "-"; this.NIC = "2"; }
-                    if (code_PIC == 4) { this.ICB = "< 4.0 NM"; this.NUC_P = "-"; this.NIC = "3"; }
-                    if (code_PIC == 5) { this.ICB = "< 2.0 NM"; this.NUC_P = "3"; this.NIC = "4"; }
-                    if (code_PIC == 6) { this.ICB = "< 1.0 NM"; this.NUC_P = "4"; this.NIC = "5"; }
-                    if (code_PIC == 7) { this.ICB = "< 0.6 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 1/1)"; }
-                    if (code_PIC == 8) { this.ICB = "< 0.5 NM"; this.NUC_P = "5"; this.NIC = "6 (+ 0/0)"; }
-                    if (code_PIC == 9) { this.ICB = "< 0.3 NM"; this.NUC_P = "-"; this.NIC = "6 (+ 0/1)"; }
-                    if (code_PIC == 10) { this.ICB = "< 0.2 NM"; this.NUC_P = "6"; this.NIC = "7"; }
-                    if (code_PIC == 11) { this.ICB = "< 0.1 NM"; this.NUC_P = "7"; this.NIC = "8"; }
-                    if (code_PIC == 12) { this.ICB = "< 0.04 NM"; this.NUC_P = ""; this.NIC = "9"; }
-                    if (code_PIC == 13) { this.ICB = "< 0.013 NM"; this.NUC_P = "8"; this.NIC = "10"; }
-                    if (code_PIC == 14) { this.ICB = "< 0.004 NM"; this.NUC_P = "9"; this.NIC = "11"; }
-                    if (code_PIC == 15) { this.ICB = "not defined"; this.NUC_P = "not defined"; this.NIC = "not defined"; }
-
-                    Console.WriteLine("PIC=" + this.PIC);
-                    Console.WriteLine("ICB=" + this.ICB);
-                    Console.WriteLine("NUC_P=" + this.NUC_P);
-                    Console.WriteLine("NIC=" + this.NIC);
-                    code_FX = data_block[i + number_of_octets].Substring(7, 1);
-                }
-                number_of_octets = number_of_octets + 1;
-
             }
             i = i + number_of_octets;
             return i;
@@ -970,22 +985,23 @@ namespace AsterixDecoder
         //1 octet
         public int Get_MOPS_Version(string[] data_block, int i)
         {
+            Console.WriteLine("Get_MOPS_Version="+data_block[i]);
             string code_VNS = data_block[i].Substring(1, 1);
             if (code_VNS == "0") { this.VNS = "The MOPS Version is supported by the GS"; }
             else { this.VNS = "The MOPS Version is not supported by the GS"; }
 
-            string code_VN = data_block[i].Substring(2, 2);
+            string code_VN = data_block[i].Substring(2, 3);
             if (code_VN == "00") { this.VN = "ED102/DO-260 [Ref. 8]"; }
-            if (code_VN == "01") { this.VN = "DO-260A [Ref. 9] "; }
+            else if (code_VN == "01") { this.VN = "DO-260A [Ref. 9] "; }
             else { this.VN = "ED102A/DO-260B [Ref. 11]"; }
 
             int code_LTT = Convert.ToInt32(data_block[i].Substring(5, 3), 2);
             if (code_LTT == 0) { this.LTT = "Other"; }
-            if (code_LTT == 1) { this.LTT = "UAT"; }
-            if (code_LTT == 2) { this.LTT = "1090 ES "; }
-            if (code_LTT == 3) { this.LTT = "VDL 4"; }
+            else if (code_LTT == 1) { this.LTT = "UAT"; }
+            else if (code_LTT == 2) { this.LTT = "1090 ES "; }
+            else if (code_LTT == 3) { this.LTT = "VDL 4"; }
             else { this.LTT = "Not assigned"; }
-
+            Console.WriteLine("code_VN=" + code_VN);
             Console.WriteLine("VNS=" + this.VNS);
             Console.WriteLine("VN=" + this.VN);
             Console.WriteLine("LTT=" + this.LTT);
@@ -998,8 +1014,9 @@ namespace AsterixDecoder
         {
  
             this.Mode_3A_octal = Convert_Decimal_To_Octal(Convert.ToString(Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1]).Substring(4, 12), 2))).PadLeft(4, '0'); //this.Mode_3A_octal
+            Console.WriteLine("Mode_3A_octal=" + string.Concat(data_block[i], data_block[i + 1]));
             Console.WriteLine("Mode_3A_octal=" + Mode_3A_octal);
-
+            i = i + 2;
             return i;
         }
         
