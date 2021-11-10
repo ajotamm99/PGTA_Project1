@@ -1233,25 +1233,30 @@ namespace AsterixDecoder
         {
 
             this.TIS = data_block[i].Substring(0, 1);
+            Console.WriteLine("TIS=" + this.TIS);
             this.TID = data_block[i].Substring(1, 1);
-            
+            Console.WriteLine("TIS=" + this.TIS);
 
-            if(this.TIS=="1")//PRESENCE OF SUBFIELD 1
+
+            if (this.TIS=="1")//PRESENCE OF SUBFIELD 1
             {
                 i = i + 1;
                 string code_NAV = data_block[i].Substring(0, 1);
                 if (code_NAV == "0") { this.NAV = "Trajectory Intent Data is available for this aircraft"; }
                 else { this.NAV = "Trajectory Intent Data is not available for this aircraft "; }
+                Console.WriteLine("NAV=" + this.NAV);
 
                 string code_NVB = data_block[i].Substring(0, 1);
                 if (code_NVB == "0") { this.NVB = "Trajectory Intent Data is valid"; }
                 else { this.NVB = "Trajectory Intent Data is not valid"; }
+                Console.WriteLine("NVB=" + this.NVB);
 
             }
             if (this.TID == "1")//PRESENCE OF SUBFIELD 2
             {
                 i=i+1;
                 this.REP = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+                Console.WriteLine("REP=" + this.REP);
                 i = i + 1;
                 int c = 0;
                 while (c < Convert.ToInt32(this.REP))
@@ -1315,7 +1320,20 @@ namespace AsterixDecoder
 
                     c = c + 1;
                 }
-                
+                Console.WriteLine("TCA=" + this.TCA);
+                Console.WriteLine("NC=" + this.NC);
+                Console.WriteLine("TCP=" + this.TCP);
+                Console.WriteLine("Altitude=" + this.Altitude);
+                Console.WriteLine("Longitude=" + this.Longitude);
+                Console.WriteLine("Point_Type=" + this.Point_Type);
+                Console.WriteLine("TD=" + this.TD);
+                Console.WriteLine("TRA=" + this.TRA);
+                Console.WriteLine("TOA=" + this.TOA);
+                Console.WriteLine("TOV=" + this.TOV);
+                Console.WriteLine("TTR=" + this.TTR);
+
+
+
             }
             return i;
         }
@@ -1324,6 +1342,7 @@ namespace AsterixDecoder
         public int Get_Service_Management(string[] data_block, int i)
         {
             this.RP = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.5) + " s";
+            Console.WriteLine("RP=" + this.RP);
             i = i + 1;
             return i;
         }
@@ -1372,22 +1391,27 @@ namespace AsterixDecoder
             string code_POA = data_block[i].Substring(2, 1);
             if (code_POA == "0") { this.POA = "Position transmitted is not ADS-B position reference point"; }
             else { this.POA = "Position transmitted is the ADS-B position reference point"; }
+            Console.WriteLine("POA=" + this.POA);
 
             string code_CDTI_S = data_block[i].Substring(3, 1);
             if (code_CDTI_S == "0") { this.CDTI_S = "CDTI not operational"; }
             else { this.CDTI_S = "CDTI operational"; }
+            Console.WriteLine("CDTI_S=" + this.CDTI_S);
 
             string code_B2_low = data_block[i].Substring(4, 1);
             if (code_B2_low == "0") { this.B2_low = "≥ 70 Watts"; }
             else { this.B2_low = "< 70 Watts"; }
+            Console.WriteLine("B2_low=" + this.B2_low);
 
             string code_RAS = data_block[i].Substring(5, 1);
             if (code_RAS == "0") { this.RAS = "Aircraft not receiving ATC-services "; }
             else { this.RAS = "Aircraft receiving ATC services"; }
+            Console.WriteLine("RAS=" + this.RAS);
 
             string code_IDENT = data_block[i].Substring(6, 1);
             if (code_IDENT == "0") { this.IDENT = "IDENT switch not active"; }
             else { this.IDENT = "IDENT switch active "; }
+            Console.WriteLine("IDENT=" + this.IDENT);
 
             string code_FX = data_block[i].Substring(7, 1);
             i = i + 1;
@@ -1411,6 +1435,8 @@ namespace AsterixDecoder
                 if (code_Length_and_Width == 13) { this.Length_And_Width = "Lenght < 75m ; Width < 80m"; }
                 if (code_Length_and_Width == 14) { this.Length_And_Width = "Lenght < 85m ; Width < 80m"; }
                 else { this.Length_And_Width = "Lenght > 85m ; Width > 80m"; }
+
+                Console.WriteLine("Length_And_Width=" + this.Length_And_Width);
                 i = i + 1;
             }
             return i;
@@ -1420,6 +1446,8 @@ namespace AsterixDecoder
         public int Get_Message_Amplitude(string[] data_block, int i)
         {
             this.MAM = Convert.ToString((Convert.ToInt32(data_block[i], 2))) + "dBm";
+
+            Console.WriteLine("MAM=" + this.MAM);
             i = i + 1;
             return i;
         }
@@ -1451,13 +1479,21 @@ namespace AsterixDecoder
         public int Get_ACAS_Resolution_Advisory_Report(string[] data_block, int i)
         {
             this.TYP = data_block[i].Substring(0, 5);
+            Console.WriteLine("TYP=" + this.TYP);
             this.STYP = data_block[i].Substring(5, 3);
+            Console.WriteLine("STYP=" + this.STYP);
             this.ARA = String.Concat(data_block[i + 1], data_block[i + 2].Substring(0, 6));
+            Console.WriteLine("ARA=" + this.ARA);
             this.RAC= String.Concat(data_block[i + 2].Substring(6,2), data_block[i + 3].Substring(0, 2));
+            Console.WriteLine("RAC=" + this.AOS_DataRAC_Age);
             this.RAT= data_block[i+3].Substring(2,1);
+            Console.WriteLine("RAT=" + this.RAT);
             this.MTE = data_block[i + 3].Substring(3, 1);
+            Console.WriteLine("MTE=" + this.MTE);
             this.TTI = data_block[i + 3].Substring(4, 2);
+            Console.WriteLine("TTI=" + this.TTI);
             this.TID_ACAS = String.Concat(data_block[i + 3].Substring(6, 2),data_block[i+4],data_block[i+5],data_block[i+6]);
+            Console.WriteLine("TID_ACAS=" + this.TID_ACAS);
 
             i = i + 7;
             return i;
@@ -1496,13 +1532,21 @@ namespace AsterixDecoder
         {
             int octets = 1;
             string code_AOS_Data_Age = data_block[i].Substring(0, 1);
+            Console.WriteLine("code_AOS_Data_Age=" + code_AOS_Data_Age);
             string code_TRD_Data_Age = data_block[i].Substring(1, 1);
+            Console.WriteLine("code_TRD_Data_Age=" + code_TRD_Data_Age);
             string code_M3A_Data_Age = data_block[i].Substring(2, 1);
+            Console.WriteLine("codeM3A_Data_Age=" + code_M3A_Data_Age);
             string code_QI_Data_Age = data_block[i].Substring(3, 1);
+            Console.WriteLine("codeQI_Data_Age=" + code_QI_Data_Age);
             string code_Target_Intent_Data_Age = data_block[i].Substring(4, 1);
+            Console.WriteLine("codeTarget_Intent_Data_Age=" + code_Target_Intent_Data_Age);
             string code_MAM_Data_Age = data_block[i].Substring(5, 1);
+            Console.WriteLine("codeMAM_Data_Age=" + code_MAM_Data_Age);
             string code_GH_Data_Age = data_block[i].Substring(6, 1);
+            Console.WriteLine("codeGH_Data_Age=" + code_GH_Data_Age);
             string code_FX1 = data_block[i].Substring(7, 1);
+            Console.WriteLine("codeFX1=" + code_FX1);
             i = i + 1;
             if (code_FX1 == "1")
             {
@@ -1545,37 +1589,44 @@ namespace AsterixDecoder
                 if (code_AOS_Data_Age == "1")
                 {
                     this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    Console.WriteLine("AOS_Data_Age" + this.AOS_Data_Age);
                     i = i + 1;
                 }
                 if (code_TRD_Data_Age == "1")
                 {
                     this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    Console.WriteLine("TRD_Data_Age" + this.TRD_Data_Age);
                     i = i + 1;
                 }
                 if (code_M3A_Data_Age == "1")
                 {
                     this.M3A_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    Console.WriteLine("M3A_Data_Age" + this.M3A_Data_Age);
                     i = i + 1;
                 }
                 if (code_QI_Data_Age == "1")
                 {
                     this.QI_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    Console.WriteLine("QI_Data_Age" + this.QI_Data_Age);
                     i = i + 1;
                 }
                 if (code_Target_Intent_Data_Age == "1")
                 {
                     this.Trajectory_Intent_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    Console.WriteLine("Trajectory_Intent_Data_Age" + this.Trajectory_Intent_Data_Age);
                     i = i + 1;
                 }
                 if (code_MAM_Data_Age == "1")
                 {
                     this.MAM_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    Console.WriteLine("MAM_Data_Age" + this.MAM_Data_Age);
                     i = i + 1;
                 }
 
                 if (code_GH_Data_Age == "1")
                 {
                     this.GH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                    Console.WriteLine("GH_Data_Age" + this.GH_Data_Age);
                     i = i + 1;
                 }
                 string code_FL_Data_Age = data_block[i].Substring(0, 1);
@@ -1590,31 +1641,37 @@ namespace AsterixDecoder
                     if (code_FL_Data_Age == "1")
                     {
                         this.FL_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        Console.WriteLine("FL_Data_Age" + this.FL_Data_Age);
                         i = i + 1;
                     }
                     if (code_ISA_Data_Age == "1")
                     {
                         this.ISA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        Console.WriteLine("ISA_Data_Age" + this.ISA_Data_Age);
                         i = i + 1;
                     }
                     if (code_FSA_Data_Age == "1")
                     {
                         this.FSA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        Console.WriteLine("FSA_Data_Age" + this.FSA_Data_Age);
                         i = i + 1;
                     }
                     if (code_AS_Data_Age == "1")
                     {
                         this.AS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        Console.WriteLine("AS_Data_Age" + this.AS_Data_Age);
                         i = i + 1;
                     }
                     if (code_TAS_Data_Age == "1")
                     {
                         this.TAS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        Console.WriteLine("TAS_Data_Age" + this.TAS_Data_Age);
                         i = i + 1;
                     }
                     if (code_MH_Data_Age == "1")
                     {
                         this.MH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        Console.WriteLine("MH_Data_Age" + this.MH_Data_Age);
                         i = i + 1;
                     }
 
@@ -1623,31 +1680,37 @@ namespace AsterixDecoder
                         if (code_AOS_Data_Age == "1")
                         {
                             this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("AOS_Data_Age" + this.AOS_Data_Age);
                             i = i + 1;
                         }
                         if (code_TRD_Data_Age == "1")
                         {
                             this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("TRD_Data_Age" + this.TRD_Data_Age);
                             i = i + 1;
                         }
                         if (code_M3A_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.M3A_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("M3A_Data_Age" + this.M3A_Data_Age);
                             i = i + 1;
                         }
                         if (code_QI_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.QI_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("QI_Data_Age" + this.QI_Data_Age);
                             i = i + 1;
                         }
                         if (code_Target_Intent_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.Trajectory_Intent_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("Trajectory_Intent_Data_Age" + this.Trajectory_Intent_Data_Age);
                             i = i + 1;
                         }
                         if (code_MAM_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            this.MAM_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("MAM_Data_Age" + this.MAM_Data_Age);
                             i = i + 1;
                         }
 
@@ -1656,11 +1719,13 @@ namespace AsterixDecoder
                             if (code_AOS_Data_Age == "1")
                             {
                                 this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                Console.WriteLine("AOS_Data_Age" + this.AOS_Data_Age);
                                 i = i + 1;
                             }
                             if (code_TRD_Data_Age == "1")
                             {
                                 this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                Console.WriteLine("TRD_Data_Age" + this.TRD_Data_Age);
                                 i = i + 1;
                             }
                             

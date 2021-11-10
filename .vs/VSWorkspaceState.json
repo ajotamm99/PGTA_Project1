@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\AsterixDecoder",
+    "\\AsterixDecoder\\ConsoleApp1"
   ],
-  "SelectedNode": "\\AsterixDecoder.sln",
+  "SelectedNode": "\\AsterixDecoder\\ConsoleApp1\\CAT10.cs",
   "PreviewInSolutionExplorer": false
 }
