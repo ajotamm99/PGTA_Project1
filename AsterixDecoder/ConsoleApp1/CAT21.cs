@@ -55,6 +55,8 @@ namespace AsterixDecoder
 
         string TOMRP_HP;
 
+        string Track_Number;//Get_Track_Number
+
         string Time_of_Applicability_For_Position_seconds; //Get_Time_Of_Applicability_For_Position
         string Time_of_Applicability_For_Position_HHMMSS; //Get_Time_Of_Applicability_For_Position
 
@@ -126,6 +128,8 @@ namespace AsterixDecoder
         string AM;//Get_Final_State_Selected_Altitude
         string Final_State_Selected_Altitude;//Get_Final_State_Selected_Altitude
 
+        string Flight_Level;//Get_Flight_Level
+
         string IM;//Get_Air_Speed
         string Air_Speed;//Get_Air_Speed
 
@@ -166,6 +170,8 @@ namespace AsterixDecoder
 
         string TAR;//Get_Track_Angle_Rate
 
+        string Magnetic_Heading;//Get_Magnetic_Heading
+
         string ModeS_Rep;//Get_Mode_S_MB_Data
         string[] MB_Data;//Get_Mode_S_MB_Data
         string[] BDS1;//Get_Mode_S_MB_Data
@@ -186,6 +192,30 @@ namespace AsterixDecoder
         string RAS;//Get_Surface_Capabilities_Characteristics
         string IDENT;//Get_Surface_Capabilities_Characteristics
         string Length_And_Width;//Get_Surface_Capabilities_Characteristics
+
+        string AOS_Data_Age;//Get_Data_Ages
+        string TRD_Data_Age;//Get_Data_Ages
+        string M3A_Data_Age;//Get_Data_Ages
+        string QI_Data_Age;//Get_Data_Ages
+        string Trajectory_Intent_Data_Age;//Get_Data_Ages
+        string MAM_Data_Age;//Get_Data_Ages
+        string GH_Data_Age;//Get_Data_Ages
+        string FL_Data_Age;//Get_Data_Ages
+        string ISA_Data_Age;//Get_Data_Ages
+        string FSA_Data_Age;//Get_Data_Ages
+        string AS_Data_Age;//Get_Data_Ages
+        string TAS_Data_Age;//Get_Data_Ages
+        string MH_Data_Age;//Get_Data_Ages
+        string BVR_Data_Age;//Get_Data_Ages
+        string GVR_Data_Age;//Get_Data_Ages
+        string GV_Data_Age;//Get_Data_Ages
+        string TAR_Data_Age;//Get_Data_Ages
+        string Target_Identification_Data_Age;//Get_Data_Ages
+        string TS_Data_Age;//Get_Data_Ages
+        string MET_Data_Age;//Get_Data_Ages
+        string ROA_Data_Age;//Get_Data_Ages
+        string ARA_Data_Age;//Get_Data_Ages
+        string SCC_Data_Age;//Get_Data_Ages
 
         public CAT21(String[] X)
         {
@@ -531,9 +561,11 @@ namespace AsterixDecoder
 
         public int Get_Data_Source_Identification(string[] data_block, int i)
         {
-            SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
-            SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
-            i += 2;
+            this.SAC = Convert.ToString(Convert.ToInt32(data_block[i], 2));
+            this.SIC = Convert.ToString(Convert.ToInt32(data_block[i + 1], 2));
+            i = i + 2;
+            Console.WriteLine("SIC=" + this.SIC);
+            Console.WriteLine("SAC=" + this.SAC);
             return i;
         }
 
@@ -642,12 +674,12 @@ namespace AsterixDecoder
             return i;
         }
 
-        string Track_Number;//Get_Track_Number
+        
         //2 octets
         public int Get_Track_Number(string[] data_block, int i)
         {
             this.Track_Number = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i].Substring(4, 4), data_block[i + 1]),2));
-
+            Console.WriteLine("Track_Number=" + Track_Number);
             i = i + 2;
             return i;
         }
@@ -664,10 +696,10 @@ namespace AsterixDecoder
         public int Get_Time_Of_Applicability_For_Position(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
-            Time_of_Applicability_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
+            Console.WriteLine("Get_Time_Of_Applicability_For_Position(segundos totales)" + segundos_totales);
+            this.Time_of_Applicability_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
             //double aux = segundos_totales / 60;
@@ -679,9 +711,9 @@ namespace AsterixDecoder
             int minutos = Convert.ToInt32(rest / 60);
             float segundos = rest % 60;
 
-            Time_of_Applicability_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            this.Time_of_Applicability_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
             Console.WriteLine(Time_of_Applicability_For_Position_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            Console.WriteLine("Get_Time_Of_Applicability_For_Position=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -692,6 +724,8 @@ namespace AsterixDecoder
         {
             this.Latitude_WGS84_Coordinates = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2])))* (180 / (Math.Pow(2, 23))));
             this.Longitude_WGS84_Coordinates = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i+3], data_block[i + 4], data_block[i + 5]))) * (180 / (Math.Pow(2, 23))));
+            Console.WriteLine("Latitude_WGS84_Coordinates" + this.Latitude_WGS84_Coordinates);
+            Console.WriteLine("Longitude_WGS84_Coordinates" + this.Longitude_WGS84_Coordinates);
             i = i + 6;
             return i;
         }
@@ -701,6 +735,9 @@ namespace AsterixDecoder
         {
             this.Latitude_WGS84_Coordinates_High_Precision = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i], data_block[i + 1], data_block[i + 2], data_block[i + 3]))) * (180 / (Math.Pow(2, 30))));
             this.Longitude_WGS84_Coordinates_High_Precision = Convert.ToString(Convert.ToDouble(A2_Complement_To_Decimal(String.Concat(data_block[i + 4], data_block[i + 5], data_block[i + 6], data_block[i + 7]))) * (180 / (Math.Pow(2, 30))));
+            
+            Console.WriteLine("Latitude_WGS84_Coordinates_High_Precision" + this.Latitude_WGS84_Coordinates_High_Precision);
+            Console.WriteLine("Latitude_WGS84_Coordinates_High_Precision" + this.Latitude_WGS84_Coordinates_High_Precision);
             i = i + 8;
             return i;
         }
@@ -708,10 +745,10 @@ namespace AsterixDecoder
         public int Get_Time_Applicability_Velocity(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
-            Time_of_Applicability_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
+            //Console.WriteLine("segundos totales" + segundos_totales);
+            this.Time_of_Applicability_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
             //double aux = segundos_totales / 60;
@@ -723,9 +760,9 @@ namespace AsterixDecoder
             int minutos = Convert.ToInt32(rest / 60);
             float segundos = rest % 60;
 
-            Time_of_Applicability_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_of_Applicability_For_Position_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            this.Time_of_Applicability_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            //Console.WriteLine(this.Time_of_Applicability_For_Position_HHMMSS);
+            Console.WriteLine("Get_Time_Applicability_Velocity=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -742,6 +779,8 @@ namespace AsterixDecoder
 
             else { this.Air_Speed = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 0.001); }
 
+            Console.WriteLine("IM=" + this.IM);
+            Console.WriteLine("Air_Speed=" + this.Air_Speed);
             return i;
         }
 
@@ -755,6 +794,8 @@ namespace AsterixDecoder
 
             this.True_AirSpeed = Convert.ToString(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) + " ft";
 
+            Console.WriteLine("RE=" + this.RE_True_AirSpeed);
+            Console.WriteLine("True_AirSpeed=" + this.True_AirSpeed);
             i = i + 2;
             return i;
         }
@@ -763,7 +804,7 @@ namespace AsterixDecoder
         public int Get_Target_Address(string[] data_block, int i)
         {
             this.Target_Address = string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]);
-            Console.WriteLine("Target_Address: " + Target_Address);
+            Console.WriteLine("Target_Address: " + this.Target_Address);
             i = i + 3;
             return i;
         }
@@ -774,7 +815,7 @@ namespace AsterixDecoder
             Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
             Console.WriteLine("segundos totales" + segundos_totales);
-            Time_Of_Message_Reception_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
+            this.Time_Of_Message_Reception_For_Position_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
             //double aux = segundos_totales / 60;
@@ -786,9 +827,9 @@ namespace AsterixDecoder
             int minutos = Convert.ToInt32(rest / 60);
             float segundos = rest % 60;
 
-            Time_Of_Message_Reception_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_Of_Message_Reception_For_Position_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            this.Time_Of_Message_Reception_For_Position_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
+            //Console.WriteLine(Time_Of_Message_Reception_For_Position_HHMMSS);
+            Console.WriteLine("Time_Of_Message_Reception_For_Position_seconds=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -805,6 +846,8 @@ namespace AsterixDecoder
             if (FSI == "01") { total_seconds= total_seconds+1; }
 
             this.Time_of_Message_Reception_Position_High_Precision = Convert.ToString(total_seconds) + " s";
+
+            Console.Write("Time_of_Message_Reception_Position_High_Precision=" + this.Time_of_Message_Reception_Position_High_Precision);
             i = i + 4;
             return i;
         }
@@ -813,9 +856,9 @@ namespace AsterixDecoder
         public int Get_Time_Of_Message_Reception_For_Velocity(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
+            //Console.WriteLine("segundos totales" + segundos_totales);
             this.Time_Of_Message_Reception_For_Velocity_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
@@ -829,8 +872,8 @@ namespace AsterixDecoder
             float segundos = rest % 60;
 
             this.Time_Of_Message_Reception_For_Velocity_HHMMSS = Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_Of_Message_Reception_For_Velocity_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            //Console.WriteLine(Time_Of_Message_Reception_For_Velocity_HHMMSS);
+            Console.WriteLine("Time_Of_Message_Reception_For_Velocity_HHMMSS=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
         }
@@ -847,6 +890,7 @@ namespace AsterixDecoder
             if (FSI == "01") { total_seconds = total_seconds + 1; }
 
             this.Time_of_Message_Reception_Velocity_High_Precision = Convert.ToString(total_seconds) + " s";
+            Console.WriteLine("Time_of_Message_Reception_Velocity_High_Precision=" + Time_of_Message_Reception_Velocity_High_Precision);
             i = i + 4;
             return i;
         }
@@ -950,6 +994,9 @@ namespace AsterixDecoder
             if (code_LTT == 3) { this.LTT = "VDL 4"; }
             else { this.LTT = "Not assigned"; }
 
+            Console.WriteLine("VNS=" + this.VNS);
+            Console.WriteLine("VN=" + this.VN);
+            Console.WriteLine("LTT=" + this.LTT);
             i = i + 1;
             return i;
         }
@@ -968,10 +1015,11 @@ namespace AsterixDecoder
         public int Get_Roll_Angle(string[] data_block, int i)
         {
             this.Roll_Angle = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]), 2)) * 0.01)+"º";
+            Console.WriteLine("Roll_Angle=" + this.Roll_Angle);
             i = i + 2;
             return i;
         }
-        string Flight_Level;//Get_Flight_Level
+        
         //2 octets
         public int Get_Flight_Level(string[] data_block, int i)
         {
@@ -980,12 +1028,12 @@ namespace AsterixDecoder
             i = i + 2;
             return i;
         }
-        string Magnetic_Heading;//Get_Magnetic_Heading
+        
         //2 octets  
         public int Get_Magnetic_Heading(string[] data_block, int i)
         {
             this.Magnetic_Heading = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i], data_block[i + 1]),2))*(360/Math.Pow(2,16)));
-
+            Console.WriteLine("Magnetic_Heading" + this.Magnetic_Heading);
             i = i + 2;
             return i;
         }
@@ -1017,6 +1065,12 @@ namespace AsterixDecoder
             else { SS = "SPI set"; }
 
             i = i + 1;
+
+            Console.WriteLine("ICF=" + this.ICF);
+            Console.WriteLine("LNAV=" + this.LNAV);
+            Console.WriteLine("PS=" + this.PS);
+            Console.WriteLine("SS=" + this.SS);
+
             return i;
         }
         //2 octets
@@ -1026,8 +1080,10 @@ namespace AsterixDecoder
             if (code_RE == "0") { this.RE_Barometric_Vertical_Rate = "Value in defined range"; }
             else { this.RE_Barometric_Vertical_Rate = "Value exceeds defined range"; }
 
-            this.Barometric_Vertical_Rate = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25)+" ft/min"; 
-
+            this.Barometric_Vertical_Rate = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25)+" ft/min";
+            
+            Console.WriteLine("RE_Barometric_Vertical_Rate=" + this.RE_Barometric_Vertical_Rate);
+            Console.WriteLine("Barometric_Vertical_Rate="+this.Barometric_Vertical_Rate);
             i=i+2;
             return i;
         }
@@ -1040,6 +1096,9 @@ namespace AsterixDecoder
             else { this.RE_Geometric_Vertical_Rate = "Value exceeds defined range"; }
 
             this.Geometric_Vertical_Rate  = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25) + " ft/min";
+
+            Console.WriteLine("RE_Geometric_Vertical_Rate=" + this.RE_Geometric_Vertical_Rate);
+            Console.WriteLine("Geometric_Vertical_Rate=" + this.Geometric_Vertical_Rate);
 
             i = i + 2;
             return i;
@@ -1067,15 +1126,17 @@ namespace AsterixDecoder
         public int Get_Track_Angle_Rate(string[] data_block, int i)
         {
             this.TAR = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(6, 2), data_block[i + 1]),2))*(1/32))+" º/s";
+            Console.WriteLine("TAR="+this.TAR);
+            i = i + 2;
             return i;
         }
         //3 octets
         public int Get_Time_Of_ASTERIX_Report_Transmission(string[] data_block, int i)
         {
             int data_decimal = Convert.ToInt32(string.Concat(data_block[i], data_block[i + 1], data_block[i + 2]), 2);
-            Console.WriteLine("data-decimal" + data_decimal);
+            //Console.WriteLine("data-decimal" + data_decimal);
             float segundos_totales = Convert.ToSingle((data_decimal) * (1 / 128.0));
-            Console.WriteLine("segundos totales" + segundos_totales);
+            //Console.WriteLine("segundos totales" + segundos_totales);
             this.Time_Of_MASTERIX_Report_Transmission_seconds = Convert.ToString(segundos_totales);//this.Time_of_Day_seconds
 
             //double segundos = segundos_totales % 60;
@@ -1089,8 +1150,8 @@ namespace AsterixDecoder
             float segundos = rest % 60;
 
             this.Time_Of_MASTERIX_Report_Transmission_HHMMSS= Convert.ToString(horas) + ":" + Convert.ToString(minutos) + ":" + Convert.ToString(segundos);
-            Console.WriteLine(Time_Of_MASTERIX_Report_Transmission_HHMMSS);
-            Console.WriteLine("TIME OF THE DAY=" + Convert.ToString(segundos_totales));
+            //Console.WriteLine(Time_Of_MASTERIX_Report_Transmission_HHMMSS);
+            Console.WriteLine("Time_Of_MASTERIX_Report_Transmission_HHMMSS=" + Convert.ToString(segundos_totales));
             i = i + 3;
             return i;
 
@@ -1143,7 +1204,8 @@ namespace AsterixDecoder
             if (code_ECAT == 22) { this.ECAT = "fixed ground or tethered obstruction "; }
             if (code_ECAT == 23) { this.ECAT = "cluster obstacle "; }
             if (code_ECAT == 24) { this.ECAT = "line obstacle"; }
-            
+
+            Console.WriteLine("ECAT="+this.ECAT);
             i=i+1;
             return i;
         }
@@ -1485,7 +1547,7 @@ namespace AsterixDecoder
             this.ARA = String.Concat(data_block[i + 1], data_block[i + 2].Substring(0, 6));
             Console.WriteLine("ARA=" + this.ARA);
             this.RAC= String.Concat(data_block[i + 2].Substring(6,2), data_block[i + 3].Substring(0, 2));
-            Console.WriteLine("RAC=" + this.AOS_DataRAC_Age);
+            Console.WriteLine("RAC=" + this.RAC);
             this.RAT= data_block[i+3].Substring(2,1);
             Console.WriteLine("RAT=" + this.RAT);
             this.MTE = data_block[i + 3].Substring(3, 1);
@@ -1499,38 +1561,20 @@ namespace AsterixDecoder
             return i;
         }
 
-        public int Get_Receiver_Id(string[] data_block, int i)
+        string RID;//Get_Reciever_ID
+        //1 octet
+        public int Get_Receiver_ID(string[] data_block, int i)
         {
-
+            this.RID=Convert.ToString(Convert.ToInt32(data_block[i],2));
+            Console.WriteLine("RID=" + this.RID);
+            i = i + 1;
             return i;
         }
-        int Data_Ages_present = 0;//Get_Data_Ages
-        string AOS_Data_Age;//Get_Data_Ages
-        string TRD_Data_Age;//Get_Data_Ages
-        string M3A_Data_Age;//Get_Data_Ages
-        string QI_Data_Age;//Get_Data_Ages
-        string Trajectory_Intent_Data_Age;//Get_Data_Ages
-        string MAM_Data_Age;//Get_Data_Ages
-        string GH_Data_Age;//Get_Data_Ages
-        string FL_Data_Age;//Get_Data_Ages
-        string ISA_Data_Age;//Get_Data_Ages
-        string FSA_Data_Age;//Get_Data_Ages
-        string AS_Data_Age;//Get_Data_Ages
-        string TAS_Data_Age;//Get_Data_Ages
-        string MH_Data_Age;//Get_Data_Ages
-        string BVR_Data_Age;//Get_Data_Ages
-        string GVR_Data_Age;//Get_Data_Ages
-        string GV_Data_Age;//Get_Data_Ages
-        string TAR_Data_Age;//Get_Data_Ages
-        string Target_Identification_Data_Age;//Get_Data_Ages
-        string TS_Data_Age;//Get_Data_Ages
-        string MET_Data_Age;//Get_Data_Ages
-        string ROA_Data_Age;//Get_Data_Ages
-        string ARA_Data_Age;//Get_Data_Ages
-        string SCC_Data_Age;//Get_Data_Ages
+        
+        //Variable
         public int Get_Data_Ages(string[] data_block, int i)
         {
-            int octets = 1;
+            int octets = 1;//octets que te el Primary subfield
             string code_AOS_Data_Age = data_block[i].Substring(0, 1);
             Console.WriteLine("code_AOS_Data_Age=" + code_AOS_Data_Age);
             string code_TRD_Data_Age = data_block[i].Substring(1, 1);
@@ -1546,186 +1590,215 @@ namespace AsterixDecoder
             string code_GH_Data_Age = data_block[i].Substring(6, 1);
             Console.WriteLine("codeGH_Data_Age=" + code_GH_Data_Age);
             string code_FX1 = data_block[i].Substring(7, 1);
-            Console.WriteLine("codeFX1=" + code_FX1);
+
+            string code_FL_Data_Age = "-";
+            string code_ISA_Data_Age = "-";
+            string code_FSA_Data_Age = "-";
+            string code_AS_Data_Age = "-";
+            string code_TAS_Data_Age = "-";
+            string code_MH_Data_Age = "-";
+            string code_BVR_Data_Age = "-";
+            string code_FX2 = "-";
+
+            string code_GVR_Data_Age = "-";
+            string code_GV_Data_Age = "-";
+            string code_TAR_Data_Age = "-";
+            string code_Target_Identification_Data_Age = "-";
+            string code_TS_Data_Age = "-";
+            string code_MET_Data_Age = "-";
+            string code_ROA_Data_Age = "-";
+            string code_FX3 = "-";
+
+            string code_ARA_Data_Age = "-";
+            string code_SCC_Data_Age = "-";
+
             i = i + 1;
             if (code_FX1 == "1")
             {
                 octets = octets + 1;
-                string code_FL_Data_Age = data_block[i].Substring(0, 1);
-                string code_ISA_Data_Age = data_block[i].Substring(1, 1);
-                string code_FSA_Data_Age = data_block[i].Substring(2, 1);
-                string code_AS_Data_Age = data_block[i].Substring(3, 1);
-                string code_TAS_Data_Age = data_block[i].Substring(4, 1);
-                string code_MH_Data_Age = data_block[i].Substring(5, 1);
-                string code_BVR_Data_Age = data_block[i].Substring(6, 1);
-                string code_FX2 = data_block[i].Substring(7, 1);
+                code_FL_Data_Age = data_block[i].Substring(0, 1);
+                code_ISA_Data_Age = data_block[i].Substring(1, 1);
+                code_FSA_Data_Age = data_block[i].Substring(2, 1);
+                code_AS_Data_Age = data_block[i].Substring(3, 1);
+                code_TAS_Data_Age = data_block[i].Substring(4, 1);
+                code_MH_Data_Age = data_block[i].Substring(5, 1);
+                code_BVR_Data_Age = data_block[i].Substring(6, 1);
+                code_FX2 = data_block[i].Substring(7, 1);
                 i = i + 1;
                 if (code_FX2 == "1")
                 {
                     octets = octets + 1;
-                    string code_GVR_Data_Age = data_block[i].Substring(0, 1);
-                    string code_GV_Data_Age = data_block[i].Substring(1, 1);
-                    string code_TAR_Data_Age = data_block[i].Substring(2, 1);
-                    string code_Target_Identification_Data_Age = data_block[i].Substring(3, 1);
-                    string code_TS_Data_Age = data_block[i].Substring(4, 1);
-                    string code_MET_Data_Age = data_block[i].Substring(5, 1);
-                    string code_ROA_Data_Age = data_block[i].Substring(6, 1);
-                    string code_FX3 = data_block[i].Substring(7, 1);
+                    code_GVR_Data_Age = data_block[i].Substring(0, 1);
+                    code_GV_Data_Age = data_block[i].Substring(1, 1);
+                    code_TAR_Data_Age = data_block[i].Substring(2, 1);
+                    code_Target_Identification_Data_Age = data_block[i].Substring(3, 1);
+                    code_TS_Data_Age = data_block[i].Substring(4, 1);
+                    code_MET_Data_Age = data_block[i].Substring(5, 1);
+                    code_ROA_Data_Age = data_block[i].Substring(6, 1);
+                    code_FX3 = data_block[i].Substring(7, 1);
 
                     i = i + 1;
 
                     if (code_FX3 == "1")
                     {
                         octets = octets + 1;
-                        string code_ARA_Data_Age = data_block[i].Substring(0, 1);
-                        string code_SCC_Data_Age = data_block[i].Substring(1, 1);
+                        code_ARA_Data_Age = data_block[i].Substring(0, 1);
+                        code_SCC_Data_Age = data_block[i].Substring(1, 1);
                         i = i + 1;
 
                     }
                 }
             }
-            if (octets == 1) 
+            if (octets >= 1) 
             {
                 if (code_AOS_Data_Age == "1")
                 {
                     this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                    Console.WriteLine("AOS_Data_Age" + this.AOS_Data_Age);
+                    Console.WriteLine("AOS_Data_Age=" + this.AOS_Data_Age);
                     i = i + 1;
                 }
                 if (code_TRD_Data_Age == "1")
                 {
                     this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                    Console.WriteLine("TRD_Data_Age" + this.TRD_Data_Age);
+                    Console.WriteLine("TRD_Data_Age=" + this.TRD_Data_Age);
                     i = i + 1;
                 }
                 if (code_M3A_Data_Age == "1")
                 {
                     this.M3A_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                    Console.WriteLine("M3A_Data_Age" + this.M3A_Data_Age);
+                    Console.WriteLine("M3A_Data_Age=" + this.M3A_Data_Age);
                     i = i + 1;
                 }
                 if (code_QI_Data_Age == "1")
                 {
                     this.QI_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                    Console.WriteLine("QI_Data_Age" + this.QI_Data_Age);
+                    Console.WriteLine("QI_Data_Age=" + this.QI_Data_Age);
                     i = i + 1;
                 }
                 if (code_Target_Intent_Data_Age == "1")
                 {
                     this.Trajectory_Intent_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                    Console.WriteLine("Trajectory_Intent_Data_Age" + this.Trajectory_Intent_Data_Age);
+                    Console.WriteLine("Trajectory_Intent_Data_Age=" + this.Trajectory_Intent_Data_Age);
                     i = i + 1;
                 }
                 if (code_MAM_Data_Age == "1")
                 {
                     this.MAM_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                    Console.WriteLine("MAM_Data_Age" + this.MAM_Data_Age);
+                    Console.WriteLine("MAM_Data_Age=" + this.MAM_Data_Age);
                     i = i + 1;
                 }
 
                 if (code_GH_Data_Age == "1")
                 {
                     this.GH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                    Console.WriteLine("GH_Data_Age" + this.GH_Data_Age);
+                    Console.WriteLine("GH_Data_Age=" + this.GH_Data_Age);
                     i = i + 1;
                 }
-                string code_FL_Data_Age = data_block[i].Substring(0, 1);
-                string code_ISA_Data_Age = data_block[i].Substring(1, 1);
-                string code_FSA_Data_Age = data_block[i].Substring(2, 1);
-                string code_AS_Data_Age = data_block[i].Substring(3, 1);
-                string code_TAS_Data_Age = data_block[i].Substring(4, 1);
-                string code_MH_Data_Age = data_block[i].Substring(5, 1);
-                string code_BVR_Data_Age = data_block[i].Substring(6, 1);
-                if (octets == 2)
+                
+                if (octets >= 2)
                 {
                     if (code_FL_Data_Age == "1")
                     {
                         this.FL_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                        Console.WriteLine("FL_Data_Age" + this.FL_Data_Age);
+                        Console.WriteLine("FL_Data_Age=" + this.FL_Data_Age);
                         i = i + 1;
                     }
                     if (code_ISA_Data_Age == "1")
                     {
                         this.ISA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                        Console.WriteLine("ISA_Data_Age" + this.ISA_Data_Age);
+                        Console.WriteLine("ISA_Data_Age=" + this.ISA_Data_Age);
                         i = i + 1;
                     }
                     if (code_FSA_Data_Age == "1")
                     {
                         this.FSA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                        Console.WriteLine("FSA_Data_Age" + this.FSA_Data_Age);
+                        Console.WriteLine("FSA_Data_Age=" + this.FSA_Data_Age);
                         i = i + 1;
                     }
                     if (code_AS_Data_Age == "1")
                     {
                         this.AS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                        Console.WriteLine("AS_Data_Age" + this.AS_Data_Age);
+                        Console.WriteLine("AS_Data_Age=" + this.AS_Data_Age);
                         i = i + 1;
                     }
                     if (code_TAS_Data_Age == "1")
                     {
                         this.TAS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                        Console.WriteLine("TAS_Data_Age" + this.TAS_Data_Age);
+                        Console.WriteLine("TAS_Data_Age=" + this.TAS_Data_Age);
                         i = i + 1;
                     }
                     if (code_MH_Data_Age == "1")
                     {
                         this.MH_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                        Console.WriteLine("MH_Data_Age" + this.MH_Data_Age);
+                        Console.WriteLine("MH_Data_Age=" + this.MH_Data_Age);
                         i = i + 1;
                     }
-
-                    if (octets == 3)
+                    if (code_BVR_Data_Age == "1")
                     {
-                        if (code_AOS_Data_Age == "1")
+                        this.BVR_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                        Console.WriteLine("BVR_Data_Age=" + this.BVR_Data_Age);
+                        i = i + 1;
+                    }
+                    
+                    if (octets >= 3)
+                    {
+                        if (code_GVR_Data_Age == "1")
                         {
-                            this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                            Console.WriteLine("AOS_Data_Age" + this.AOS_Data_Age);
+
+                            this.GVR_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("GVR_Data_Age=" + this.GVR_Data_Age);
                             i = i + 1;
                         }
-                        if (code_TRD_Data_Age == "1")
+                        if (code_GV_Data_Age == "1")
                         {
-                            this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                            Console.WriteLine("TRD_Data_Age" + this.TRD_Data_Age);
+                            this.GV_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("GV_Data_Age=" + this.GV_Data_Age);
                             i = i + 1;
                         }
-                        if (code_M3A_Data_Age == "1")
+                        if (code_TAR_Data_Age == "1")
                         {
-                            this.M3A_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                            Console.WriteLine("M3A_Data_Age" + this.M3A_Data_Age);
+                            this.TAR_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("TAR_Data_Age=" + this.TAR_Data_Age);
                             i = i + 1;
                         }
-                        if (code_QI_Data_Age == "1")
+                        if (code_Target_Identification_Data_Age == "1")
                         {
-                            this.QI_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                            Console.WriteLine("QI_Data_Age" + this.QI_Data_Age);
+                            this.Target_Identification_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("Target_Identification_Data_Age=" + this.Target_Identification_Data_Age);
                             i = i + 1;
                         }
-                        if (code_Target_Intent_Data_Age == "1")
+                        if (code_TS_Data_Age == "1")
                         {
-                            this.Trajectory_Intent_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                            Console.WriteLine("Trajectory_Intent_Data_Age" + this.Trajectory_Intent_Data_Age);
+                            this.TS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("TS_Data_Age=" + this.TS_Data_Age);
                             i = i + 1;
                         }
-                        if (code_MAM_Data_Age == "1")
+                        if (code_MET_Data_Age == "1")
                         {
-                            this.MAM_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                            Console.WriteLine("MAM_Data_Age" + this.MAM_Data_Age);
+                            this.MET_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("MET_Data_Age=" + this.MET_Data_Age);
                             i = i + 1;
                         }
 
-                        if (octets == 4)
+                        if (code_ROA_Data_Age == "1")
                         {
-                            if (code_AOS_Data_Age == "1")
+                            this.ROA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                            Console.WriteLine("ROA_Data_Age=" + this.ROA_Data_Age);
+                            i = i + 1;
+                        }
+
+                        if (octets >= 4)
+                        {
+                            if (code_ARA_Data_Age == "1")
                             {
-                                this.AOS_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                                Console.WriteLine("AOS_Data_Age" + this.AOS_Data_Age);
+                                this.ARA_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                Console.WriteLine("ARA_Data_Age=" + this.ARA_Data_Age);
                                 i = i + 1;
                             }
-                            if (code_TRD_Data_Age == "1")
+                            if (code_SCC_Data_Age == "1")
                             {
-                                this.TRD_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
-                                Console.WriteLine("TRD_Data_Age" + this.TRD_Data_Age);
+                                this.SCC_Data_Age = Convert.ToString(Convert.ToDouble(Convert.ToInt32(data_block[i], 2)) * 0.1) + " s";
+                                Console.WriteLine("SCC_Data_Age=" + this.SCC_Data_Age);
                                 i = i + 1;
                             }
                             
@@ -1737,6 +1810,8 @@ namespace AsterixDecoder
 
             return i;
         }
+
+        
 
     }
 }
