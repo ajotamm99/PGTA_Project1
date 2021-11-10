@@ -19,41 +19,33 @@ namespace AsterixDecoder
         string Not_TCAS;//Get_Aircraft_Operational_Status
         string SA;//Get_Aircraft_Operational_Status
 
-        string SAC;
-        string SIC;
+        string SAC;//Get_Data_Source_Identification
+        string SIC;//Get_Data_Source_Identification
 
         string Service_Identification; //Get_Service_Identification
 
         string RP;//Get_Service_Management
 
-        string ECAT;
+        string ECAT;//Get_Emitter_Category
 
-        string ATP;
-        string ARC;
-        string RC;
-        string RAB;
-        string DCR;
-        string GBS;
-        string SIM;
-        string TST;
-        string SAA;
-        string CL;
-        string IPC;
-        string NOGO;
-        string CPR;
-        string LDPJ;
-        string RCF;
-        string FX;
+        string ATP;//Get_Target_Report_Descriptor
+        string ARC;//Get_Target_Report_Descriptor
+        string RC;//Get_Target_Report_Descriptor
+        string RAB;//Get_Target_Report_Descriptor
+        string DCR;//Get_Target_Report_Descriptor
+        string GBS;//Get_Target_Report_Descriptor
+        string SIM;//Get_Target_Report_Descriptor
+        string TST;//Get_Target_Report_Descriptor
+        string SAA;//Get_Target_Report_Descriptor
+        string CL;//Get_Target_Report_Descriptor
+        string IPC;//Get_Target_Report_Descriptor
+        string NOGO;//Get_Target_Report_Descriptor
+        string CPR;//Get_Target_Report_Descriptor
+        string LDPJ;//Get_Target_Report_Descriptor
+        string RCF;//Get_Target_Report_Descriptor
+        string FX;//Get_Target_Report_Descriptor
 
-        string Mode_3A_octal;
-
-        string TOAP;
-
-        string TOAV;
-
-        string TOMRP;
-
-        string TOMRP_HP;
+        string Mode_3A_octal;//Get_Mode_3A_Code_In_Octal_Representation
 
         string Track_Number;//Get_Track_Number
 
