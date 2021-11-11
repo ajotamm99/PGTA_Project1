@@ -63,7 +63,7 @@ namespace ConsoleApp1
             //Console.WriteLine(listaCAT10[0].Get_Data_Item(10));
             
                 
-            int paq = 0;
+            int paq = 1;
             //string[] data_block_binary = listaCAT21[paq].Convert_HexadecimalDataBLock_To_BinaryDataBlock(listaCAT21[paq].Get_Data_Block());
 
             //int e = 3;
@@ -76,7 +76,22 @@ namespace ConsoleApp1
             //    if (listaCAT10[i].Get_FSPEC_char()[4] == '1') { Console.WriteLine("La i es ="+i); }
             //}
 
-            Console.WriteLine("DATA_BLOCK");
+            //Console.WriteLine("DECIMAL TO OCTAL");
+            //string dec = "10102";
+            //string a = listaCAT21[paq].Convert_Decimal_To_Octal(dec);
+            //Console.WriteLine("a="+a);
+
+            //Console.WriteLine("decimal to octal");
+            //int dec1 = 10102;
+            //int a1 = listaCAT21[paq].ConvertDecimalToOctal(dec1);
+            //Console.WriteLine("a1=" + a1);
+
+            //Console.WriteLine("222decimal to octal2");
+            //string dec2= "10102";
+            //string a2 = listaCAT21[paq].ConvertDecimalToOctal2(dec2);
+            //Console.WriteLine("a2=" + a2);
+
+           
             //for (int a = e; a < 30; a++)
             //{
             //    Console.WriteLine(data_block_binary[a]);

@@ -407,8 +407,7 @@ namespace AsterixDecoder
             {
                 string a2_number = "";
                 int i = 1;
-
-                while (i < binari_number.Length)
+                while (i <= binari_number.Length-1)
                 {
                     if (binari_number_char[i] == '1') { a2_number += "0"; }
 
@@ -418,7 +417,7 @@ namespace AsterixDecoder
                 }
 
                 double decimal_number = Convert.ToInt32(a2_number, 2);
-                decimal_number = -decimal_number + 1;
+                decimal_number = -(decimal_number + 1);
                 return decimal_number;
             }
 
@@ -428,8 +427,8 @@ namespace AsterixDecoder
         {
             string character_decoded = "";
             Char[] character_coded_char = character_coded.ToCharArray(0, 6);
-            string code_b4_b3_b2_b1 = string.Concat(character_coded_char[3], character_coded_char[2], character_coded_char[1], character_coded_char[0]);
-            string code_b6_b5 = string.Concat(character_coded_char[5], character_coded_char[4]);
+            string code_b4_b3_b2_b1 = string.Concat(character_coded_char[2], character_coded_char[3], character_coded_char[4], character_coded_char[5]);
+            string code_b6_b5 = string.Concat(character_coded_char[0], character_coded_char[1]);
 
             if (code_b4_b3_b2_b1 == "0000")
             {
@@ -520,23 +519,24 @@ namespace AsterixDecoder
             return character_decoded;
         }
 
-        public string Convert_Decimal_To_Octal(string decimal_number)
+        public string Convert_Decimal_To_Octal(string decimalNumber)
         {
-            string octal_number = "";
-            int decValue, counter, i = 1, j;
-            int[] octalValue = new int[80];
-            decValue = 111;
-            counter = decValue;
-            while (counter != 0)
+            int decimal_num = Convert.ToInt32(decimalNumber);
+            int[] octalNum = new int[100];
+            string oct = "";
+            int i = 0;
+            while (decimal_num != 0)
             {
-                octalValue[i++] = counter % 8;
-                counter /= 8;
+                octalNum[i] = decimal_num % 8;
+                decimal_num /= 8;
+                i++;
             }
-            for (j = i - 1; j > 0; j--)
-                octal_number = octal_number + octalValue[j];
-            return octal_number;
-        }
+            
+            for (int j = i - 1; j >= 0; j--)
+                oct = oct + Convert.ToString(octalNum[j]);
 
+            return oct;
+        }
         //Decoding_Library
 
         public int Get_FSPEC(string[] data_block_binary, int i)
@@ -581,7 +581,8 @@ namespace AsterixDecoder
             if (code_ATP >= 4 && code_ATP<= 7) { this.ATP = "Reserved for future use "; }
             Console.WriteLine("ATP="+this.ATP);
 
-            int code_ARC= Convert.ToInt32(data_block[i].Substring(4, 2), 2);
+            int code_ARC= Convert.ToInt32(data_block[i].Substring(3, 2), 2);
+            Console.WriteLine("code_ARC" + code_ARC);
             if (code_ARC == 0) { this.ARC = "25 ft"; }
             if (code_ARC == 1) { this.ARC = "100 ft "; }
             if (code_ARC == 2) { this.ARC = "Unknown"; }
@@ -604,32 +605,34 @@ namespace AsterixDecoder
             {
                 if (number_of_octets == 1)
                 { //FIRST EXTENT
+                    Console.WriteLine("FIRST EXTENT=" + data_block[i + number_of_octets]);
                     string code_DCR = data_block[i+number_of_octets].Substring(0, 1);
                     if (code_DCR == "0") { this.DCR = "No differential correction (ADS-B)"; }
                     else { this.DCR = "Differential correction (ADS-B)"; }
                     Console.WriteLine("DCR=" + this.DCR);
 
-                    string code_GBS = data_block[i].Substring(1, 1);
+                    string code_GBS = data_block[i + number_of_octets].Substring(1, 1);
+                    Console.WriteLine("code_GBS="+code_GBS);
                     if (code_GBS == "0") { this.GBS = "Ground Bit not set "; }
                     else { this.GBS = "Ground Bit set "; }
                     Console.WriteLine("GBS=" + this.GBS);
 
-                    string code_SIM = data_block[i].Substring(2, 1);
+                    string code_SIM = data_block[i + number_of_octets].Substring(2, 1);
                     if (code_SIM == "0") { this.SIM = "Actual target report"; }
                     else { this.SIM = "Simulated target report"; }
                     Console.WriteLine("SIM=" + this.SIM);
 
-                    string code_TST = data_block[i].Substring(3, 1);
+                    string code_TST = data_block[i + number_of_octets].Substring(3, 1);
                     if (code_TST == "0") { this.TST = "Default"; }
                     else { this.TST = "Test Target"; }
                     Console.WriteLine("TST=" + this.TST);
 
-                    string code_SAA = data_block[i].Substring(4, 1);
+                    string code_SAA = data_block[i + number_of_octets].Substring(4, 1);
                     if (code_SAA == "0") { this.SAA = "Equipment capable to provide Selected Altitude"; }
                     else { this.SAA = "Equipment not capable to provide Selected Altitude"; }
                     Console.WriteLine("SAA=" + this.SAA);
 
-                    string code_CL = data_block[i].Substring(5, 2);
+                    string code_CL = data_block[i + number_of_octets].Substring(5, 2);
                     Console.WriteLine("code_CL=" + code_CL);
                     if (code_CL == "00") { this.CL = "Report valid "; }
                     if (code_CL == "01") { this.CL = "Report suspect"; }
@@ -642,28 +645,28 @@ namespace AsterixDecoder
                 else
                 { //SECOND EXTENT
                     
-                    string code_IPC = data_block[i].Substring(2, 1);
+                    string code_IPC = data_block[i + number_of_octets].Substring(2, 1);
                     Console.WriteLine("code_IPC=" + code_IPC);
                     if (code_IPC == "0") { this.IPC = "default"; }
                     else { this.IPC = "Independent Position Check failed"; }
                     Console.WriteLine("IPC=" + this.IPC);
 
-                    string code_NOGO = data_block[i].Substring(3, 1);
+                    string code_NOGO = data_block[i + number_of_octets].Substring(3, 1);
                     if (code_NOGO == "0") { this.NOGO = "NOGO-bit not set"; }
                     else { this.NOGO = "NOGO-bit set"; }
                     Console.WriteLine("NOGO=" + this.NOGO);
 
-                    string code_CPR = data_block[i].Substring(4, 1);
+                    string code_CPR = data_block[i + number_of_octets].Substring(4, 1);
                     if (code_CPR == "0") { this.CPR = "CPR Validation correct"; }
                     else { this.CPR = "CPR Validation failed"; }
                     Console.WriteLine("CPR=" + this.CPR);
 
-                    string code_LDPJ = data_block[i].Substring(3, 1);
+                    string code_LDPJ = data_block[i + number_of_octets].Substring(3, 1);
                     if (code_LDPJ == "0") { this.LDPJ = "LDPJ not detected "; }
                     else { this.LDPJ = "LDPJ detected"; }
                     Console.WriteLine("LDPJ=" + this.LDPJ);
 
-                    string code_RCF = data_block[i].Substring(4, 1);
+                    string code_RCF = data_block[i + number_of_octets].Substring(4, 1);
                     if (code_RCF == "0") { this.RCF = "default"; }
                     else { this.RCF = "Range Check failed"; }
                     Console.WriteLine("RCF=" + this.RCF);
@@ -1055,22 +1058,23 @@ namespace AsterixDecoder
             else { this.ICF = "Intent change flag raised"; }
 
             string code_LNAV = data_block[i].Substring(1, 1);
-            if (code_ICF == "0") { this.LNAV = "LNAV Mode engaged"; }
+            Console.WriteLine("code_LNAV=" + code_LNAV);
+            if (code_LNAV == "0") { this.LNAV = "LNAV Mode engaged"; }
             else { this.LNAV = "LNAV Mode not engaged"; }
 
             int code_PS = Convert.ToInt32(data_block[i].Substring(3, 3), 2);
             if (code_PS == 0) { this.PS = "No emergency / not reported"; }
-            if (code_PS == 1) { this.PS = "General emergency"; }
-            if (code_PS == 2) { this.PS = "Lifeguard / medical emergency"; }
-            if (code_PS == 3) { this.PS = "Minimum fuel"; }
-            if (code_PS == 4) { this.PS = "No communications"; }
-            if (code_PS == 5) { this.PS = "Unlawful interference"; }
+            else if (code_PS == 1) { this.PS = "General emergency"; }
+            else if (code_PS == 2) { this.PS = "Lifeguard / medical emergency"; }
+            else if (code_PS == 3) { this.PS = "Minimum fuel"; }
+            else if (code_PS == 4) { this.PS = "No communications"; }
+            else if (code_PS == 5) { this.PS = "Unlawful interference"; }
             else { PS = "'Downed' Aircraft"; }
 
             string code_SS = data_block[i].Substring(6, 2);
             if (code_SS == "00") { this.SS = "No condition reported"; }
-            if (code_SS == "01") { this.SS = "Permanent Alert (Emergency condition)"; }
-            if (code_SS == "10") { this.SS = "Temporary Alert (change in Mode 3/A Code other than emergency)"; }
+            else if (code_SS == "01") { this.SS = "Permanent Alert (Emergency condition)"; }
+            else if (code_SS == "10") { this.SS = "Temporary Alert (change in Mode 3/A Code other than emergency)"; }
             else { SS = "SPI set"; }
 
             i = i + 1;
@@ -1088,9 +1092,10 @@ namespace AsterixDecoder
             string code_RE = data_block[i].Substring(0, 1);
             if (code_RE == "0") { this.RE_Barometric_Vertical_Rate = "Value in defined range"; }
             else { this.RE_Barometric_Vertical_Rate = "Value exceeds defined range"; }
-
-            this.Barometric_Vertical_Rate = Convert.ToString(Convert.ToDouble(Convert.ToInt32(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1]), 2)) * 6.25)+" ft/min";
             
+            this.Barometric_Vertical_Rate = Convert.ToString(A2_Complement_To_Decimal(String.Concat(data_block[i].Substring(1, 7), data_block[i + 1])) * 6.25)+" ft/min";
+            Console.WriteLine("Get_Barometric_Vertical_Rate=" + data_block[i] + data_block[i + 1]);
+            //Console.WriteLine("Get_Barometric_Vertical_Rate=" +Convert.ToInt32(String.Concat(data_block[i].Substring(1,7),data_block[i + 1])));
             Console.WriteLine("RE_Barometric_Vertical_Rate=" + this.RE_Barometric_Vertical_Rate);
             Console.WriteLine("Barometric_Vertical_Rate="+this.Barometric_Vertical_Rate);
             i=i+2;
@@ -1191,7 +1196,7 @@ namespace AsterixDecoder
         public int Get_Emitter_Category(string[] data_block, int i)
         {
             int code_ECAT = Convert.ToInt32(data_block[i], 2);
-
+            Console.WriteLine("code_ECAT=" + code_ECAT);
             if (code_ECAT == 0) { this.ECAT = "No ADS-B Emitter Category Information"; }
             if (code_ECAT == 1) { this.ECAT = "light aircraft <= 15500 lbs"; }
             if (code_ECAT == 2) { this.ECAT = "15500 lbs < small aircraft <75000 lbs"; }
@@ -1199,7 +1204,7 @@ namespace AsterixDecoder
             if (code_ECAT == 4) { this.ECAT = "High Vortex Large"; }
             if (code_ECAT == 5) { this.ECAT = "300000 lbs <= heavy aircraft "; }
             if (code_ECAT == 6) { this.ECAT = "highly manoeuvrable (5g acceleration capability) and high speed(> 400 knots cruise)";}
-            if (code_ECAT >= 7 || code_ECAT <= 9) { this.ECAT = "reserved"; }
+            if (code_ECAT >= 7 && code_ECAT <= 9) { this.ECAT = "reserved"; }
             if (code_ECAT == 10) { this.ECAT = "rotocraft"; }
             if (code_ECAT == 11) { this.ECAT = "glider / sailplane"; }
             if (code_ECAT == 12) { this.ECAT = "lighter-than-air"; }
@@ -1207,7 +1212,7 @@ namespace AsterixDecoder
             if (code_ECAT == 14) { this.ECAT = "space / transatmospheric vehicle"; }
             if (code_ECAT == 15) { this.ECAT = "ultralight / handglider / paraglider "; }
             if (code_ECAT == 16) { this.ECAT = "parachutist / skydiver"; }
-            if (code_ECAT >= 17 || code_ECAT <= 19) { ECAT = "reserved"; }
+            if (code_ECAT >= 17 && code_ECAT <= 19) { ECAT = "reserved"; }
             if (code_ECAT == 20) { this.ECAT = "surface emergency vehicle "; }
             if (code_ECAT == 21) { this.ECAT = "surface service vehicle "; }
             if (code_ECAT == 22) { this.ECAT = "fixed ground or tethered obstruction "; }
@@ -1447,9 +1452,9 @@ namespace AsterixDecoder
             if (code_Not_TCAS == "0") { this.Not_TCAS = "TCAS operational"; Console.WriteLine("TCAS=TCAS operational "); }//this.TYP
             else { this.Not_TCAS = "TCAS not operational"; Console.WriteLine("TCAS=TCAS not operational "); }
 
-            string code_SA = data_block[i].Substring(6, 1);
+            string code_SA = data_block[i].Substring(7, 1);
             if (code_SA == "0") { this.SA = "Antenna Diversity"; Console.WriteLine("SA=Antenna Diversity"); }//this.TYP
-            else { this.SA = "Single Antenna only "; Console.WriteLine("RA=Single Antenna only "); }
+            else { this.SA = "Single Antenna only "; Console.WriteLine("SA=Single Antenna only "); }
 
             i = i + 1;
 
@@ -1516,7 +1521,7 @@ namespace AsterixDecoder
         //1 octet
         public int Get_Message_Amplitude(string[] data_block, int i)
         {
-            this.MAM = Convert.ToString((Convert.ToInt32(data_block[i], 2))) + "dBm";
+            this.MAM = Convert.ToString(A2_Complement_To_Decimal((data_block[i]))) + "dBm";
 
             Console.WriteLine("MAM=" + this.MAM);
             i = i + 1;
