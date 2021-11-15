@@ -132,66 +132,70 @@ namespace AsterixDecoder
         {
             string[] data_block_binary = Convert_HexadecimalDataBLock_To_BinaryDataBlock(data_block_hexa);
 
-            int i = 2;
+            int e = 3;
 
-            i = Get_FSPEC(data_block_binary, i); //ERROR????? creo que no le gusta el nombre del argumento i
+            e = Get_FSPEC(data_block_binary, e); //ERROR????? creo que no le gusta el nombre del argumento i
+            int cont = 3;
+            Console.WriteLine(data_block_binary[0]);
+            Console.WriteLine(data_block_binary[1]);
+            Console.WriteLine(data_block_binary[2]);
+
+            while (cont < data_block_binary.Length) {
+                Console.WriteLine(data_block_binary[cont]);
+                cont++;
+            
+            }
 
 
-            if (FSPEC_char[0] == '1') { i = Get_Message_Type(data_block_binary, i); }
-
-            if (FSPEC_char[1] == '1') { i = Get_Data_Source_Identifier(data_block_binary, i); }
-
-            if (FSPEC_char[2] == '1') { i = Get_Target_Report_Descriptor(data_block_binary, i); }
-
-            if (FSPEC_char[3] == '1') { i = Get_Measured_Position_in_Polar_Coordinates(data_block_binary, i); }
-
-            if (FSPEC_char[4] == '1') { i = Get_Position_in_WGS_84_Coordinates(data_block_binary, i); }
-
-            if (FSPEC_char[5] == '1') { i = Get_Position_in_Cartesian_Coordinates(data_block_binary, i); }
-
-            if (FSPEC_char[6] == '1') { i = Get_Mode_3A_Code_in_Octal_Representation(data_block_binary, i); }
+            if (FSPEC_char[0] == '1') { e = Get_Data_Source_Identifier(data_block_binary, e); }
+            if (FSPEC_char[1] == '1') { e = Get_Message_Type(data_block_binary, e); }
+            if (FSPEC_char[2] == '1') { e = Get_Target_Report_Descriptor(data_block_binary, e); }
+            if (FSPEC_char[3] == '1') { e = Get_Time_of_Day(data_block_binary, e); }
+            if (FSPEC_char[4] == '1') { e = Get_Position_in_WGS_84_Coordinates(data_block_binary, e); }
+            if (FSPEC_char[5] == '1') { e = Get_Measured_Position_in_Polar_Coordinates(data_block_binary, e); }
+            if (FSPEC_char[6] == '1') { e = Get_Position_in_Cartesian_Coordinates(data_block_binary, e); }
 
             if (FSPEC_char[7] == '1') //bit FX1
             {
-                if (FSPEC_char[8] == '1') { i = Get_Flight_Level_in_Binary_Representation(data_block_binary, i); }
+                if (FSPEC_char[8] == '1') { e = Get_Calculated_Track_Velocity_in_Polar_Coordinates(data_block_binary, e); }
 
-                if (FSPEC_char[9] == '1') { i = Get_Measured_Height(data_block_binary, i); }
+                if (FSPEC_char[9] == '1') { e = Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(data_block_binary, e); }
 
-                if (FSPEC_char[10] == '1') { i = Get_Amplitude_of_Primary_Plot(data_block_binary, i); }
+                if (FSPEC_char[10] == '1') { e = Get_Track_Number(data_block_binary, e); }
 
-                if (FSPEC_char[11] == '1') { i = Get_Time_of_Day(data_block_binary, i); }
+                if (FSPEC_char[11] == '1') { e = Get_Track_Status(data_block_binary, e); }
 
-                if (FSPEC_char[12] == '1') { i = Get_Track_Number(data_block_binary, i); }
+                if (FSPEC_char[12] == '1') { e = Get_Mode_3A_Code_in_Octal_Representation(data_block_binary, e); }
 
-                if (FSPEC_char[13] == '1') { i = Get_Track_Status(data_block_binary, i); }
+                if (FSPEC_char[13] == '1') { e = Get_Target_Address(data_block_binary, e); }
 
-                if (FSPEC_char[14] == '1') { i = Get_Calculated_Track_Velocity_in_Polar_Coordinates(data_block_binary, i); }
+                if (FSPEC_char[14] == '1') { e = Get_Target_Identification(data_block_binary, e); }
 
                 if (FSPEC_char[15] == '1')
                 {
-                    if (FSPEC_char[16] == '1') { i = Get_Calculated_Track_Velocity_in_Cartesian_Coordinates(data_block_binary, i); }
+                    if (FSPEC_char[16] == '1') { e = Get_Mode_S_MB_Data(data_block_binary, e); }
 
-                    if (FSPEC_char[17] == '1') { i = Get_Calculated_Acceleration(data_block_binary, i); }
+                    if (FSPEC_char[17] == '1') { e = Get_Vehicle_Fleet_Identificatior(data_block_binary, e); }
 
-                    if (FSPEC_char[18] == '1') { i = Get_Target_Address(data_block_binary, i); }
+                    if (FSPEC_char[18] == '1') { e = Get_Flight_Level_in_Binary_Representation(data_block_binary, e); }
 
-                    if (FSPEC_char[19] == '1') { i = Get_Target_Identification(data_block_binary, i); }
+                    if (FSPEC_char[19] == '1') { e = Get_Measured_Height(data_block_binary, e); }
 
-                    if (FSPEC_char[20] == '1') { i = Get_Mode_S_MB_Data(data_block_binary, i); }
+                    if (FSPEC_char[20] == '1') { e = Get_Target_Size_and_Orientation(data_block_binary, e); }
 
-                    if (FSPEC_char[21] == '1') { i = Get_Target_Size_and_Orientation(data_block_binary, i); }
+                    if (FSPEC_char[21] == '1') { e = Get_System_Status(data_block_binary, e); }
 
-                    if (FSPEC_char[22] == '1') { i = Get_Presence(data_block_binary, i); }
+                    if (FSPEC_char[22] == '1') { e = Get_Pre_Programmed_Message(data_block_binary, e); }
 
                     if (FSPEC_char[23] == '1')
                     {
-                        if (FSPEC_char[24] == '1') { i = Get_Vehicle_Fleet_Identificatior(data_block_binary, i); }
+                        if (FSPEC_char[24] == '1') { e = Get_Standard_Deviation_Of_Position(data_block_binary, e); }
 
-                        if (FSPEC_char[25] == '1') { i = Get_Pre_Programmed_Message(data_block_binary, i); }
+                        if (FSPEC_char[25] == '1') { e = Get_Presence(data_block_binary, e); }
 
-                        if (FSPEC_char[26] == '1') { i = Get_Standard_Deviation_Of_Position(data_block_binary, i); }
+                        if (FSPEC_char[26] == '1') { e = Get_Amplitude_of_Primary_Plot(data_block_binary, e); }
 
-                        if (FSPEC_char[27] == '1') { i = Get_System_Status(data_block_binary, i); }
+                        if (FSPEC_char[27] == '1') { e = Get_Calculated_Acceleration(data_block_binary, e); }
 
                     }
 
@@ -404,7 +408,7 @@ namespace AsterixDecoder
 
                 i = i + 1;
             }
-            //Console.WriteLine("FSPEC STRING=" + FSPEC_string);
+            Console.WriteLine("FSPEC STRING=" + FSPEC_string);
             FSPEC_char = FSPEC_string.ToCharArray(0, FSPEC_string.Length);
             return i;
         }
